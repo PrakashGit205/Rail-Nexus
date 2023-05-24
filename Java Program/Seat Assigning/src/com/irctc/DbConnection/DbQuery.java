@@ -14,4 +14,6 @@ public class DbQuery {
 		con.close();
 
 	}
+	public static String ShowAllStationSql = "select * from stations";
+	
 }
