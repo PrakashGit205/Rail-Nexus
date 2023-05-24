@@ -1,0 +1,47 @@
+# Compiled source code
+*.o
+*.out
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Package files
+*.tar.gz
+*.zip
+*.rar
+
+# IDE and editor files
+.idea/
+.vscode/
+*.sublime-*
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Generated files and build output
+/dist/
+/build/
+/out/
+
+# Miscellaneous
+*.swp
+*.swo
+*.class
+
+# Configuration files with sensitive data
+config.ini
+config.js
+config.json
+credentials.txt
+
