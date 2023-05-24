@@ -17,8 +17,9 @@ public class StationDao {
 
 	public StationDao() throws Exception {
 		con = DbUtil.getConnection();
-		 showAllStmt = con.prepareStatement(DbQuery.ShowAllStationSql);
+		showAllStmt = con.prepareStatement(DbQuery.ShowAllStationSql);
 	}
+
 	public void close() throws SQLException {
 		con.close();
 		showAllStmt.close();
@@ -27,10 +28,10 @@ public class StationDao {
 	public List<Stations> showAllStations() throws SQLException {
 		ResultSet rs = showAllStmt.executeQuery();
 		List<Stations> list = new ArrayList<Stations>();
-		while(rs.next()) {
+		while (rs.next()) {
 			list.add(new Stations(rs.getString("sname"), rs.getInt("sid"), rs.getString("city_name")));
 		}
-		
+
 		return list;
 	}
 

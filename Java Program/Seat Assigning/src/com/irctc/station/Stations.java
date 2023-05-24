@@ -1,9 +1,9 @@
 package com.irctc.station;
 
 public class Stations {
-	String stationName;
-	int stationId;
-	String cityName;
+	private String stationName;
+	private int stationId;
+	private String cityName;
 	public String getStationName() {
 		return stationName;
 	}

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DbQuery {
+	public static String ShowAllStationSql = "select * from stations";
+	public static String ShowAllPsngrSql = "select * from passengers"; 
 	private Connection con;
 
 	public DbQuery() throws Exception {
@@ -14,6 +16,5 @@ public class DbQuery {
 		con.close();
 
 	}
-	public static String ShowAllStationSql = "select * from stations";
 	
 }

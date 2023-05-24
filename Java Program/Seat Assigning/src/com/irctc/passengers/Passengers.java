@@ -1,5 +1,6 @@
 package com.irctc.passengers;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Passengers {
@@ -10,11 +11,30 @@ public class Passengers {
 	private int destStnNum;
 	private int SourceStnNum;
 	private int trnNum;
-	LocalDateTime bookingDate;
+	Timestamp bookingDate;
+	int seatNo;
 	
-	
+	public int getSeatNo() {
+		return seatNo;
+	}
+	public void setSeatNo(int seatNo) {
+		this.seatNo = seatNo;
+	}
 	public Passengers(String name, String gender, String pnrNo, int custId, int destStnNum, int sourceStnNum,
-			int trnNum, LocalDateTime bookingDate) {
+			int trnNum, Timestamp bookingDate, int seatNo) {
+		super();
+		this.name = name;
+		this.gender = gender;
+		this.pnrNo = pnrNo;
+		this.custId = custId;
+		this.destStnNum = destStnNum;
+		SourceStnNum = sourceStnNum;
+		this.trnNum = trnNum;
+		this.bookingDate = bookingDate;
+		this.seatNo = seatNo;
+	}
+	public Passengers(String name, String gender, String pnrNo, int custId, int destStnNum, int sourceStnNum,
+			int trnNum, Timestamp bookingDate) {
 		super();
 		this.name = name;
 		this.gender = gender;
@@ -25,10 +45,10 @@ public class Passengers {
 		this.trnNum = trnNum;
 		this.bookingDate = bookingDate;
 	}
-	public LocalDateTime getBookingDate() {
+	public Timestamp getBookingDate() {
 		return bookingDate;
 	}
-	public void setBookingDate(LocalDateTime bookingDate) {
+	public void setBookingDate(Timestamp bookingDate) {
 		this.bookingDate = bookingDate;
 	}
 	public String getName() {
@@ -84,6 +104,13 @@ public class Passengers {
 		SourceStnNum = sourceStnNum;
 		this.trnNum = trnNum;
 	}
+	@Override
+	public String toString() {
+		return "Passengers [name=" + name + ", gender=" + gender + ", pnrNo=" + pnrNo + ", custId=" + custId
+				+ ", destStnNum=" + destStnNum + ", SourceStnNum=" + SourceStnNum + ", trnNum=" + trnNum
+				+ ", bookingDate=" + bookingDate + ", seatNo=" + seatNo + "]";
+	}
+	
 
 	
 
