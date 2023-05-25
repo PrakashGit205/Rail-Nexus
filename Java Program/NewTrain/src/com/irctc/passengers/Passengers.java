@@ -11,9 +11,37 @@ public class Passengers {
 	private int destStnNum;
 	private int SourceStnNum;
 	private int trnNum;
-	Timestamp bookingDate;
-	int seatNo;
-	
+	private Timestamp bookingDate;
+	private int seatNo;
+	private int boogieNo;
+	private String status;
+	public Passengers(String name, String gender, String pnrNo, int custId, int destStnNum, int sourceStnNum,
+			int trnNum, Timestamp bookingDate, int seatNo, int boogieNo, String status) {
+		super();
+		this.name = name;
+		this.gender = gender;
+		this.pnrNo = pnrNo;
+		this.custId = custId;
+		this.destStnNum = destStnNum;
+		SourceStnNum = sourceStnNum;
+		this.trnNum = trnNum;
+		this.bookingDate = bookingDate;
+		this.seatNo = seatNo;
+		this.boogieNo = boogieNo;
+		this.status = status;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public int getBoogieNo() {
+		return boogieNo;
+	}
+	public void setBoogieNo(int boogieNo) {
+		this.boogieNo = boogieNo;
+	}
 	public int getSeatNo() {
 		return seatNo;
 	}
@@ -21,7 +49,7 @@ public class Passengers {
 		this.seatNo = seatNo;
 	}
 	public Passengers(String name, String gender, String pnrNo, int custId, int destStnNum, int sourceStnNum,
-			int trnNum, Timestamp bookingDate, int seatNo) {
+			int trnNum, Timestamp bookingDate,String status) {
 		super();
 		this.name = name;
 		this.gender = gender;
@@ -31,19 +59,7 @@ public class Passengers {
 		SourceStnNum = sourceStnNum;
 		this.trnNum = trnNum;
 		this.bookingDate = bookingDate;
-		this.seatNo = seatNo;
-	}
-	public Passengers(String name, String gender, String pnrNo, int custId, int destStnNum, int sourceStnNum,
-			int trnNum, Timestamp bookingDate) {
-		super();
-		this.name = name;
-		this.gender = gender;
-		this.pnrNo = pnrNo;
-		this.custId = custId;
-		this.destStnNum = destStnNum;
-		SourceStnNum = sourceStnNum;
-		this.trnNum = trnNum;
-		this.bookingDate = bookingDate;
+		this.status = status;
 	}
 	public Timestamp getBookingDate() {
 		return bookingDate;
@@ -93,22 +109,12 @@ public class Passengers {
 	public void setTrnNum(int trnNum) {
 		this.trnNum = trnNum;
 	}
-	public Passengers(String name, String gender, String pnrNo, int custId, int destStnNum, int sourceStnNum,
-			int trnNum) {
-		super();
-		this.name = name;
-		this.gender = gender;
-		this.pnrNo = pnrNo;
-		this.custId = custId;
-		this.destStnNum = destStnNum;
-		SourceStnNum = sourceStnNum;
-		this.trnNum = trnNum;
-	}
+	
 	@Override
 	public String toString() {
 		return "Passengers [name=" + name + ", gender=" + gender + ", pnrNo=" + pnrNo + ", custId=" + custId
 				+ ", destStnNum=" + destStnNum + ", SourceStnNum=" + SourceStnNum + ", trnNum=" + trnNum
-				+ ", bookingDate=" + bookingDate + ", seatNo=" + seatNo + "]";
+				+ ", bookingDate=" + bookingDate + ", seatNo=" + seatNo + ", boogieNo=" + boogieNo + "]";
 	}
 	
 
