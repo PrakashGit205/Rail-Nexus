@@ -1,0 +1,589 @@
+
+delimiter //
+create trigger login_trigger 
+after insert on registered_user
+for each row
+begin 
+insert into login (custid,username,password,email,mobile) values (new.custid,new.username,new.password,new.cemail,new.cmob);
+end  //
+delimiter ;
+
+
+
+
+
+
+
+use  IRCTC;
+show tables;
+desc registered_user;
+select * from registered_user;
+select * from login;show triggers;
+delete from registered_user where cgender = 'Male' or cgender =  'female';
+drop table login;
+CREATE TABLE login (
+  
+  email VARCHAR(30),
+  username VARCHAR(20),
+  mobile VARCHAR(15),
+  FOREIGN KEY (password) REFERENCES registered_user(password) ON DELETE CASCADE
+);
+desc registered_user;
+CREATE TABLE login (
+  custid INT unique not null,
+  password varchar(255),
+  email VARCHAR(30),
+  username VARCHAR(10),
+  mobile VARCHAR(15),
+  FOREIGN KEY (custid) REFERENCES registered_user(custid) ON DELETE CASCADE,
+  FOREIGN KEY (email) REFERENCES registered_user(cemail) ON DELETE CASCADE,
+  FOREIGN KEY (username) REFERENCES registered_user(username) ON DELETE CASCADE,
+  FOREIGN KEY (mobile) REFERENCES registered_user(cmob) ON DELETE CASCADE
+);
+ALTER TABLE login MODIFY COLUMN username VARCHAR(20);
+
+
+INSERT INTO registered_user (cfname, clname, caddress, cmob, cemail, cgender, username, password)
+VALUES
+  ('John', 'Doe', '123 Main St', '555-1234', 'john.doe@example.com', 'Male', 'johndoe', 'password123'),
+  ('Jane', 'Smith', '456 Elm St', '555-5678', 'jane.smith@example.com', 'Female', 'janesmith', 'password456'),
+  ('Michael', 'Johnson', '789 Oak St', '555-9012', 'michael.johnson@example.com', 'Male', 'michaelj', 'password789'),
+  ('Emily', 'Williams', '321 Maple Ave', '555-3456', 'emily.williams@example.com', 'Female', 'emilyw', 'password321'),
+  ('David', 'Brown', '654 Pine Rd', '555-7890', 'david.brown@example.com', 'Male', 'davidb', 'password654'),
+  ('Sarah', 'Taylor', '987 Cedar Ln', '555-2345', 'sarah.taylor@example.com', 'Female', 'saraht', 'password987'),
+  ('Christopher', 'Anderson', '741 Elmwood Dr', '555-6789', 'chris.anderson@example.com', 'Male', 'christophera', 'password741'),
+  ('Olivia', 'Martinez', '852 Oakwood Ave', '555-0123', 'olivia.martinez@example.com', 'Female', 'oliviam', 'password852'),
+  ('Matthew', 'Garcia', '369 Cedar St', '555-4567', 'matthew.garcia@example.com', 'Male', 'matthewg', 'password369'),
+  ('Sophia', 'Lee', '963 Pinecrest Rd', '555-8901', 'sophia.lee@example.com', 'Female', 'sophial', 'password963');
+  
+select * from login;
+select * from registered_user;
+delete from registered_user where custid = 131;
+
+
+
+-- Create the station_dtls table
+CREATE TABLE station_dtls (
+  station_name VARCHAR(40) NOT NULL,
+  station_num int NOT NULL UNIQUE,
+  city_name VARCHAR(30) NOT NULL
+);
+drop table station_dtls;
+INSERT INTO station_dtls (station_name, station_num, city_name)
+VALUES
+  ('Bhopal Junction', 12345, 'Bhopal'),
+  ('Indore Junction', 23456, 'Indore'),
+  ('Jabalpur Junction', 34567, 'Jabalpur'),
+  ('Gwalior Junction', 45678, 'Gwalior'),
+  ('Ujjain Junction', 56789, 'Ujjain');
+INSERT INTO station_dtls (station_name, station_num, city_name)
+VALUES
+  ('Mumbai Central', 11111, 'Mumbai'),
+  ('Chennai Central', 22222, 'Chennai'),
+  ('New Delhi Railway Station', 33333, 'Delhi'),
+  ('Howrah Junction', 44444, 'Kolkata'),
+  ('Bengaluru City Junction', 55555, 'Bengaluru'),
+  ('Hyderabad Deccan', 66666, 'Hyderabad'),
+  ('Jaipur Junction', 77777, 'Jaipur'),
+  ('Ahmedabad Junction', 88888, 'Ahmedabad'),
+  ('Pune Junction', 99999, 'Pune'),
+  ('Kochi Ernakulam Junction', 10101, 'Kochi'),
+  ('Lucknow Charbagh', 20202, 'Lucknow'),
+  ('Patna Junction', 30303, 'Patna'),
+  ('Kanpur Central', 40404, 'Kanpur'),
+  ('Vadodara Junction', 50505, 'Vadodara'),
+  ('Guwahati Junction', 60606, 'Guwahati');
+INSERT INTO station_dtls (station_name, station_num, city_name)
+VALUES
+  ('Sagar Junction', 10006, 'Sagar'),
+  ('Bina Junction', 10007, 'Bina'),
+  ('Vidisha Junction', 10008, 'Vidisha'),
+  ('Shahdol Junction', 10009, 'Shahdol'),
+  ('Anuppur Junction', 10010, 'Anuppur'),
+  ('Umariya Station', 10011, 'Umariya'),
+  ('Katni Junction', 10012, 'Katni');
+
+  
+  select * from station_dtls;
+  
+
+
+
+drop table train_dtls;
+
+
+
+INSERT INTO train_dtls (trn_no, trn_name, start_stn_num, end_stn_num, start_time, end_time, src_dest_dist)
+VALUES
+  (12321, 'Mumbai Rajdhani', 11111, 22222, '2023-05-16 08:00:00', '2023-05-16 12:00:00', 500.0),
+  (12617, 'Chennai Express', 22222, 33333, '2023-05-16 14:00:00', '2023-05-16 18:00:00', 800.0),
+  (12259, 'Sealdah Duronto', 11111, 33333, '2023-05-16 10:30:00', '2023-05-16 16:30:00', 1000.0),
+  (12323, 'Howrah Mail', 33333, 44444, '2023-05-16 19:00:00', '2023-05-16 23:00:00', 900.0),
+  (12677, 'Ernakulam SF', 55555, 66666, '2023-05-16 11:30:00', '2023-05-16 14:30:00', 400.0),
+  (12723, 'Telangana Express', 66666, 77777, '2023-05-16 15:00:00', '2023-05-16 18:00:00', 600.0);
+INSERT INTO train_dtls (trn_no, trn_name, start_stn_num, end_stn_num, start_time, end_time,src_dest_dist)
+VALUES
+  (58871, 'BTC JBP Passenger', 10006, 10007, '2023-05-16 06:00:00', '2023-05-16 00:00:00',50),
+  (12062, 'HBJ Janshatabdi', 10008, 10009, '2023-05-16 06:00:00', '2023-05-16 06:00:00',250),
+  (58840, 'JBP NIR NGP Passenger', 10006, 10010, '2023-05-16 20:30:00', '2023-05-16 00:00:00',300),
+  (58870, 'JBP BTC Passenger', 10006, 10011, '2023-05-16 22:20:00', '2023-05-16 00:00:00',280),
+  (10001, 'Satpura Express', 10006, 10010, '2023-05-16 19:35:00', '2023-05-16 00:00:00',300),
+  (10002, 'Satpura Express', 10010, 10006, '2023-05-16 05:30:00', '2023-05-16 00:00:00',300),
+  (2187, 'CSTM Garibrath', 10006, 10007, '2023-05-16 19:30:00', '2023-05-16 00:00:00',50);
+  
+  
+  CREATE TABLE train_dtls (
+  trn_no INT(6) NOT NULL PRIMARY KEY,
+  trn_name VARCHAR(50) NOT NULL,
+  start_stn_num INT NOT NULL,
+  end_stn_num INT NOT NULL,
+  start_time TIME,
+  end_time TIME,
+  src_dest_dist DOUBLE,
+  FOREIGN KEY (start_stn_num) REFERENCES station_dtls(station_num) ON DELETE CASCADE,
+  FOREIGN KEY (end_stn_num) REFERENCES station_dtls(station_num) ON DELETE CASCADE
+);
+
+INSERT INTO train_dtls (trn_no, trn_name, start_stn_num, end_stn_num, start_time, end_time, src_dest_dist)
+VALUES
+  (58871, 'BTC JBP Passenger', 10006, 10007, '06:00:00', '00:00:00', 50),
+  (12062, 'HBJ Janshatabdi', 10008, 10009, '06:00:00', '06:00:00', 100),
+  (58840, 'JBP NIR NGP Passenger', 10006, 10010, '20:30:00', '00:00:00', 200),
+  (58865, 'BTC JBP Passenger', 10006, 10007, '13:55:00', '00:00:00', 70),
+  (58870, 'JBP BTC Passenger', 10007, 10011, '22:20:00', '00:00:00', 140),
+  (10002, 'Satpura Express', 10006, 10009, '05:30:00', '00:00:00', 340),
+  (2187, 'CSTM Garibrath', 10006, 10012, '19:30:00', '00:00:00', 50),
+  (2188, 'JBP Garibrath S', 10007, 10006, '06:00:00', '00:00:00', 50),
+  (12584, 'Puri Valsad Express', 10008, 10009, '01:10:00', '01:20:00', 100),
+  (58839, 'NGP NIR JBP Passenger', 10010, 10006, '08:15:00', '00:00:00', 200),
+  (9052, 'ST Premium Special', 10012, 10007, '03:40:00', '03:50:00', 50),
+  (12583, 'BL Puri S F Express', 10008, 10009, '14:05:00', '14:15:00', 100);
+
+  select * from train_dtls;
+
+  CREATE TABLE passenger_dtls (
+  PNRno VARCHAR(10) NOT NULL PRIMARY KEY,
+  user_id INT,
+  destination VARCHAR(50),
+  dest_stn_num INT,
+  source_stn_num INT,
+  start VARCHAR(50),
+  trn_num INT,
+  seat_no INT,
+  booking_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  username VARCHAR(10)
+  );
+
+  drop table passenger_dtls;
+  
+select * from passenger_dtls;
+
+  
+  INSERT INTO passenger_dtls (PNRno, user_id, destination, dest_stn_num, source_stn_num, start, trn_num, seat_no, username)
+VALUES
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 12345, 'Mumbai', 11111, 10006, 'Mumbai Central', 10001, 1, 'john123'),
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 23456, 'Chennai', 22222, 10007, 'Chennai Central', 10002, 2, 'amy456'),
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 34567, 'Delhi', 33333, 10008, 'New Delhi Railway Station', 10003, 3, 'sam789'),
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 45678, 'Kolkata', 44444, 10009, 'Howrah Junction', 10004, 4, 'lisa321');
+
+  select substring(uuid(),1,8);
+  
+  
+  CREATE TABLE passenger_dtls (
+  PNRno VARCHAR(10) NOT NULL PRIMARY KEY,
+  user_id INT,
+  destination VARCHAR(50),
+  dest_stn_num INT,
+  source_stn_num INT,
+  start VARCHAR(50),
+  trn_num BIGINT,
+  seat_no INT,
+  booking_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  username VARCHAR(10),
+  FOREIGN KEY (user_id) REFERENCES user_dtls(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (dest_stn_num) REFERENCES station_dtls(station_num) ON DELETE CASCADE,
+  FOREIGN KEY (source_stn_num) REFERENCES station_dtls(station_num) ON DELETE CASCADE,
+  FOREIGN KEY (trn_num) REFERENCES train_dtls(trn_no) ON DELETE CASCADE,
+  FOREIGN KEY (seat_no) REFERENCES seat_dtls(seat_no) ON DELETE CASCADE,
+  FOREIGN KEY (username) REFERENCES login(username) ON DELETE CASCADE
+);
+commit;
+select * from passenger_dtls;
+
+
+
+date 27/05/23
+
+
+
+
+CREATE TABLE users (
+  custid INT AUTO_INCREMENT PRIMARY KEY,
+  cfname VARCHAR(20),
+  clname VARCHAR(20),
+  caddress VARCHAR(60),
+  cmob VARCHAR(15) NOT NULL UNIQUE,
+  cemail VARCHAR(30) NOT NULL UNIQUE check (substr(cemail,-4) = '.com'),
+  cgender VARCHAR(15) NOT NULL,
+  username VARCHAR(20) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  CONSTRAINT check_username_length CHECK (LENGTH(username) >= 5),
+  CONSTRAINT check_password_length CHECK (LENGTH(password) >= 5)
+);
+
+drop table users;
+
+use  IRCTC;
+show tables;
+desc registered_user;
+select * from registered_user;
+select * from login;
+show triggers;
+delete from registered_user where cgender = 'Male' or cgender =  'female';
+drop table login;
+CREATE TABLE login (
+  
+  email VARCHAR(30),
+  username VARCHAR(20),
+  mobile VARCHAR(15),
+  FOREIGN KEY (password) REFERENCES registered_user(password) ON DELETE CASCADE
+);
+desc registered_user;
+CREATE TABLE login (
+  custid INT unique not null,
+  password varchar(255),
+  email VARCHAR(30),
+  username VARCHAR(10),
+  mobile VARCHAR(15),
+  FOREIGN KEY (custid) REFERENCES registered_user(custid) ON DELETE CASCADE,
+  FOREIGN KEY (email) REFERENCES registered_user(cemail) ON DELETE CASCADE,
+  FOREIGN KEY (username) REFERENCES registered_user(username) ON DELETE CASCADE,
+  FOREIGN KEY (mobile) REFERENCES registered_user(cmob) ON DELETE CASCADE
+);
+ALTER TABLE login MODIFY COLUMN username VARCHAR(20);
+
+-- Inserting dummy data
+create table users (
+  custid INT AUTO_INCREMENT PRIMARY KEY,
+  cfname VARCHAR(20),
+  clname VARCHAR(20),
+  caddress VARCHAR(60),
+  cmob VARCHAR(15) NOT NULL UNIQUE,
+  cemail VARCHAR(30) NOT NULL UNIQUE,
+  cgender VARCHAR(15) NOT NULL,
+  username VARCHAR(10) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL check (
+);
+
+-- Inserting dummy data
+INSERT INTO registered_user_dtls (cfname, clname, caddress, cmob, cemail, cgender, username, password)
+VALUES
+  ('John', 'Doe', '123 Main St', '555-1234', 'john.doe@example.com', 'Male', 'johndoe', 'password123'),
+  ('Jane', 'Smith', '456 Elm St', '555-5678', 'jane.smith@example.com', 'Female', 'janesmith', 'password456'),
+  ('Michael', 'Johnson', '789 Oak St', '555-9012', 'michael.johnson@example.com', 'Male', 'michaelj', 'password789');
+
+
+INSERT INTO users (cfname, clname, caddress, cmob, cemail, cgender, username, password)
+VALUES
+  ('John', 'Doe', '123 Main St', '555-1234', 'john.doe@example.com', 'Male', 'johndoe', 'password123'),
+  ('Jane', 'Smith', '456 Elm St', '555-5678', 'jane.smith@example.com', 'Female', 'janesmith', 'password456'),
+  ('Michael', 'Johnson', '789 Oak St', '555-9012', 'michael.johnson@example.com', 'Male', 'michaelj', 'password789'),
+  ('Emily', 'Williams', '321 Maple Ave', '555-3456', 'emily.williams@example.com', 'Female', 'emilyw', 'password321'),
+  ('David', 'Brown', '654 Pine Rd', '555-7890', 'david.brown@example.com', 'Male', 'davidb', 'password654'),
+  ('Sarah', 'Taylor', '987 Cedar Ln', '555-2345', 'sarah.taylor@example.com', 'Female', 'saraht', 'password987'),
+  ('Christopher', 'Anderson', '741 Elmwood Dr', '555-6789', 'chris.anderson@example.com', 'Male', 'christophera', 'password741'),
+  ('Olivia', 'Martinez', '852 Oakwood Ave', '555-0123', 'olivia.martinez@example.com', 'Female', 'oliviam', 'password852'),
+  ('Matthew', 'Garcia', '369 Cedar St', '555-4567', 'matthew.garcia@example.com', 'Male', 'matthewg', 'password369'),
+  ('Sophia', 'Lee', '963 Pinecrest Rd', '555-8901', 'sophia.lee@example.com', 'Female', 'sophial', 'password963');
+  INSERT INTO users (cfname, clname, caddress, cmob, cemail, cgender, username, password)
+VALUES
+  ('Amit', 'Kumar', '789 First St, Kolkata', '9876543212', 'amit.kumar@example.com', 'Male', 'amitkumar', 'password789'),
+  ('Priya', 'Patel', '321 Second Ave, Bengaluru', '9876543213', 'priya.patel@example.com', 'Female', 'priyapatel', 'passwordabc'),
+  ('Rahul', 'Sharma', '654 Third St, Hyderabad', '9876543214', 'rahul.sharma@example.com', 'Male', 'rahulsharma', 'passworddef'),
+  ('Anita', 'Verma', '987 Fourth Ave, Chennai', '9876543215', 'anita.verma@example.com', 'Female', 'anitaverma', 'passwordxyz');
+
+  
+select * from login;
+select * from users;
+delete from registered_user where custid = 131;
+drop table registered_user;
+
+
+-- Create the station_dtls table
+CREATE TABLE stations (
+  sname VARCHAR(40) NOT NULL,
+  sid int NOT NULL UNIQUE,
+  city_name VARCHAR(30) NOT NULL
+);
+drop table stations;
+INSERT INTO stations (sname, sid, city_name)
+VALUES
+  ('Bhopal Junction', 12345, 'Bhopal'),
+  ('Indore Junction', 23456, 'Indore'),
+  ('Jabalpur Junction', 34567, 'Jabalpur'),
+  ('Gwalior Junction', 45678, 'Gwalior'),
+  ('Ujjain Junction', 56789, 'Ujjain'),
+  ('Mumbai Central', 11111, 'Mumbai'),
+  ('Chennai Central', 22222, 'Chennai'),
+  ('New Delhi Railway Station', 33333, 'Delhi'),
+  ('Howrah Junction', 44444, 'Kolkata'),
+  ('Bengaluru City Junction', 55555, 'Bengaluru'),
+  ('Hyderabad Deccan', 66666, 'Hyderabad'),
+  ('Jaipur Junction', 77777, 'Jaipur'),
+  ('Ahmedabad Junction', 88888, 'Ahmedabad'),
+  ('Pune Junction', 99999, 'Pune'),
+  ('Kochi Ernakulam Junction', 10101, 'Kochi'),
+  ('Lucknow Charbagh', 20202, 'Lucknow'),
+  ('Patna Junction', 30303, 'Patna'),
+  ('Kanpur Central', 40404, 'Kanpur'),
+  ('Vadodara Junction', 50505, 'Vadodara'),
+  ('Guwahati Junction', 60606, 'Guwahati'),
+  ('Sagar Junction', 10006, 'Sagar'),
+  ('Bina Junction', 10007, 'Bina'),
+  ('Vidisha Junction', 10008, 'Vidisha'),
+  ('Shahdol Junction', 10009, 'Shahdol'),
+  ('Anuppur Junction', 10010, 'Anuppur'),
+  ('Umariya Station', 10011, 'Umariya'),
+  ('Katni Junction', 10012, 'Katni');
+
+  
+  select * from station_dtls;
+  
+
+
+
+drop table train_dtls;
+
+
+
+INSERT INTO trains (trn_no, trn_name, start_stn_num, end_stn_num, start_time, end_time, src_dest_dist)
+VALUES
+  (12321, 'Mumbai Rajdhani', 11111, 22222, '2023-05-16 08:00:00', '2023-05-16 12:00:00', 500.0),
+  (12617, 'Chennai Express', 22222, 33333, '2023-05-16 14:00:00', '2023-05-16 18:00:00', 800.0),
+  (12259, 'Sealwdah Duronto', 11111, 33333, '2023-05-16 10:30:00', '2023-05-16 16:30:00', 1000.0),
+  (12323, 'Howrah Mail', 33333, 44444, '2023-05-16 19:00:00', '2023-05-16 23:00:00', 900.0),
+  (12677, 'Ernakulam SF', 55555, 66666, '2023-05-16 11:30:00', '2023-05-16 14:30:00', 400.0),
+  (12723, 'Telangana Express', 66666, 77777, '2023-05-16 15:00:00', '2023-05-16 18:00:00', 600.0);
+INSERT INTO train_dtls (trn_no, trn_name, start_stn_num, end_stn_num, start_time, end_time,src_dest_dist)
+VALUES
+  (58871, 'BTC JBP Passenger', 10006, 10007, '2023-05-16 06:00:00', '2023-05-16 00:00:00',50),
+  (12062, 'HBJ Janshatabdi', 10008, 10009, '2023-05-16 06:00:00', '2023-05-16 06:00:00',250),
+  (58840, 'JBP NIR NGP Passenger', 10006, 10010, '2023-05-16 20:30:00', '2023-05-16 00:00:00',300),
+  (58870, 'JBP BTC Passenger', 10006, 10011, '2023-05-16 22:20:00', '2023-05-16 00:00:00',280),
+  (10001, 'Satpura Express', 10006, 10010, '2023-05-16 19:35:00', '2023-05-16 00:00:00',300),
+  (10002, 'Satpura Express', 10010, 10006, '2023-05-16 05:30:00', '2023-05-16 00:00:00',300),
+  (2187, 'CSTM Garibrath', 10006, 10007, '2023-05-16 19:30:00', '2023-05-16 00:00:00',50);
+  
+  
+  CREATE TABLE trains (
+  trn_no INT(6) NOT NULL PRIMARY KEY,
+  trn_name VARCHAR(50) NOT NULL,
+  start_sid INT NOT NULL,
+  end_sid INT NOT NULL,
+  start_time time,
+  end_time time,
+  src_dest_dist DOUBLE,
+  FOREIGN KEY (start_sid) REFERENCES stations(sid) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (end_sid) REFERENCES stations(sid) ON DELETE CASCADE on update cascade
+);
+
+INSERT INTO train_dtls (trn_no, trn_name, start_stn_num, end_stn_num, start_time, end_time, src_dest_dist)
+VALUES
+  (58871, 'BTC JBP Passenger', 10006, 10007, '06:00:00', '00:00:00', 50),
+  (12062, 'HBJ Janshatabdi', 10008, 10009, '06:00:00', '06:00:00', 100),
+  (58840, 'JBP NIR NGP Passenger', 10006, 10010, '20:30:00', '00:00:00', 200),
+  (58865, 'BTC JBP Passenger', 10006, 10007, '13:55:00', '00:00:00', 70),
+  (58870, 'JBP BTC Passenger', 10007, 10011, '22:20:00', '00:00:00', 140),
+  (10002, 'Satpura Express', 10006, 10009, '05:30:00', '00:00:00', 340),
+  (2187, 'CSTM Garibrath', 10006, 10012, '19:30:00', '00:00:00', 50),
+  (2188, 'JBP Garibrath S', 10007, 10006, '06:00:00', '00:00:00', 50),
+  (12584, 'Puri Valsad Express', 10008, 10009, '01:10:00', '01:20:00', 100),
+  (58839, 'NGP NIR JBP Passenger', 10010, 10006, '08:15:00', '00:00:00', 200),
+  (9052, 'ST Premium Special', 10012, 10007, '03:40:00', '03:50:00', 50),
+  (12583, 'BL Puri S F Express', 10008, 10009, '14:05:00', '14:15:00', 100);
+
+  select * from train_dtls;
+
+  CREATE TABLE passenger_dtls (
+  PNRno VARCHAR(10) NOT NULL PRIMARY KEY,
+  user_id INT,
+  destination VARCHAR(50),
+  dest_stn_num INT,
+  source_stn_num INT,
+  start VARCHAR(50),
+  trn_num INT,
+  seat_no INT,
+  booking_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  username VARCHAR(10)
+  );
+
+  drop table passenger_dtls;
+  
+select * from passenger_dtls;
+
+  
+  INSERT INTO passenger_dtls (PNRno, user_id, destination, dest_stn_num, source_stn_num, start, trn_num, seat_no, username)
+VALUES
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 12345, 'Mumbai', 11111, 10006, 'Mumbai Central', 10001, 1, 'john123'),
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 23456, 'Chennai', 22222, 10007, 'Chennai Central', 10002, 2, 'amy456'),
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 34567, 'Delhi', 33333, 10008, 'New Delhi Railway Station', 10003, 3, 'sam789'),
+  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 45678, 'Kolkata', 44444, 10009, 'Howrah Junction', 10004, 4, 'lisa321');
+
+  select substring(uuid(),1,8);
+INSERT INTO passengers (pname, pgender, PNRno, cust_id, dest_stn_num, source_stn_num, trn_num, seat_no,Boogie_no,seat_status)
+VALUES
+  ('John Doe', 'Male', SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 1, 10006, 12345, 10001, 1,1,'confirm'),
+  ('Jane Smith', 'Female', SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 2, 10007, 23456, 10002, 2,1,'confirm'),
+  ('Sam Wilson', 'Male', SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 3, 10009, 34567, 10003, 3,1,'confirm'),
+  ('Emma Jones', 'Female', SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 4, 10010, 45678, 10004, 4,1,'confirm'),
+  ('Alex Walker', 'Male', SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 5, 10011, 56789, 10005, 5,1,'confirm');
+
+select * from passengers;
+select * from stations;
+  drop table passengers;
+  CREATE TABLE passengers (
+  pname varchar(30) not null,
+  pgender varchar(6) not null,
+  PNRno VARCHAR(10) NOT NULL PRIMARY KEY,
+  cust_id INT,
+  dest_stn_num INT,
+  source_stn_num INT,
+  trn_num INT,
+  seat_no INT,
+  Boogie_no mediumint,
+  seat_status varchar(10),
+  booking_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (cust_id) REFERENCES users(custid) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (dest_stn_num) REFERENCES stations(sid) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (source_stn_num) REFERENCES stations(sid) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (trn_num) REFERENCES trains(trn_no) ON DELETE CASCADE on update cascade
+);
+commit;
+select * from passengers;
+show tables;
+use IRCTC;
+show databases;
+use classwork1;
+select * from stations;
+use project;
+drop table fav_quotes,quotes,users;
+select * from trains;
+drop table trains;
+select * from users;
+drop table passenger_dtls;
+select * from stations;
+CREATE TABLE RandomTable (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  value INT
+);
+
+INSERT INTO RandomTable (value) values (rand());
+SELECT FLOOR(RAND() * (99999 - 10000 + 1) + 10000) AS random_value
+FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) AS numbers;
+select * from RandomTable;
+
+CREATE TABLE trains (
+  trn_no INT(6) NOT NULL PRIMARY KEY,
+  trn_name VARCHAR(50) NOT NULL,
+  start_sid INT NOT NULL,
+  end_sid INT NOT NULL,
+  start_time TIME,
+  end_time TIME,
+  src_dest_dist DOUBLE,
+  mon TINYINT(1) NOT NULL DEFAULT 0,
+  tue TINYINT(1) NOT NULL DEFAULT 0,
+  wed TINYINT(1) NOT NULL DEFAULT 0,
+  thu TINYINT(1) NOT NULL DEFAULT 0,
+  fri TINYINT(1) NOT NULL DEFAULT 0,
+  sat TINYINT(1) NOT NULL DEFAULT 0,
+  sun TINYINT(1) NOT NULL DEFAULT 0,
+  FOREIGN KEY (start_sid) REFERENCES stations(sid) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (end_sid) REFERENCES stations(sid) ON DELETE CASCADE on update cascade
+);
+desc trains;
+show tables;
+INSERT INTO trains (trn_no, trn_name, start_sid, end_sid, start_time, end_time, src_dest_dist, mon, tue, wed, thu, fri, sat, sun)
+VALUES
+  (10001, 'Bhopal Express', 12345, 23456, '08:00', '14:00', 200.5, 1, 0, 1, 0, 1, 0, 0),
+  (10002, 'Indore Superfast', 23456, 34567, '12:30', '18:30', 180.2, 0, 1, 0, 1, 0, 1, 0),
+  (10003, 'Jabalpur Mail', 34567, 45678, '06:45', '13:30', 250.8, 1, 1, 1, 1, 1, 1, 1),
+  (10004, 'Gwalior Express', 45678, 56789, '10:15', '15:45', 150.6, 0, 0, 1, 1, 1, 0, 0),
+  (10005, 'Ujjain Fast Passenger', 56789, 12345, '14:20', '19:40', 220.3, 0, 0, 0, 1, 0, 1, 1);
+select * from trains;
+drop table Seats;
+create table Seats(STrainNo int, 
+BoogieNo varchar(4) not null,
+CurrentBogie tinyint default 0, 
+SeatType varchar(15),
+SeatAvlbl int,
+foreign key (STrainNo) references trains(trn_no));
+
+create table classFair(Fair float, SeatType varchar(15), FTrainNum int,
+StartStnNum int, EndStnNum int,
+foreign key (StartStnNum) references stations(sid),
+foreign key (EndStnNum) references stations(sid),
+foreign key (FTrainNum) references trains(trn_no));
+select Fair from classFair c,Seats s where c.SeatType = s.SeatType and FTrainNum = 10001 and c.SeatType = 'AC' 
+and StartStnNum = 12345 and EndStnNum = 56789 and SeatAvlbl=20;
+
+CREATE TABLE Seats (
+  STrainNo INT,
+  BoogieNo VARCHAR(4) NOT NULL,
+  CurrentBogie TINYINT DEFAULT 0,
+  SeatType VARCHAR(15),
+  SeatAvlbl INT,
+  FOREIGN KEY (STrainNo) REFERENCES trains(trn_no)
+);
+
+INSERT INTO Seats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl)
+VALUES
+  (10001, 'A1', 1, 'Sleeper', 50),
+  (10001, 'A2', 0, 'Sleeper', 50),
+  (10001, 'B1', 0, 'AC', 20),
+  (10002, 'A1', 1, 'Sleeper', 50),
+  (10002, 'A2', 0, 'Sleeper', 50),
+  (10002, 'B1', 0, 'AC', 20),
+  (10003, 'A1', 1, 'Sleeper', 50),
+  (10003, 'A2', 0, 'Sleeper', 50),
+  (10003, 'B1', 0, 'AC', 20),
+  (10004, 'A1', 1, 'Sleeper', 50),
+  (10004, 'A2', 0, 'Sleeper', 50),
+  (10004, 'B1', 0, 'AC', 20),
+  (10005, 'A1', 1, 'Sleeper', 50),
+  (10005, 'A2', 0, 'Sleeper', 50),
+  (10005, 'B1', 0, 'AC', 20);
+CREATE TABLE classFair (
+  Fair FLOAT,
+  SeatType VARCHAR(15),
+  FTrainNum INT,
+  StartStnNum INT,
+  EndStnNum INT,
+  FOREIGN KEY (StartStnNum) REFERENCES stations(sid),
+  FOREIGN KEY (EndStnNum) REFERENCES stations(sid),
+  FOREIGN KEY (FTrainNum) REFERENCES trains(trn_no)
+);
+
+INSERT INTO classFair (Fair, SeatType, FTrainNum, StartStnNum, EndStnNum)
+VALUES
+  (500.00, 'Sleeper', 10001, 12345, 56789),
+  (1000.00, 'AC', 10001, 12345, 56789),
+  (400.00, 'Sleeper', 10002, 23456, 45678),
+  (800.00, 'AC', 10002, 23456, 45678),
+  (600.00, 'Sleeper', 10003, 34567, 12345),
+  (1200.00, 'AC', 10003, 34567, 12345),
+  (300.00, 'Sleeper', 10004, 56789, 34567),
+  (600.00, 'AC', 10004, 56789, 34567),
+  (700.00, 'Sleeper', 10005, 23456, 56789),
+  (1400.00, 'AC', 10005, 23456, 56789);
+-- 1Ac mediumint default 0,
+-- 2Ac mediumint default 0,
+-- 3Ac mediumint default 0,
+-- Sleeper mediumint default 0,
+set autocommit = 0;
+update  trains set src_dest_dist = src_dest_dist -1 ;
+rollbACK;
+
+
+
+
+

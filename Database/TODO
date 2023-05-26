@@ -1,0 +1,85 @@
+for cancel ticket 
+------------------------------------------------------------
+
+-- this proceduere will cancel the ticket of passenger
+--------------------------------------------------------------------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE cancel_ticket(IN pnrNo VARCHAR(10))
+BEGIN
+  DECLARE passengerName VARCHAR(30);
+  DECLARE passengerGender VARCHAR(6);
+  DECLARE custId INT;
+  DECLARE destStnNum INT;
+  DECLARE sourceStnNum INT;
+  DECLARE trnNum INT;
+  DECLARE seatNo INT;
+  DECLARE bookingDate DATETIME;
+  DECLARE username VARCHAR(25);
+
+  -- Retrieve the passenger details
+  SELECT pname, pgender, cust_id, dest_stn_num, source_stn_num, trn_num, seat_no, booking_date, username
+  INTO passengerName, passengerGender, custId, destStnNum, sourceStnNum, trnNum, seatNo, bookingDate, username
+  FROM passengers
+  WHERE PNRno = pnrNo;
+
+  -- Delete the passenger from the passengers table
+  DELETE FROM passengers WHERE PNRno = pnrNo;
+
+  -- Insert the passenger into the cancelled table
+  INSERT INTO cancelled (pname, pgender, cust_id, dest_stn_num, source_stn_num, trn_num, seat_no, booking_date, username)
+  VALUES (passengerName, passengerGender, custId, destStnNum, sourceStnNum, trnNum, seatNo, bookingDate, username);
+END //
+
+DELIMITER ;
+
+
+
+------------------------------------------------------------
+-- this procedure will move data to the history when train will reached at destination
+------------------------------------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE move_to_history()
+BEGIN
+  DECLARE currentDate DATETIME;
+  DECLARE bookingDate DATETIME;
+  DECLARE pnrNo VARCHAR(10);
+  DECLARE userName VARCHAR(25);
+
+  SET currentDate = NOW();
+
+  -- Cursor to iterate over the passengers table
+  DECLARE cur CURSOR FOR
+    SELECT PNRno, booking_date, username
+    FROM passengers;
+
+  -- Declare handler for cursor
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET @done = TRUE;
+
+  OPEN cur;
+
+  -- Fetch the first row
+  FETCH cur INTO pnrNo, bookingDate, userName;
+
+  WHILE @done = FALSE DO
+    IF DATE_ADD(bookingDate, INTERVAL 7 DAY) <= currentDate THEN
+      -- Insert the passenger into the history table
+      INSERT INTO history (PNRno, booking_date, username)
+      VALUES (pnrNo, bookingDate, userName);
+
+      -- Delete the passenger from the passengers table
+      DELETE FROM passengers WHERE PNRno = pnrNo;
+    END IF;
+
+    -- Fetch the next row
+    FETCH cur INTO pnrNo, bookingDate, userName;
+  END WHILE;
+
+  CLOSE cur;
+END //
+
+DELIMITER ;
+

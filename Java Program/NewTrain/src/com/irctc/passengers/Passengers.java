@@ -15,6 +15,9 @@ public class Passengers {
 	private int seatNo;
 	private int boogieNo;
 	private String status;
+	public Passengers() {
+		
+	}
 	public Passengers(String name, String gender, String pnrNo, int custId, int destStnNum, int sourceStnNum,
 			int trnNum, Timestamp bookingDate, int seatNo, int boogieNo, String status) {
 		super();
