@@ -130,3 +130,5 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
+#ignore server folder 
+Servers/
