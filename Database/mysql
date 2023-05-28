@@ -1,66 +1,4 @@
 
-delimiter //
-create trigger login_trigger 
-after insert on registered_user
-for each row
-begin 
-insert into login (custid,username,password,email,mobile) values (new.custid,new.username,new.password,new.cemail,new.cmob);
-end  //
-delimiter ;
-
-
-
-
-
-
-
-use  IRCTC;
-show tables;
-desc registered_user;
-select * from registered_user;
-select * from login;show triggers;
-delete from registered_user where cgender = 'Male' or cgender =  'female';
-drop table login;
-CREATE TABLE login (
-  
-  email VARCHAR(30),
-  username VARCHAR(20),
-  mobile VARCHAR(15),
-  FOREIGN KEY (password) REFERENCES registered_user(password) ON DELETE CASCADE
-);
-desc registered_user;
-CREATE TABLE login (
-  custid INT unique not null,
-  password varchar(255),
-  email VARCHAR(30),
-  username VARCHAR(10),
-  mobile VARCHAR(15),
-  FOREIGN KEY (custid) REFERENCES registered_user(custid) ON DELETE CASCADE,
-  FOREIGN KEY (email) REFERENCES registered_user(cemail) ON DELETE CASCADE,
-  FOREIGN KEY (username) REFERENCES registered_user(username) ON DELETE CASCADE,
-  FOREIGN KEY (mobile) REFERENCES registered_user(cmob) ON DELETE CASCADE
-);
-ALTER TABLE login MODIFY COLUMN username VARCHAR(20);
-
-
-INSERT INTO registered_user (cfname, clname, caddress, cmob, cemail, cgender, username, password)
-VALUES
-  ('John', 'Doe', '123 Main St', '555-1234', 'john.doe@example.com', 'Male', 'johndoe', 'password123'),
-  ('Jane', 'Smith', '456 Elm St', '555-5678', 'jane.smith@example.com', 'Female', 'janesmith', 'password456'),
-  ('Michael', 'Johnson', '789 Oak St', '555-9012', 'michael.johnson@example.com', 'Male', 'michaelj', 'password789'),
-  ('Emily', 'Williams', '321 Maple Ave', '555-3456', 'emily.williams@example.com', 'Female', 'emilyw', 'password321'),
-  ('David', 'Brown', '654 Pine Rd', '555-7890', 'david.brown@example.com', 'Male', 'davidb', 'password654'),
-  ('Sarah', 'Taylor', '987 Cedar Ln', '555-2345', 'sarah.taylor@example.com', 'Female', 'saraht', 'password987'),
-  ('Christopher', 'Anderson', '741 Elmwood Dr', '555-6789', 'chris.anderson@example.com', 'Male', 'christophera', 'password741'),
-  ('Olivia', 'Martinez', '852 Oakwood Ave', '555-0123', 'olivia.martinez@example.com', 'Female', 'oliviam', 'password852'),
-  ('Matthew', 'Garcia', '369 Cedar St', '555-4567', 'matthew.garcia@example.com', 'Male', 'matthewg', 'password369'),
-  ('Sophia', 'Lee', '963 Pinecrest Rd', '555-8901', 'sophia.lee@example.com', 'Female', 'sophial', 'password963');
-  
-select * from login;
-select * from registered_user;
-delete from registered_user where custid = 131;
-
-
 
 -- Create the station_dtls table
 CREATE TABLE station_dtls (
@@ -159,35 +97,7 @@ VALUES
   (9052, 'ST Premium Special', 10012, 10007, '03:40:00', '03:50:00', 50),
   (12583, 'BL Puri S F Express', 10008, 10009, '14:05:00', '14:15:00', 100);
 
-  select * from train_dtls;
 
-  CREATE TABLE passenger_dtls (
-  PNRno VARCHAR(10) NOT NULL PRIMARY KEY,
-  user_id INT,
-  destination VARCHAR(50),
-  dest_stn_num INT,
-  source_stn_num INT,
-  start VARCHAR(50),
-  trn_num INT,
-  seat_no INT,
-  booking_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-  username VARCHAR(10)
-  );
-
-  drop table passenger_dtls;
-  
-select * from passenger_dtls;
-
-  
-  INSERT INTO passenger_dtls (PNRno, user_id, destination, dest_stn_num, source_stn_num, start, trn_num, seat_no, username)
-VALUES
-  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 12345, 'Mumbai', 11111, 10006, 'Mumbai Central', 10001, 1, 'john123'),
-  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 23456, 'Chennai', 22222, 10007, 'Chennai Central', 10002, 2, 'amy456'),
-  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 34567, 'Delhi', 33333, 10008, 'New Delhi Railway Station', 10003, 3, 'sam789'),
-  (SUBSTRING(REPLACE(UUID(), '-', ''), 1, 10), 45678, 'Kolkata', 44444, 10009, 'Howrah Junction', 10004, 4, 'lisa321');
-
-  select substring(uuid(),1,8);
-  
   
   CREATE TABLE passenger_dtls (
   PNRno VARCHAR(10) NOT NULL PRIMARY KEY,
@@ -248,7 +158,7 @@ CREATE TABLE login (
   mobile VARCHAR(15),
   FOREIGN KEY (password) REFERENCES registered_user(password) ON DELETE CASCADE
 );
-desc registered_user;
+
 CREATE TABLE login (
   custid INT unique not null,
   password varchar(255),
@@ -582,8 +492,376 @@ VALUES
 set autocommit = 0;
 update  trains set src_dest_dist = src_dest_dist -1 ;
 rollbACK;
+--------------------------------------------------------------------------------
+trigger to generate pnr no 
+--------------------------------------------------------------------------------
+
+DELIMITER //
+
+CREATE TRIGGER generate_pnr
+BEFORE INSERT ON passengers
+FOR EACH ROW
+BEGIN
+  REPEAT
+    SET NEW.PNRno = LPAD(FLOOR(RAND() * 9999999999), 10, '0');
+  UNTIL NEW.PNRno <> '0000000000' END REPEAT;
+END //
+
+DELIMITER ;
+
+--------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------
+-- Create the fairs table
+----------------------------------------------------------
+CREATE TABLE fairs (
+  Fair FLOAT,
+  SeatType VARCHAR(15),
+  TrainNum INT,
+  DistForFair FLOAT,
+  FOREIGN KEY (TrainNum) REFERENCES trains(trn_no) ON UPDATE CASCADE ON DELETE CASCADE
+);
+----------------------------------------------------------
+-- Insert values into the fairs table
+----------------------------------------------------------
+
+INSERT INTO fairs (Fair, SeatType, TrainNum, DistForFair)
+SELECT
+  CASE
+    WHEN s.SeatType = '1AC' THEN 1200
+    WHEN s.SeatType = '2AC' THEN 800
+    WHEN s.SeatType = '3AC' THEN 500
+    ELSE 100
+  END AS Fair,
+  s.SeatType,
+  t.trn_no AS TrainNum,
+  100 AS DistForFair
+FROM Seats s
+JOIN trains t ON s.STrainNo = t.trn_no;
+----------------------------------------------------------
+
+to get journey time of a train 
+---------------------------------------------------------
+SELECT TIME_FORMAT(TIMEDIFF(CONCAT('2023-05-27 ', endTime), CONCAT('2023-05-26 ', startTime)), '%H:%i') AS timeDifference, trnNo, startTime, endTime, srcDestDist, trainType FROM trains;
+--------------------------------------------------------------------------------
+27-05-23(saturday worked whole day)
+--------------------------------------------------------------------------------
+today's work
+--------------------------------------------------------------------------------
+CREATE TABLE Users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  fName VARCHAR(20),
+  lName VARCHAR(20),
+  address VARCHAR(60),
+  mobile VARCHAR(15) NOT NULL UNIQUE,
+  eMail VARCHAR(30) NOT NULL UNIQUE check (substr(eMail,-4) = '.com'),
+  gender VARCHAR(15) NOT NULL,
+  userName VARCHAR(20) NOT NULL UNIQUE,
+  registerDate datetime default now(),
+  password VARCHAR(255) NOT NULL,
+  CONSTRAINT check_username_length CHECK (LENGTH(username) >= 5),
+  CONSTRAINT check_password_length CHECK (LENGTH(password) >= 5)
+);
+
+--------------------------------------------------------------------------------
+
+INSERT INTO Users (fName, lName, address, mobile, eMail, gender, userName, password)
+VALUES
+  ('Aarav', 'Patel', '123 Street, Mumbai', '9876543210', 'aarav@example.com', 'Male', 'aaravp', 'password1'),
+  ('Aditi', 'Sharma', '456 Road, Delhi', '9876543211', 'aditi@example.com', 'Female', 'aditis', 'password2'),
+  ('Aryan', 'Singh', '789 Avenue, Bangalore', '9876543212', 'aryan@example.com', 'Male', 'aryans', 'password3');
+
+-- Continue inserting more rows with Indian names and cities as desired
+INSERT INTO Users (fName, lName, address, mobile, eMail, gender, userName, password)
+VALUES
+  ('Aakash', 'Gupta', '10 Lane, Kolkata', '9876543213', 'aakash@example.com', 'Male', 'aakashg', 'password4'),
+  ('Aishwarya', 'Reddy', '20 Road, Hyderabad', '9876543214', 'aishwarya@example.com', 'Female', 'aishwaryar', 'password5'),
+  ('Akshay', 'Verma', '30 Street, Pune', '9876543215', 'akshay@example.com', 'Male', 'akshayv', 'password6'),
+  ('Amrita', 'Chopra', '40 Avenue, Chandigarh', '9876543216', 'amrita@example.com', 'Female', 'amritac', 'password7'),
+  ('Aniket', 'Sinha', '50 Road, Jaipur', '9876543217', 'aniket@example.com', 'Male', 'anikets', 'password8'),
+  ('Anjali', 'Rajput', '60 Lane, Ahmedabad', '9876543218', 'anjali@example.com', 'Female', 'anjalir', 'password9'),
+  ('Arjun', 'Malhotra', '70 Street, Lucknow', '9876543219', 'arjun@example.com', 'Male', 'arjunm', 'password10'),
+  ('Bhavya', 'Mehta', '80 Road, Chennai', '9876543220', 'bhavya@example.com', 'Female', 'bhavyam', 'password11'),
+  ('Deepak', 'Sharma', '90 Avenue, Surat', '9876543221', 'deepak@example.com', 'Male', 'deepaks', 'password12'),
+  ('Divya', 'Joshi', '100 Lane, Indore', '9876543222', 'divya@example.com', 'Female', 'divyaj', 'password13'),
+ ('Amit', 'Kumar', '789 First St, Kolkata', '9876543412', 'amit.kumar@example.com', 'Male', 'amitkumar', 'password789'),
+  ('Priya', 'Patel', '321 Second Ave, Bengaluru', '9877543213', 'priya.patel@example.com', 'Female', 'priyapatel', 'passwordabc'),
+  ('Rahul', 'Sharma', '654 Third St, Hyderabad', '9876843214', 'rahul.sharma@example.com', 'Male', 'rahulsharma', 'passworddef'),
+  ('Anita', 'Verma', '987 Fourth Ave, Chennai', '9876043215', 'anita.verma@example.com', 'Female', 'anitaverma', 'passwordxyz');
+
+
+--------------------------------------------------------------------------------
+
+
+
+-- Create the station_dtls table
+CREATE TABLE Stations (
+  name VARCHAR(40) NOT NULL,
+  id int primary key,
+  code varchar (5),
+  cityName VARCHAR(30) NOT NULL
+);
+drop table stations;
+delete from Stations;
+select * from Stations;
+--------------------------------------------------------------------------------
+-- Inserting sample data into the stations table
+--------------------------------------------------------------------------------
+INSERT INTO Stations (name, id, code, cityName)
+VALUES
+  ('Mumbai Central', 1, 'BCT', 'Mumbai'),
+  ('Ahmedabad', 2, 'ADI', 'Ahmedabad'),
+  ('Kolkata Sealdah', 3, 'SDAH', 'Kolkata'),
+  ('Puri', 4, 'PURI', 'Puri'),
+  ('Secunderabad', 5, 'SC', 'Secunderabad'),
+  ('Visakhapatnam', 6, 'VSKP', 'Visakhapatnam'),
+  ('Madurai', 7, 'MDU', 'Madurai'),
+  ('Chennai Central', 8, 'MAS', 'Chennai'),
+  ('Jammu Tawi', 9, 'JAT', 'Jammu'),
+  ('New Delhi', 10, 'NDLS', 'Delhi'),
+  ('Lucknow', 11, 'LKO', 'Lucknow'),
+  ('Hazrat Nizamuddin', 12, 'NZM', 'Delhi'),
+  ('Howrah', 13, 'HWH', 'Kolkata'),
+  ('Ranchi', 14, 'RNC', 'Ranchi'),
+  ('Ludhiana', 15, 'LDH', 'Ludhiana'),
+  ('Firozpur', 16, 'FZR', 'Firozpur'),
+  ('Agra Cantt', 17, 'AGC', 'Agra'),
+  ('Delhi H Nizamuddin', 18, 'NZM', 'Delhi'),
+  ('Pune', 19, 'PUNE', 'Pune'),
+  ('Jodhpur', 20, 'JU', 'Jodhpur'),
+  ('Dibrugarh Town', 21, 'DBRT', 'Dibrugarh'),
+  ('Delhi Anand Vihar', 22, 'ANVT', 'Delhi'),
+  ('Guwahati', 23, 'GHY', 'Guwahati'),
+  ('Bhubaneswar', 24, 'BBS', 'Bhubaneswar'),
+  ('Yesvantpur', 25, 'YPR', 'Bangalore'),
+  ('Howrah Junction', 26, 'HWH', 'Kolkata'),
+  ('Jhansi', 27, 'JHS', 'Jhansi'),
+  ('Kanpur Central', 28, 'CNB', 'Kanpur'),
+  ('Vijayawada Junction', 29, 'BZA', 'Vijayawada'),
+  ('Nagpur', 30, 'NGP', 'Nagpur'),
+  ('Bhopal Junction', 31, 'BPL', 'Bhopal'),
+  ('Jabalpur Junction', 32, 'JBP', 'Jabalpur'),
+  ('Gwalior Junction', 33, 'GWL', 'Gwalior'),
+  ('Ujjain Junction', 34, 'UJN', 'Ujjain'),
+  ('Habibganj', 35, 'HBJ', 'Bhopal Habibganj'),
+  ('Indore Junction', 36, 'INDB', 'Indore'),
+  ('Itarsi Junction', 37, 'ET', 'Itarsi'),
+  ('Satna Junction', 38, 'STA', 'Satna'),
+  ('Bina Junction', 39, 'BINA', 'Bina'),
+  ('Khandwa Junction', 40, 'KNW', 'Khandwa'),
+  ('Katni Junction', 41, 'KTE', 'Katni'),
+  ('Saugor', 42, 'SGO', 'Saugor'),
+  ('Maihar', 43, 'MYR', 'Maihar'),
+  ('Morena', 44, 'MRA', 'Morena'),
+  ('Rewa', 45, 'REWA', 'Rewa'),
+  ('Nagda Junction', 46, 'NAD', 'Nagda'),
+  ('Pipariya', 47, 'PPI', 'Pipariya'),
+  ('Vidisha', 48, 'BHS', 'Vidisha'),
+  ('Betul', 49, 'BZU', 'Betul'),
+  ('Narsinghpur', 50, 'NU', 'Narsinghpur');
+
+
+
+--------------------------------------------------------------------------------
+
+
+CREATE TABLE trains (
+  trnNo INT(6) NOT NULL PRIMARY KEY,
+  trnName VARCHAR(100) NOT NULL,
+  startSid INT NOT NULL,
+  endSid INT NOT NULL,
+  startTime TIME,
+  endTime TIME,
+  srcDestDist DOUBLE,
+  trainType varchar(15),
+  mon TINYINT(1) NOT NULL DEFAULT 0,
+  tue TINYINT(1) NOT NULL DEFAULT 0,
+  wed TINYINT(1) NOT NULL DEFAULT 0,
+  thu TINYINT(1) NOT NULL DEFAULT 0,
+  fri TINYINT(1) NOT NULL DEFAULT 0,
+  sat TINYINT(1) NOT NULL DEFAULT 0,
+  sun TINYINT(1) NOT NULL DEFAULT 0,
+  FOREIGN KEY (startSid) REFERENCES Stations(id) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (endSid) REFERENCES Stations(id) ON DELETE CASCADE on update cascade
+);
+--------------------------------------------------------------------------------
+
+- Step 1: Insert train details into the "trains" table
+INSERT INTO trains (trnNo, trnName, startSid, endSid, startTime, endTime, trainType, mon, tue, wed, thu, fri, sat, sun, srcDestDist)
+VALUES
+  (12267, 'MUMBAI CENTRAL - AHMEDABAD AC DURONTO EXP', 1, 2, '23:25', '05:55', 'Express', 1, 1, 1, 1, 1, 1, 1, 491),
+  (12268, 'AHMEDABAD - MUMBAI CENT AC DURONTO EXP', 2, 1, '23:40', '06:00', 'Express', 1, 1, 1, 1, 1, 1, 1, 491),
+  (22201, 'KOLKATA SEALDAH - PURI DURONTO EXPRESS', 3, 4, '20:00', '04:00', 'Express', 0, 1, 0, 1, 0, 0, 1, 500),
+  (22204, 'SECUNDERABAD - VISAKHAPATNAM AC DURONTO EXPRESS', 5, 6, '20:15', '06:35', 'Express', 0, 1, 0, 1, 0, 0, 0, 689),
+  (22206, 'MADURAI - CHENNAI CENTRAL AC DURONTO EXPRESS', 7, 8, '22:40', '07:20', 'Express', 0, 0, 0, 1, 0, 0, 0, 496),
+  (12426, 'JAMMU TAWI - NEW DELHI RAJDHANI EXPRESS', 9, 10, '19:40', '05:05', 'RAJDHANI', 1, 1, 1, 1, 1, 1, 1, 577),
+  (12430, 'NEW DELHI - LUCKNOW AC SF EXPRESS', 10, 11, '20:50', '06:40', 'RAJDHANI', 1, 1, 0, 1, 0, 0, 1, 493),
+  (12437, 'SECUNDERABAD - HAZRAT NIZAMUDDIN RAJDHANI EXPRESS', 5, 12, '12:45', '10:25', 'RAJDHANI', 0, 0, 1, 0, 0, 0, 0, 1609),
+  (12951, 'MUMBAI CENTRAL - NEW DELHI RAJDHANI EXPRESS', 1, 10, '16:35', '08:35', 'RAJDHANI', 1, 1, 1, 1, 1, 1, 1, 1385),
+  (12953, 'MUMBAI CENT - HAZRAT NIZAMUDDIN AUGUST KRANTI RAJ EXP', 1, 12, '17:40', '10:55', 'RAJDHANI', 1, 1, 1, 1, 1, 1, 1, 1404),
+  (12019, 'HOWRAH - RANCHI SHATABDI EXPRESS', 13, 14, '06:05', '13:15', 'SHATABDI', 1, 1, 1, 1, 1, 1, 0, 414),
+  (12038, 'LUDHIANA - NEW DELHI SHATABDI EXPRESS', 15, 10, '16:40', '22:10', 'SHATABDI', 0, 1, 0, 1, 0, 1, 0, 319),
+  (12048, 'FIROZPUR - NEW DELHI SHATABDI EXPRESS', 16, 10, '04:00', '21:10', 'SHATABDI', 1, 0, 0, 0, 0, 0, 1, 405),
+  (12049, 'AGRA CANTT - DELHI H NIZAMUDDIN GATIMAAN EXPRESS', 17, 10, '17:50', '19:30', 'SHATABDI', 1, 1, 1, 1, 1, 1, 0, 188),
+  (12050, 'DELHI H NIZAMUDDIN - AGRA CANTT GATIMAAN EXPRESS', 10, 17, '08:10', '09:50', 'SHATABDI', 1, 1, 1, 1, 1, 1, 0, 188),
+  (11077, 'PUNE - JAMMU TAWI JHELUM EXPRESS', 18, 9, '17:20', '10:10', 'MAIL EXPRESS', 1, 1, 1, 1, 1, 1, 1, 1860),
+  (12138, 'FIROZPUR CANTT - MUMBAI CST PUNJAB MAIL SF EXP', 16, 1, '21:40', '07:35', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1629),
+  (12295, 'BANGALORE CITY - DANAPUR SANGHAMITRA SF EXP', 19, 20, '09:00', '09:20', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1237),
+  (12307, 'HOWRAH - JODHPUR SF EXPRESS', 13, 21, '23:30', '08:30', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1221),
+  (12424, 'NEW DELHI - DIBRUGARH TOWN RAJDHANI EXPRESS', 10, 22, '13:55', '07:00', 'RAJDHANI', 1, 1, 1, 1, 1, 1, 1, 2469),
+  (12506, 'DELHI ANAND VIHAR - GUWAHATI NORTH EAST EXPRESS', 10, 23, '06:45', '16:50', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1920),
+  (12801, 'PURI - NEW DELHI PURUSHOTTAM SF EXPRESS', 4, 10, '21:45', '04:50', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1856),
+  (12802, 'NEW DELHI - PURI PURUSHOTTAM SF EXPRESS', 10, 4, '22:15', '05:25', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1856),
+  (12833, 'AHMEDABAD - HOWRAH SF EXPRESS', 2, 13, '00:15', '13:30', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 2052),
+  (12859, 'MUMBAI CST - HOWRAH GITANJALI SF EXPRESS', 1, 13, '06:00', '12:30', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1966),
+  (12864, 'YESVANTPUR - HOWRAH SF EXPRESS', 24, 13, '19:35', '05:00', 'SUPERFAST', 1, 1, 1, 1, 1, 1, 1, 1922);
+--------------------------------------------------------------------------------
+get train journey time 
+--------------------------------------------------------------------------------
+DELIMITER //
+CREATE FUNCTION time_diff(startTime TIME, endTime TIME)
+RETURNS TIME DETERMINISTIC
+BEGIN
+    DECLARE diff TIME;
+    
+    IF startTime > endTime THEN
+        SET diff = TIMEDIFF(CONCAT('1970-01-02 ', endTime), CONCAT('1970-01-01 ', startTime));
+    ELSE
+        SET diff = TIMEDIFF(CONCAT('1970-01-01 ', endTime), CONCAT('1970-01-01 ', startTime));
+    END IF;
+    
+    RETURN diff;
+END //
+DELIMITER ;
+--------------------------------------------------------------------------------
+use this to get time difference 
+
+SELECT TIME_FORMAT(time_diff(startTime,endTime),'%H:%i') AS timeDifference, trnNo, startTime, endTime, srcDestDist, trainType FROM trains;
+
+
+--------------------------------------------------------------------------------
+
+Seats Comes in Picture
+
+--------------------------------------------------------------------------------
+
+
+create table Seats(STrainNo int, 
+BoogieNo varchar(4) not null,
+CurrentBogie tinyint default 0, 
+SeatType varchar(15),
+SeatAvlbl int,
+foreign key (STrainNo) references trains(trn_no));
+
+--------------------------------------------------------------------------------
+
+INSERT INTO Seats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl)
+VALUES (12267, 'A1', 1, '1AC', 80),
+(12267, 'B1', 0, '1AC', 0 ), -- 1AC boogie (not current boogie)
+       (12267, 'C1', 1, '3AC', 80 ), -- 3AC boogie
+       (12267, 'C2', 0, '3AC',80 ), -- 3AC boogie (not current boogie)
+       (12267, 'S1', 1, 'General', 80), -- General boogie
+       (12267, 'S2', 0, 'General', 80), -- General boogie
+       (12267, 'S3', 0, 'General', 80), -- General boogie
+       (12267, 'S4', 0, 'General', 80 ), -- General boogie
+       (12267, 'S5', 0, 'General', 80 ), -- General boogie
+       (12267, 'S6', 0, 'General', 80);
+       
+       INSERT INTO Seats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartDate)
+SELECT
+  T.TrainNo,
+  B.BoogieNo,
+  0 AS CurrentBogie,
+  B.SeatType,
+  B.SeatCapacity AS SeatAvlbl,
+  DATEADD(day, 1, GETDATE()) AS DepartDate
+FROM
+  Trains T
+--------------------------------------------------------------------------------
+Live Seats 
+
+--------------------------------------------------------------------------------
+
+ADD CONSTRAINT UC_Seats UNIQUE (STrainNo, BoogieNo, SeatType);
+--------------------------------------------------------------------------------
+      select * from Seats; 
+CREATE TABLE LiveSeats (
+  STrainNo INT,
+  BoogieNo VARCHAR(4) NOT NULL,
+  CurrentBogie TINYINT DEFAULT 0,
+  SeatType VARCHAR(15),
+  SeatAvlbl INT,
+  DepartDate DATETIME NOT NULL,
+  FOREIGN KEY (STrainNo) REFERENCES trains(trnNo) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (STrainNo, BoogieNo, SeatType) REFERENCES Seats(STrainNo, BoogieNo, SeatType) ON UPDATE CASCADE ON DELETE CASCADE
+);
+--------------------------------------------------------------------------------
+select * from LiveSeats;
+SELECT *
+FROM LiveSeats;
+SELECT *
+FROM LiveSeats
+WHERE DATE(DepartDate) = DATE_ADD(CURDATE(), INTERVAL -1 DAY);
+delete from LiveSeats where DATE(DepartDate) = DATE_ADD(CURDATE(), INTERVAL 7 DAY);
+
+--------------------------------------------------------------------------------
+Adding data to LiveSeats
+--------------------------------------------------------------------------------
+INSERT INTO LiveSeats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartDate)
+SELECT S.STrainNo, S.BoogieNo, S.CurrentBogie, S.SeatType, S.SeatAvlbl, DATE_ADD(NOW(), INTERVAL -2 DAY)
+FROM Seats S;
+--------------------------------------------------------------------------------
+CREATE TABLE SeatsHistory (
+  STrainNo INT,
+  BoogieNo VARCHAR(4) NOT NULL,
+  CurrentBogie TINYINT DEFAULT 0,
+  SeatType VARCHAR(15),
+  SeatAvlbl INT,
+  DepartedDate DATETIME NOT NULL,
+  CONSTRAINT PK_SeatsHistory PRIMARY KEY (STrainNo, BoogieNo, DepartedDate),
+  FOREIGN KEY (STrainNo) REFERENCES trains(trnNo) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+--------------------------------------------------------------------------------
+
+CREATE PROCEDURE UpdateLiveSeats()
+BEGIN
+    -- Check if current date has passed
+    declare countno int;
+    select count(*) into countno from LiveSeats WHERE DepartDate < CURDATE();
+    IF countno > 0 THEN
+        -- Move deleted rows to SeatsHistory table
+        INSERT INTO SeatsHistory (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartedDate)
+        SELECT S.STrainNo, S.BoogieNo, S.CurrentBogie, S.SeatType, S.SeatAvlbl, S.DepartDate
+        FROM LiveSeats S
+        WHERE S.DepartDate < CURDATE();
+
+        -- Delete rows where DepartDate has passed
+        DELETE FROM LiveSeats
+        WHERE DepartDate < CURDATE();
+        -- Insert new rows with DepartDate after 7 days
+    INSERT INTO LiveSeats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartDate)
+    SELECT S.STrainNo, S.BoogieNo, S.CurrentBogie, S.SeatType, S.SeatAvlbl, DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+    FROM Seats S;
+        
+    END IF;
+
+    
+END; //
+DELIMITER ;
 
 
 
 
+--------------------------------------------------------------------------------
 
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------

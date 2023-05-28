@@ -1,5 +1,7 @@
 package com.irctc.user;
 
+import java.time.LocalDateTime;
+
 public class User {
 	private int custId;
 	private String firstName;
@@ -10,6 +12,14 @@ public class User {
 	private String gender;
 	private String userName;
 	private String password;
+	private LocalDateTime registerDate;
+//	// Assuming you have a ResultSet object named "resultSet" containing the query result
+//	Timestamp timestamp = resultSet.getTimestamp("registerDate");
+//	LocalDateTime localDateTime = timestamp.toLocalDateTime();
+//
+//	// You can now work with the LocalDateTime object as needed
+//	System.out.println("Register date and time: " + localDateTime);
+
 	public User() {
 		
 	}
@@ -67,11 +77,17 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public LocalDateTime getRegisterDate() {
+		return registerDate;
+	}
+	public void setRegisterDate(LocalDateTime registerDate) {
+		this.registerDate = registerDate;
+	}
 	@Override
 	public String toString() {
 		return "User [custId=" + custId + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
 				+ ", mobile=" + mobile + ", eMail=" + eMail + ", gender=" + gender + ", userName=" + userName
-				+ ", password=" + password + "]";
+				+ ", password=" + password + ", registerDate=" + registerDate + "]";
 	}
 	public User(String firstName, String lastName, String address, String mobile, String eMail, String gender,
 			String userName, String password) {

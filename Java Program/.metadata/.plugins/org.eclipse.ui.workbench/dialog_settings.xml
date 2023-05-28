@@ -6,4 +6,18 @@
 			<item value="org.eclipse.jdt.ui.java"/>
 		</list>
 	</section>
+	<section name="org.eclipse.ui.internal.dialogs.WorkbenchEditorsDialog">
+		<item key="allPersp" value="false"/>
+		<item key="sort" value="0"/>
+		<list key="bounds">
+			<item value="20"/>
+			<item value="20"/>
+			<item value="864"/>
+			<item value="588"/>
+		</list>
+		<list key="columns">
+			<item value="279"/>
+			<item value="559"/>
+		</list>
+	</section>
 </section>

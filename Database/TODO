@@ -83,3 +83,170 @@ END //
 
 DELIMITER ;
 
+------------------------------------------------------------
+it will give the exact  cancellation charges of customer
+------------------------------------------------------------
+
+
+DELIMITER //
+
+CREATE PROCEDURE calculate_cancellation_charges(
+  IN pnr_number VARCHAR(10),
+  OUT cancellation_charges DECIMAL(8, 2)
+)
+BEGIN
+  DECLARE fare DECIMAL(8, 2);
+  DECLARE departure_time DATETIME;
+  DECLARE hours_difference INT;
+
+  -- Get fare and departure time from passengers table
+  SELECT tr.src_dest_dist, tr.start_time, p.booking_date INTO fare, departure_time
+  FROM passengers p
+  JOIN trains tr ON p.trn_num = tr.trn_no
+  WHERE p.PNRno = pnr_number;
+
+  -- Calculate the time difference in hours
+  SET hours_difference = TIMESTAMPDIFF(HOUR, NOW(), departure_time);
+
+  -- Calculate cancellation charges based on time difference
+  IF hours_difference > 48 THEN
+    SET cancellation_charges = CASE
+      WHEN fare >= 240 THEN 240
+      WHEN fare >= 200 THEN 200
+      WHEN fare >= 180 THEN 180
+      WHEN fare >= 120 THEN 120
+      ELSE 60
+    END;
+  ELSEIF hours_difference >= 12 THEN
+    SET cancellation_charges = fare * 0.25;
+    IF cancellation_charges < 60 THEN
+      SET cancellation_charges = 60;
+    END IF;
+  ELSEIF hours_difference >= 4 THEN
+    SET cancellation_charges = fare * 0.5;
+    IF cancellation_charges < 60 THEN
+      SET cancellation_charges = 60;
+    END IF;
+  ELSE
+    SET cancellation_charges = fare;
+  END IF;
+END //
+
+DELIMITER ;
+------------------------------------------------------------
+
+calling this 
+------------------------------------------------------------
+CALL calculate_cancellation_charges('ABC123', @charges);
+SELECT @charges;
+------------------------------------------------------------
+Same behaviour but its a function
+------------------------------------------------------------
+
+DELIMITER //
+
+CREATE FUNCTION calculate_cancellation_charges(
+pnr_number VARCHAR(10)
+) RETURNS DECIMAL(8, 2)
+BEGIN
+DECLARE cancellation_charges DECIMAL(8, 2);
+DECLARE fare DECIMAL(8, 2);
+DECLARE departure_time DATETIME;
+DECLARE hours_difference INT;
+
+-- Get fare and departure time from passengers table
+SELECT tr.src_dest_dist, tr.start_time, p.booking_date INTO fare, departure_time
+FROM passengers p
+JOIN trains tr ON p.trn_num = tr.trn_no
+WHERE p.PNRno = pnr_number;
+
+-- Calculate the time difference in hours
+SET hours_difference = TIMESTAMPDIFF(HOUR, NOW(), departure_time);
+
+-- Calculate cancellation charges based on time difference
+IF hours_difference > 48 THEN
+SET cancellation_charges = CASE
+WHEN fare >= 240 THEN 240
+WHEN fare >= 200 THEN 200
+WHEN fare >= 180 THEN 180
+WHEN fare >= 120 THEN 120
+ELSE 60
+END;
+ELSEIF hours_difference >= 12 THEN
+SET cancellation_charges = fare * 0.25;
+IF cancellation_charges < 60 THEN
+SET cancellation_charges = 60;
+END IF;
+ELSEIF hours_difference >= 4 THEN
+SET cancellation_charges = fare * 0.5;
+IF cancellation_charges < 60 THEN
+SET cancellation_charges = 60;
+END IF;
+ELSE
+SET cancellation_charges = fare;
+END IF;
+
+RETURN cancellation_charges;
+END //
+
+DELIMITER ;
+----------------------------------------------------------
+calculate fair of respective distance
+----------------------------------------------------------
+if i want to calculate price of trainTicket 
+i can create a function which will be sent the relative_distance,SeatType and train 
+number and distance_btw_stn which will be from passenger table 
+and it will return price accordig to that train 
+price will be fixed in terms of KM 
+narmada express charges 100rs for 150km in genereal class 
+if it is 100 km it will be 77 rs
+it it is 300 km it will be 200 rs
+and so on ... it depends on km 
+
+narmada express charges 500rs for 150km in 3Ac class 
+narmada express charges 800rs for 150km in 2AC class 
+narmada express charges 1200rs for 150km in 1AC class 
+just like this train any other  train will have its charge and 
+a class and this function will return fair for that journey
+this is example of function we will take data from tables
+take fair amount from fairs tables
+
+----------------------------------------------------------
+DELIMITER //
+
+CREATE FUNCTION calculate_fare(
+  relative_distance FLOAT,
+  SeatType VARCHAR(15),
+  train_number INT,f
+  distance_btw_stn FLOAT
+) RETURNS DECIMAL(8, 2)
+BEGIN
+  DECLARE fare DECIMAL(8, 2);
+
+  -- Retrieve the fare from the fairs table based on train number and seat type
+  SELECT Fair INTO fare
+  FROM fairs
+  WHERE FTrainNum = train_number AND SeatType = SeatType;
+
+  -- Calculate the fare based on the relative distance
+  SET fare = fare * (relative_distance / distance_btw_stn);
+
+  RETURN fare;
+END //
+
+DELIMITER ;
+---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
