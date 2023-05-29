@@ -852,6 +852,74 @@ BEGIN
 END; //
 DELIMITER ;
 
+--------------------------------------------------------------------
+DELIMITER //
+
+CREATE PROCEDURE CopyTrainsData()
+BEGIN
+    -- Create a temporary table with the same structure as the RunningTrain table
+    CREATE TEMPORARY TABLE IF NOT EXISTS temp_runningtrain AS (SELECT * FROM RunningTrain LIMIT 0);
+
+    -- Copy data from the trains table to the temporary table, excluding the last 7 columns
+    INSERT INTO temp_runningtrain
+    SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType
+    FROM trains;
+
+    -- Insert current datetime if the train runs on that day
+    UPDATE temp_runningtrain AS rt
+    INNER JOIN trains AS t ON rt.trnNo = t.trnNo
+    SET rt.runDate = CASE
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 1 AND t.sun = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 2 AND t.mon = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 3 AND t.tue = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 4 AND t.wed = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 5 AND t.thu = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 6 AND t.fri = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 7 AND t.sat = 1 THEN CURRENT_TIMESTAMP
+        ELSE NULL
+    END;
+
+    -- Insert data from the temporary table into the RunningTrain table
+    INSERT INTO RunningTrain
+    SELECT * FROM temp_runningtrain;
+
+    -- Drop the temporary table
+    DROP TEMPORARY TABLE IF EXISTS temp_runningtrain;
+END //
+
+DELIMITER ;
+--------------------------------------------------------------------
+
+this procedure adds data after 7 dayas and delete data before  today;
+--------------------------------------------------------------------
+DELIMITER //
+
+CREATE PROCEDURE CopyTrainsData()
+BEGIN
+    DECLARE startDate DATE;
+    set startDate = current_date();
+    SET startDate = DATE_ADD(startDate, INTERVAL 7 DAY);
+    if (select count(*) from RunningTrains where runningDate<curdate()) > 0 then
+    delete from RunningTrains where runningDate<curdate();
+        -- Insert data into the RunningTrain table for the current date
+        INSERT INTO RunningTrains (trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, runningDate)
+        SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, startDate
+        FROM trains
+        WHERE 
+            CASE DAYOFWEEK(startDate)
+                WHEN 1 THEN sun
+                WHEN 2 THEN mon
+                WHEN 3 THEN tue
+                WHEN 4 THEN wed
+                WHEN 5 THEN thu
+                WHEN 6 THEN fri
+                WHEN 7 THEN sat
+            END = 1;
+    END if;
+END //
+
+DELIMITER ;
+
 
 
 

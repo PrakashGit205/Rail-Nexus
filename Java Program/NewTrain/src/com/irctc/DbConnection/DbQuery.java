@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DbQuery {
+	private Connection con;
 	public static String PsngrByCustIdSql = "select * from passengers where custId = ?";
 	public static String canceTicketSql= "";
 	public static String UserNameLoginSql = "select * from Users where username = ? and password = ?";
@@ -28,11 +29,16 @@ public class DbQuery {
 	public static String ReservationSql = "insert into passengers (pname, pgender, PNRno, custId, destStnNum, sourceStnNum, trnNum, seatNo,boogieNo,seatStatus,userName) "
 			+ " VALUES(?,?,?,?,?,?,?,?,?,?) ";
 	public static String AddPassengerSql = "insert into ";
-	public  static String SeatFairSql = "select Fair from fairs where trainNum";
-	public static String getAvaialableTrainsSql = "";
+	public  static String SeatFairSql = "";
+	public static String getAvaialableTrainsSql = " select * from RunningTrains where startSid = ? "
+			+ " and endSid = ? and runningdate = ? ";
 	public static String getAvailableSeatsSql = "";
-	public static String getFairOfSeatsSql = "";
-	private Connection con;
+//	public static String getFairOfSeatsSql = " select calculateFare('1AC',12367,170) limit 1";
+	public static String getFairOfSeatsSql = " select calculateFare(?,?,?) limit 1";
+
+	public static String getDistTimeSql = "select timebtwstn and distbtwstn from distance"
+			+ " where (startSid = ? an	d endsid = ?) or (startSid = ? and endsid = ?) ";
+	// 
 
 	public DbQuery() throws Exception {
 		con = DbUtil.getConnection();

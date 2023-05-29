@@ -19,14 +19,13 @@ public class PassengerDao {
 	private PreparedStatement showAllPsngrStmt = null;
 	private PreparedStatement myDetailsStmt = null;
 	private PreparedStatement psngrByCustIdStmt = null;
-	private java.sql.Statement stmt = null;
+//	private java.sql.Statement stmt = null;
 	public PassengerDao() throws Exception {
-		// TODO Auto-generated constructor stub
 		con = DbUtil.getConnection();
 		psngrByCustIdStmt = con.prepareStatement(DbQuery.PsngrByCustIdSql);
 		myDetailsStmt = con.prepareStatement(DbQuery.ShowMyDetailsSql);
 		showAllPsngrStmt = con.prepareStatement(DbQuery.ShowAllPsngrSql);
-		stmt = con.createStatement();
+//		stmt = con.createStatement();
 	}
 
 	public void close() throws SQLException {
@@ -34,6 +33,7 @@ public class PassengerDao {
 		showAllPsngrStmt.close();
 		psngrByCustIdStmt.close();
 		myDetailsStmt.close();
+		showAllPsngrStmt.close();
 	}
 
 	private Passengers returnPsngr(ResultSet rs) throws SQLException {
@@ -47,11 +47,14 @@ public class PassengerDao {
 		int trnNum = rs.getInt("trn_num");
 		int boogieNo = rs.getInt("Boogie_no");
 		String status = rs.getString("seat_status");
-		Timestamp bookingDate = rs.getTimestamp("booking_date");
+		Timestamp stamp = rs.getTimestamp("booking_date");
+		LocalDateTime bookingDate = stamp.toLocalDateTime();
 		int seatNO = rs.getInt("seat_no");
-
+	   double fair = rs.getDouble("fair");
+	   Timestamp time = rs.getTimestamp("journeyDate");
+	   LocalDateTime journeyDate = time.toLocalDateTime();
 		return (new Passengers(name, gender, pnrNo, custId, destStnNum, SourceStnNum, trnNum, bookingDate, seatNO,
-				boogieNo, status));
+				boogieNo, status,fair,journeyDate));
 
 	}
 
@@ -60,11 +63,7 @@ public class PassengerDao {
 		ResultSet rs = showAllPsngrStmt.executeQuery();
 		while (rs.next()) {
 			list.add(returnPsngr(rs));
-//			 long time = bookingDate.getTime();
-//			LocalDateTime ld = null;
-//			ld.of(bookingDate.getYear(), bookingDate.getMonth(), bookingDate.getDate(), bookingDate.getHours(), bookingDate.getMinutes(), bookingDate.getSeconds());
-//			list.add(new Passengers(name, gender, pnrNo, custId, destStnNum, SourceStnNum, trnNum, bookingDate, seatNO,boogieNo,status));
-		}
+	}
 		return list;
 	}
 

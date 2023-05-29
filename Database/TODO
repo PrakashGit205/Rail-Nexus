@@ -233,18 +233,23 @@ BEGIN
 
   RETURN fare;
 END //
-
 DELIMITER ;
 ---------------------------------------------------------------
 
+create table and put all combination in this
 
 
+update trains set distance  =
 
 
+create a combination of all stations using sid
+create table Distance ( startSId int , endSid int, distBtwStn float) 
 
-
-
-
+---------------------------------------------------------------
+so i have distance which is given that a train runs xkm distance in y time 
+we have a distance btw all the stations 
+if a train sequence is 1 to 8 user want to go from 2-6 
+we will take total time and distance btw them
 
 
 

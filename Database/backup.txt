@@ -1,0 +1,460 @@
+INSERT INTO Seats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl)
+	VALUES (12835, 'A1', 1, '1AC', 80),
+		(12835, 'B1', 1, '2AC', 80 ), -- 1AC boogie (not current boogie)
+       (12835, 'C1', 1, '3AC', 80 ), -- 3AC boogie
+       (12835, 'C2', 0, '3AC',80 ), -- 3AC boogie (not current boogie)
+       (12835, 'S1', 1, 'General', 80), -- General boogie
+       (12835, 'S2', 0, 'General', 80), -- General boogie
+       (12835, 'S3', 0, 'General', 80), -- General boogie
+       (12835, 'S4', 0, 'General', 80 ), -- General boogie
+       (12835, 'S5', 0, 'General', 80 ), -- General boogie
+       (12835, 'S6', 0, 'General', 80);
+       INSERT INTO Seats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl)
+VALUES (12489, 'A1', 1, '1AC', 80),
+       (12489, 'B1', 1, '2AC', 80), -- 1AC boogie (not current boogie)
+       (12489, 'C1', 1, '3AC', 80 ), -- 3AC boogie
+       (12489, 'C2', 0, '3AC', 80 ), -- 3AC boogie (not current boogie)
+       (12489, 'S1', 1, 'General', 80), -- General boogie
+       (12489, 'S2', 0, 'General', 80), -- General boogie
+       (12489, 'S3', 0, 'General', 80), -- General boogie
+       (12489, 'S4', 0, 'General', 80 ), -- General boogie
+       (12489, 'S5', 0, 'General', 80 ), -- General boogie
+       (12489, 'S6', 0, 'General', 80);
+INSERT INTO Seats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartDate)
+SELECT
+  T.TrainNo,
+  B.BoogieNo,
+  0 AS CurrentBogie,
+  B.SeatType,
+  B.SeatCapacity AS SeatAvlbl,
+  DATEADD(day, 1, GETDATE()) AS DepartDate
+FROM
+  trains T
+  CROSS JOIN Boogies B;
+drop table LiveSeats;
+ALTER TABLE Seats
+add CONSTRAINT UC_Seats UNIQUE (STrainNo, BoogieNo, SeatType);
+desc Seats;
+alter table Seats drop index UC_Seats;
+-- delete constraint UC_seats;
+
+select * from Seats; 
+CREATE TABLE LiveSeats (
+  STrainNo INT,
+  BoogieNo VARCHAR(4) NOT NULL,
+  CurrentBogie TINYINT DEFAULT 0,
+  SeatType VARCHAR(15),
+  SeatAvlbl INT,
+  DepartDate DATETIME NOT NULL,
+  FOREIGN KEY (STrainNo) REFERENCES trains(trnNo) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (STrainNo, BoogieNo, SeatType) REFERENCES Seats(STrainNo, BoogieNo, SeatType) ON UPDATE CASCADE ON DELETE CASCADE
+);
+ALTER TABLE LiveSeats
+ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY;
+select *
+from LiveSeats;
+SELECT *
+FROM LiveSeats;
+SELECT *
+FROM LiveSeats
+WHERE DATE(DepartDate) = DATE_ADD(CURDATE(), INTERVAL -1 DAY);
+delete from LiveSeats where DATE(DepartDate) = DATE_ADD(CURDATE(), INTERVAL 7 DAY);
+commit;
+-------------------------
+INSERT INTO LiveSeats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartDate)
+SELECT S.STrainNo, S.BoogieNo, S.CurrentBogie, S.SeatType, S.SeatAvlbl, DATE_ADD(NOW(), INTERVAL -1 DAY)
+FROM Seats S;
+delete from LiveSeats;
+---------------------------
+-- Save all the History to the table;
+call UpdateLiveSeats();
+commit;
+ -----------------------------------------
+ CREATE TABLE SeatsHistory (
+  STrainNo INT,
+  BoogieNo VARCHAR(4) NOT NULL,
+  CurrentBogie TINYINT DEFAULT 0,
+  SeatType VARCHAR(15),
+  SeatAvlbl INT,
+  DepartedDate DATETIME NOT NULL,
+  CONSTRAINT PK_SeatsHistory PRIMARY KEY (STrainNo, BoogieNo, DepartedDate),
+  FOREIGN KEY (STrainNo) REFERENCES trains(trnNo) ON UPDATE CASCADE ON DELETE CASCADE
+);
+select * from LiveSeats where date(departDate) = date_add(curdate(),interval 7 day);
+select count(*)from LiveSeats WHERE DepartDate > CURDATE();
+select * from SeatsHistory;
+delete from SeatsHistory;
+alter table SeatsHistory 
+add column id int auto_increment unique;
+alter table SeatsHistory
+drop primary key ;
+-------------------------------------
+-- move data to history table from liveseat table 
+DELIMITER //
+CREATE PROCEDURE UpdateLiveSeats()
+BEGIN
+    -- Check if current date has passed
+    declare countno int;
+    select count(*) into countno from LiveSeats WHERE DepartDate < CURDATE();
+    IF countno > 0 THEN
+        -- Move deleted rows to SeatsHistory table
+        INSERT INTO SeatsHistory (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartedDate)
+        SELECT S.STrainNo, S.BoogieNo, S.CurrentBogie, S.SeatType, S.SeatAvlbl, S.DepartDate
+        FROM LiveSeats S
+        WHERE S.DepartDate < CURDATE();
+
+        -- Delete rows where DepartDate has passed
+        DELETE FROM LiveSeats
+        WHERE DepartDate < CURDATE();
+        -- Insert new rows with DepartDate after 7 days
+    INSERT INTO LiveSeats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl, DepartDate)
+    SELECT S.STrainNo, S.BoogieNo, S.CurrentBogie, S.SeatType, S.SeatAvlbl, DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+    FROM Seats S;
+        
+    END IF;
+
+    
+END; //
+DELIMITER ;
+;
+------------------------------------
+drop procedure UpdateLiveSeats;
+  select * from LiveSeats;
+drop table fairs;
+CREATE TABLE fairs (
+  Fair FLOAT,
+  SeatType VARCHAR(15),
+  TrainNum INT,
+  DistForFair float,
+  FOREIGN KEY (TrainNum) REFERENCES trains(trn_no) on update cascade on delete cascade
+);
+-- 1Ac mediumint default 0,
+-- 2Ac mediumint default 0,
+-- 3Ac mediumint default 0,
+-- Sleeper mediumint default 0,
+set autocommit = 0;
+update  trains set src_dest_dist = src_dest_dist -1 ;
+rollbACK;
+
+
+-- Create the fairs table
+CREATE TABLE fairs (
+  id int auto_increment primary key,
+  Fair FLOAT,
+  SeatType VARCHAR(15),
+  TrainNum INT,
+  DistForFair FLOAT,
+  FOREIGN KEY (TrainNum) REFERENCES trains(trnNo) ON UPDATE CASCADE ON DELETE CASCADE
+);
+create index fairsIndex on fairs(id);
+-- Insert values into the fairs table
+show index from fairs;
+
+INSERT INTO fairs (Fair, SeatType, TrainNum, DistForFair)
+SELECT
+  CASE
+	WHEN s.SeatType = '1AC' and t.trainType = 'SUPERFAST' THEN 1500
+	WHEN s.SeatType = '1AC' and t.trainType = 'Express' THEN 1300 
+	WHEN s.SeatType = '2AC' and t.trainType = 'SUPERFAST' THEN 1100
+	WHEN s.SeatType = '2AC' and t.trainType = 'EXPRESS' THEN 900
+	WHEN s.SeatType = '1AC' THEN 1200
+    WHEN s.SeatType = '2AC' THEN 800
+    WHEN s.SeatType = '3AC' THEN 500
+	WHEN s.SeatType = 'General' and t.trainType = 'EXPRESS' THEN 150
+	WHEN s.SeatType = 'General' and t.trainType = 'SUPERFAST' THEN 200
+	WHEN s.SeatType = 'General' and t.trainType = 'RAJDHANI' THEN 130
+    ELSE 100
+  END AS Fair,
+  s.SeatType,
+  t.trnNo AS TrainNum,
+  100 AS DistForFair
+FROM Seats s
+JOIN trains t ON s.STrainNo = t.trnNo;
+select * from fairs;
+select * from Users;
+delete from fairs;
+set autocommit = 1;
+rollback;
+commit;
+
+
+-- help date and time functions;
+create index LiveSeatsIndex on LiveSeats(STrainNo,BoogieNo);
+
+help date_format;
+show indexes from Seats;
+  --------------------------------------------
+  CREATE TABLE Passengers (
+  pname varchar(30) not null,
+  pgender varchar(6) not null,
+  PNRno VARCHAR(10) NOT NULL PRIMARY KEY,
+  custId INT,
+  userName varchar(20),
+  destStnNum INT,
+  sourceStnNum INT,
+  trnNum INT,
+  seatNo INT,
+  boogieNo mediumint,
+  seatStatus varchar(10),
+  fair float,
+  bookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+  journeyDate datetime ,
+  deptTime time,
+  arrivalTime time,
+  trvlDist float,
+  FOREIGN KEY (userName) REFERENCES Users(userName) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (custId) REFERENCES Users(id) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (destStnNum) REFERENCES Stations(id) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (sourceStnNum) REFERENCES Stations(id) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (trnNum) REFERENCES trains(trnNo) ON DELETE CASCADE on update cascade
+);
+-------------------------------------------------------------------------------
+
+select time_diff(startTime,endTime) as difference ,trnNo,startTIme,endTime,srcdestdist,traintype,startSid,endsir from trains;
+
+
+
+
+select * from fairs;
+desc trains;
+select * from trains;
+select * from fairs;
+select calculateFare('1AC',12367,170) limit 1;
+drop function calculateFare;
+-- ------------------------
+DELIMITER //
+CREATE FUNCTION calculateFare(
+  SeatType VARCHAR(15),
+  trainNumber INT,
+  distBtwStn FLOAT
+) 
+RETURNS DECIMAL(8, 2)
+ deterministic
+BEGIN
+  DECLARE fare DECIMAL(8, 2);
+
+  -- Retrieve the fare from the fairs table based on train number and seat type
+  SELECT Fair INTO fare
+  FROM fairs
+  WHERE TrainNum = trainNumber AND SeatType = SeatType limit 1;
+
+  -- Calculate the fare based on the relative distance
+  SET fare = fare * ( distBtwStn / 100);
+
+  RETURN fare;
+END ; //
+DELIMITER ;
+-- ----------------------------
+select * from trains;
+--  ----------------------------
+select * from  Distance ;
+select * from Stations;
+select * from fairs;
+select * from LiveSeats;
+select * from RunningTrains;
+drop table RunningTrains;
+CREATE TABLE RunningTrains (
+id int  auto_increment primary key,
+  trnNo INT(6) NOT NULL,
+  trnName VARCHAR(100) NOT NULL,
+  startSid INT NOT NULL,
+  endSid INT NOT NULL,
+  startTime TIME,
+  endTime TIME,
+  srcDestDist DOUBLE,
+  trainType varchar(15),
+  runningDate Date,
+  FOREIGN KEY (startSid) REFERENCES Stations(id) ON DELETE CASCADE on update cascade,
+  FOREIGN KEY (endSid) REFERENCES Stations(id) ON DELETE CASCADE on update cascade
+);
+
+call CopyTrainsData();
+drop procedure CopyTrainsData;
+
+DELIMITER //
+
+CREATE PROCEDURE CopyTrainsData()
+BEGIN
+    -- Create a temporary table with the same structure as the RunningTrains table
+    CREATE TEMPORARY TABLE IF NOT EXISTS temp_runningtrain AS
+    SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, NULL AS runningDate
+    FROM trains LIMIT 0;
+
+    -- Copy data from the trains table to the temporary table, excluding the last 7 columns
+    INSERT INTO temp_runningtrain(trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType)
+    SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType
+    FROM trains;
+
+    -- Insert current datetime if the train runs on that day
+    UPDATE temp_runningtrain AS rt
+    INNER JOIN trains AS t ON rt.trnNo = t.trnNo
+    SET rt.runningDate = CASE
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 1 AND t.sun = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 2 AND t.mon = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 3 AND t.tue = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 4 AND t.wed = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 5 AND t.thu = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 6 AND t.fri = 1 THEN CURRENT_TIMESTAMP
+        WHEN DAYOFWEEK(CURRENT_DATE()) = 7 AND t.sat = 1 THEN CURRENT_TIMESTAMP
+        ELSE NULL
+    END;
+
+    -- Insert data from the temporary table into the RunningTrains table
+    INSERT INTO RunningTrains(trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, runningDate)
+    SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, runningDate
+    FROM temp_runningtrain;
+
+    -- Drop the temporary table
+    DROP TEMPORARY TABLE IF EXISTS temp_runningtrain;
+END //
+
+DELIMITER ;
+
+----------------------------------------------
+DELIMITER //
+
+CREATE PROCEDURE CopyTrainsDataWeek()
+BEGIN
+    -- Create a temporary table with the same structure as the RunningTrains table
+    CREATE TEMPORARY TABLE IF NOT EXISTS temp_runningtrain AS
+    SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, NULL AS runningDate
+    FROM trains LIMIT 0;
+
+    -- Calculate the start and end dates for one week
+    SET @startDate =  DATE_ADD(@startDate, INTERVAL 1 DAY);
+    SET @endDate = DATE_ADD(@startDate, INTERVAL 7 DAY);
+
+    -- Iterate through the dates for one week
+    WHILE @startDate <= @endDate DO
+        -- Copy data from the trains table to the temporary table, excluding the last 7 columns
+        INSERT INTO temp_runningtrain(trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType)
+        SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType
+        FROM trains;
+
+        -- Insert current datetime if the train runs on that day
+        UPDATE temp_runningtrain AS rt
+        INNER JOIN trains AS t ON rt.trnNo = t.trnNo
+        SET rt.runningDate = CASE
+            WHEN DAYOFWEEK(@startDate) = 1 AND t.sun = 1 THEN CURRENT_TIMESTAMP
+            WHEN DAYOFWEEK(@startDate) = 2 AND t.mon = 1 THEN CURRENT_TIMESTAMP
+            WHEN DAYOFWEEK(@startDate) = 3 AND t.tue = 1 THEN CURRENT_TIMESTAMP
+            WHEN DAYOFWEEK(@startDate) = 4 AND t.wed = 1 THEN CURRENT_TIMESTAMP
+            WHEN DAYOFWEEK(@startDate) = 5 AND t.thu = 1 THEN CURRENT_TIMESTAMP
+            WHEN DAYOFWEEK(@startDate) = 6 AND t.fri = 1 THEN CURRENT_TIMESTAMP
+            WHEN DAYOFWEEK(@startDate) = 7 AND t.sat = 1 THEN CURRENT_TIMESTAMP
+            ELSE NULL
+        END;
+
+        -- Insert data from the temporary table into the RunningTrains table
+        INSERT INTO RunningTrains(trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, runningDate)
+        SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, runningDate
+        FROM temp_runningtrain;
+
+        -- Clear the temporary table for the next date
+        TRUNCATE TABLE temp_runningtrain;
+
+        -- Increment the start date
+        SET @startDate = DATE_ADD(@startDate, INTERVAL 1 DAY);
+    END WHILE;
+
+    -- Drop the temporary table
+    DROP TEMPORARY TABLE IF EXISTS temp_runningtrain;
+END //
+
+DELIMITER ;
+
+drop procedure CopyTrainsData;
+call CopyTrainsDataWeek();
+SELECT CURRENT_DATE();
+select * from temp_runningtrain;
+
+
+
+-- --------------------------------------------------
+call CopyTrainsData();
+drop procedure CopyTrainsData;
+
+DELIMITER //
+
+CREATE PROCEDURE CopyTrainsData()
+BEGIN
+    DECLARE startDate DATE;
+    set startDate = current_date();
+    SET startDate = DATE_ADD(startDate, INTERVAL 7 DAY);
+    if (select count(*) from RunningTrains where runningDate<curdate()) > 0 then
+    delete from RunningTrains where runningDate<curdate();
+        -- Insert data into the RunningTrain table for the current date
+        INSERT INTO RunningTrains (trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, runningDate)
+        SELECT trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, startDate
+        FROM trains
+        WHERE 
+            CASE DAYOFWEEK(startDate)
+                WHEN 1 THEN sun
+                WHEN 2 THEN mon
+                WHEN 3 THEN tue
+                WHEN 4 THEN wed
+                WHEN 5 THEN thu
+                WHEN 6 THEN fri
+                WHEN 7 THEN sat
+            END = 1;
+    END if;
+END //
+
+DELIMITER ;
+call CopyTrainsData();
+-- ------------------------
+truncate table RunningTrains;
+select * from RunningTrains;
+select * from trains;
+ALTER TABLE RunningTrains
+ADD CONSTRAINT unique_runningDate_trnNo UNIQUE (runningDate, trnNo);
+INSERT INTO RunningTrains (trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, runningDate) values(
+'12835', 'Bhopal Express', '31', '33', '06:00:00', '08:40:00', '320', 'Express', '2023-05-27');
+--------------------------------------------------------------------------------
+
+-- Insert dummy data into trains table
+INSERT INTO trains (trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, mon, tue, wed, thu, fri, sat, sun)
+VALUES
+  (12835, 'Bhopal Express', 31, 33, '06:00:00', '08:40:00', 320.0, 'Express', 1, 0, 1, 0, 1, 0, 1),
+  (12945, 'Jabalpur Superfast', 32, 33, '09:30:00', '13:00:00', 390.0, 'Superfast', 1, 0, 1, 0, 1, 0, 1),
+  (12367, 'Ujjain Intercity', 34, 31, '10:45:00', '12:55:00', 170.0, 'Intercity', 0, 1, 0, 1, 0, 1, 0),
+  (12489, 'Indore Rajdhani', 36, 33, '14:30:00', '20:50:00', 500.0, 'Rajdhani', 0, 1, 0, 1, 0, 1, 0);
+
+--------------------------------------------------------------------------------
+
+-- Create Distance table
+CREATE TABLE Distance (
+  startSId INT,
+  endSid INT,
+  distBtwStn FLOAT,
+  timeDiff TIME
+);
+
+-- Insert dummy data with distance and time difference
+INSERT INTO Distance (startSId, endSid, distBtwStn, timeDiff)
+VALUES
+  (31, 32, 230.0, SEC_TO_TIME((230 / 100) * 7200)),  -- Bhopal Junction to Jabalpur Junction
+  (31, 33, 320.0, SEC_TO_TIME((320 / 100) * 7200)),  -- Bhopal Junction to Gwalior Junction
+  (31, 34, 170.0, SEC_TO_TIME((170 / 100) * 7200)),  -- Bhopal Junction to Ujjain Junction
+  (31, 36, 420.0, SEC_TO_TIME((420 / 100) * 7200)),  -- Bhopal Junction to Indore Junction
+  (32, 33, 390.0, SEC_TO_TIME((390 / 100) * 7200)),  -- Jabalpur Junction to Gwalior Junction
+  (32, 34, 410.0, SEC_TO_TIME((410 / 100) * 7200)),  -- Jabalpur Junction to Ujjain Junction
+  (32, 36, 340.0, SEC_TO_TIME((340 / 100) * 7200)),  -- Jabalpur Junction to Indore Junction
+  (33, 34, 310.0, SEC_TO_TIME((310 / 100) * 7200)),  -- Gwalior Junction to Ujjain Junction
+  (33, 36, 500.0, SEC_TO_TIME((500 / 100) * 7200)),  -- Gwalior Junction to Indore Junction
+  (34, 36, 380.0, SEC_TO_TIME((380 / 100) * 7200));  -- Ujjain Junction to Indore Junction
+--------------------------------------------------------------------------------
+vINSERT INTO Seats (STrainNo, BoogieNo, CurrentBogie, SeatType, SeatAvlbl)
+VALUES (12945, 'A1', 1, '1AC', 80),
+       (12945, 'B1', 0, '1AC', 0 ), -- 1AC boogie (not current boogie)
+       (12945, 'C1', 1, '3AC', 80 ), -- 3AC boogie
+       (12945, 'C2', 0, '3AC', 80 ), -- 3AC boogie (not current boogie)
+       (12945, 'S1', 1, 'General', 80), -- General boogie
+       (12945, 'S2', 0, 'General', 80), -- General boogie
+       (12945, 'S3', 0, 'General', 80), -- General boogie
+       (12945, 'S4', 0, 'General', 80 ), -- General boogie
+       (12945, 'S5', 0, 'General', 80 ), -- General boogie
+       (12945, 'S6', 0, 'General', 80);
+
+
+
