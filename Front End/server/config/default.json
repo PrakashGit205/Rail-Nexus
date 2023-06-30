@@ -1,0 +1,7 @@
+{
+    "PORT":9999,
+    "host" : "localhost",
+    "user" : "root",
+    "password" : "manager",
+    "database" : "IRCTC"
+}

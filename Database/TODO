@@ -251,6 +251,37 @@ we have a distance btw all the stations
 if a train sequence is 1 to 8 user want to go from 2-6 
 we will take total time and distance btw them
 
+-----------------------------------------------------
+table
+-- we have to insert all the possible route of train in trainroute table we can
+--  have a tabale wherewe know the sequence of stations 
+-- by using sequence if seqence is a b c d and train goes from a to d then it goes 
+-- from a - b and b-c and c-d and all the comibnation which can be made ;
+
+create table SequenceStn( stnCode varchar(10), sequence mediumint);
+-- we will use it as format in string and when i have to search from
+-- a station to b stations we will use like function which means if 
+-- train contains this station name we get this train 
+-- easy peasy
+
+-- Create trainroute table
+CREATE TABLE trainroute (
+  route_id INT AUTO_INCREMENT PRIMARY KEY,
+  train_number INT,
+  start_station VARCHAR(50),
+  end_station VARCHAR(50),
+  sequence VARCHAR(100)
+);
+
+-- Insert random data into trainroute table
+INSERT INTO trainroute (train_number, start_station, end_station, sequence)
+VALUES
+  (10001, 'Station A', 'Station D', 'A-B-C-D'),
+  (10002, 'Station X', 'Station Y', 'X-Y'),
+  (10003, 'Station P', 'Station Q', 'P-Q'),
+  (10004, 'Station M', 'Station N', 'M-N'),
+  (10005, 'Station K', 'Station L', 'K-L'),
+  (10006, 'Station U', 'Station V', 'U-V');
 
 
 

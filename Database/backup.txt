@@ -458,3 +458,72 @@ VALUES (12945, 'A1', 1, '1AC', 80),
 
 
 
+
+INSERT INTO trainroute (trainNo, startTime, endTime, startSid, endSid)
+SELECT t.trnNo, t.startTime, ADDTIME(t.endTime, d.timeDiff), d.startSid, d.endSid
+FROM trains AS t
+JOIN Distance AS d ON t.startSid = d.startSid AND t.endSid = d.endSid
+WHERE t.startSid = 31 AND t.endSid = 36;
+
+INSERT INTO trainroute (trainNo, startTime, endTime, startSid, endSid)
+SELECT t.trnNo, ADDTIME(t.endTime, d.timeBtwStn), ADDTIME(t.endTime, ADDTIME(d.timeDiff, d2.timeDiff)), d.endSid, d2.endSid
+FROM trains AS t
+JOIN Distance AS d ON t.startSid = d.startSid AND t.endSid = d.endSid
+JOIN Distance AS d2 ON d.endSid = d2.startSid
+WHERE t.startSid = 31 AND t.endSid = 36;
+create table trainroute (trainNo int , startSid int, endSid int);
+;
+
+-- ---------------------------------------
+INSERT INTO trainroute (trainNo, startSid, endSid)
+SELECT t.trnNo , d.startSid, d.endSid
+FROM trains AS t
+JOIN Distance AS d ON t.startSid = d.startSid AND t.endSid = d.endSid
+WHERE t.startSid = 31 AND t.endSid = 33;
+
+INSERT INTO trainroute (trainNo, startSid, endSid)
+SELECT t.trnNo, d.endSid, d2.endSid
+FROM trains AS t
+JOIN Distance AS d ON t.startSid = d.startSid AND t.endSid = d.endSid
+JOIN Distance AS d2 ON d.endSid = d2.startSid;
+select * from trainroute ;
+select * from trains;
+drop table trainroute;
+create table TrainRoute(trnNo int,startTime time, endTime time, startSid int, endSid int);
+
+
+
+select count(*) from Distance;
+
+create table TrainRoute(trnNo int, startStnCode varchar(10),endStnCode varchar(10),startStnId int,endStnId int,arrivalTime datetime, deptTime datetime);
+-- wwe will take trainnum from train and start and end from train table and station names from station table
+-- we have to insert all the possible route of train in trainroute table we can
+--  have a tabale wherewe know the sequence of stations 
+-- by using sequence if seqence is a b c d and train goes from a to d then it goes 
+-- from a - b and b-c and c-d and all the comibnation which can be made ;
+
+create table SequenceStn( stnCode varchar(10), sequence mediumint);
+-- we will use it as format in string and when i have to search from
+-- a station to b stations we will use like function which means if 
+-- train contains this station name we get this train 
+-- easy peasy
+
+-- Create trainroute table
+CREATE TABLE trainroute (
+  route_id INT AUTO_INCREMENT PRIMARY KEY,
+  train_number INT,
+  start_station VARCHAR(50),
+  end_station VARCHAR(50),
+  sequence VARCHAR(100)
+);
+
+-- Insert random data into trainroute table
+INSERT INTO trainroute (train_number, start_station, end_station, sequence)
+VALUES
+  (10001, 'Station A', 'Station D', 'A-B-C-D'),
+  (10002, 'Station X', 'Station Y', 'X-Y'),
+  (10003, 'Station P', 'Station Q', 'P-Q'),
+  (10004, 'Station M', 'Station N', 'M-N'),
+  (10005, 'Station K', 'Station L', 'K-L'),
+  (10006, 'Station U', 'Station V', 'U-V');
+

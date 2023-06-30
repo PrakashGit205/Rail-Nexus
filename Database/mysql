@@ -925,9 +925,38 @@ DELIMITER ;
 
 --------------------------------------------------------------------------------
 
+INSERT INTO trains (trnNo, trnName, startSid, endSid, startTime, endTime, srcDestDist, trainType, mon, tue, wed, thu, fri, sat, sun)
+VALUES
+('12368', 'Ujjain Intercity', '31', '34', '10:45:00', '12:55:00', '170', 'Intercity', '0', '1', '0', '1', '0', '1', '0'),
+('12490', 'Indore Rajdhani', '33', '36', '14:30:00', '20:50:00', '500', 'Rajdhani', '0', '1', '0', '1', '0', '1', '0'),
+('12836', 'Bhopal Express', '36', '31', '06:00:00', '08:40:00', '320', 'Express', '1', '1', '1', '1', '1', '1', '1'),
+('12946', 'Jabalpur Superfast', '36', '32', '09:30:00', '13:00:00', '390', 'Superfast', '1', '0', '1', '0', '1', '0', '1');
 
 
+CREATE TABLE TrainRoute (
+  route_id INT AUTO_INCREMENT PRIMARY KEY,
+  trnNo INT,
+  sequence VARCHAR(1000)
+);
+select * from TrainRoute;
+ALTER TABLE TrainRoute
+ADD CONSTRAINT fk_trainNumber
+FOREIGN KEY (trnNo)
+REFERENCES trains (trnNo);
 
+INSERT INTO TrainRoute (trnNo,sequence)
+VALUES
+  ('12368', 'UJN-INDB-GWL-HBJ-BPL'),
+  ('12490',  'GWL-BPL-INDB'),
+  ('12836',  'INDB-UJn-BPL'),
+  ('12946', 'INDB-UJN- BPL-JBP');
+  
+  INSERT INTO TrainRoute (trnNo,sequence)
+VALUES
+  ('12367', 'BPL-HBJ-GWL-INDB-UJN'),
+  ('12489',  'INDB-BPL-GWL'),
+  ('12835',  'BPL-UJn-INDB'),
+  ('12945', 'JBP-BPL-UJN-INDB');
 --------------------------------------------------------------------------------
 
 
