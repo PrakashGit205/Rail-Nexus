@@ -16,12 +16,12 @@ function Trains(props) {
                                 <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                                     <div className="team-item p-4">
                                         <h5 className="mb-0">{train.trnName}</h5>
-                                        <p>{ train.trnNo }</p>
+                                        <p>{train.trnNo}</p>
                                         <p>{train.startTime} {" "}  - {" "}   {train.endTime}</p>
                                         <div className="btn-slide mt-2">
-                                            <button onClick={() => { props.LoadSeat(train.trnNo) }} className="btn-slide mt-2" style={{backgroundColor : "white", border : 'none'}}  >
-                                                <i style={{backgroundRepeat : 'no-repeat'}} className="fa fa-arrow-right"></i><span  >Seat Details</span></button>
-                                        
+                                            <button onClick={() => { props.LoadSeat(train.trnNo) }} className="btn-slide mt-2" style={{ backgroundColor: "white", border: 'none' }}  >
+                                                <i style={{ backgroundRepeat: 'no-repeat' }} className="fa fa-arrow-right"></i><span  >Seat Details</span></button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@ function Trains(props) {
                     }
                 </div>
                 <div>
-                <button onClick={()=>{props.formDisplay ('block')}} className="btn btn-primary w-10 py-3" type="submit">Back To Form</button>
+                    <button onClick={() => { props.formDisplay('block') }} className="btn btn-primary w-10 py-3" type="submit" > {"<-"} Back To Form </button>
 
                 </div>
             </div>

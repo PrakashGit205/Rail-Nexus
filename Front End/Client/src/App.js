@@ -86,7 +86,7 @@ function App() {
         <span className="sr-only">Loading...</span>
       </div>
     </div> */}
-    <NavBar></NavBar>
+    {/* <NavBar></NavBar> */}
     <Corousel></Corousel>
     {/* <Controllor></Controllor> */}
     <TrainForm textchange={textchange} {...trainsReqrmnt} formDisplay={formDisplay} LoadTrain={LoadTrain}></TrainForm>

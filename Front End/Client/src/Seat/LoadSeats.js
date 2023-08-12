@@ -1,5 +1,12 @@
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function LoadSeats(props) {
+    const history = useHistory();
+    const CallPassenger = () => {
+        history.push("/passenger-details");
+}
+
+
     var count = 0;
     var count2 = 0;
     return (<div className="container-xxl py-5" style={{ display: props.seatDisplay }}>
@@ -28,7 +35,7 @@ function LoadSeats(props) {
                                             <i className="fa fa-users fa-2x text-white mb-3"></i>
                                             <h3 className="text-white mb-0">{seat.SeatType}</h3>
                                             <h2 className="text-white mb-2" data-toggle="counter-up">{seat.Seat}</h2>
-                                            <button className="btn btn-light py-1 px-2">Book Now</button>
+                                            <button className="btn btn-light py-1 px-2" onClick={CallPassenger}>Book Now</button>
                                         </div>
                                     )
                                 })
@@ -48,7 +55,7 @@ function LoadSeats(props) {
                                             <i className="fa fa-users fa-2x text-white mb-3"></i>
                                             <h3 className="text-white mb-0">{seat.SeatType}</h3>
                                             <h2 className="text-white mb-2" data-toggle="counter-up">{seat.Seat}</h2>
-                                            <button className="btn btn-light py-1 px-2">Book Now</button>
+                                            <button className="btn btn-light py-1 px-2" onClick={CallPassenger}>Book Now</button>
 
                                         </div>
                                     )

@@ -3,7 +3,7 @@ package com.irctc.passengers;
 //import java.sql.LocalDateTime;
 import java.time.LocalDateTime;
 
-public class Passengers {
+public class Passengers implements Comparable<String>{
 	private String name;
 	private String gender;
 	private String pnrNo;
@@ -182,6 +182,14 @@ public class Passengers {
 				+ ", destStnNum=" + destStnNum + ", sourceStnNum=" + sourceStnNum + ", trnNum=" + trnNum
 				+ ", bookingDate=" + bookingDate + ", seatNo=" + seatNo + ", boogieNo=" + boogieNo + ", status="
 				+ status + ", fair=" + fair + ", journeyDate=" + journeyDate + "]";
+	}
+
+	@Override
+	public int compareTo(String o) {
+		// TODO Auto-generated method stub
+		if(this.gender.equals(o) == true)
+		return 0;
+		else return 1;
 	}
 
 }

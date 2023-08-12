@@ -1,4 +1,5 @@
 import { useState } from "react";
+import NavBar from "../NavBar/NavBar";
 
 function TrainForm(props) {
     const [stations, setStaions] = useState([]);
@@ -18,7 +19,8 @@ function TrainForm(props) {
         LoadStation();
     }, [])
 
-    return (
+    return (<>
+        <NavBar></NavBar>
         <div class="container-xxl py-5" style={{ display: props.formDisplay }}>
             <div class="container py-5">
                 <div class="row g-5 align-items-center">
@@ -49,7 +51,7 @@ function TrainForm(props) {
                                 }} type="date" class="form-control border-0" placeholder="Journey Date" value={props.journeyDate} name="journeyDate" />
                                 </div>
                                 <div className="col-12">
-                                    <button className="btn btn-primary w-100 py-3" type="submit" onClick={props.LoadTrain}>Find Train</button>
+                                    <button className="btn btn-dark w-100 py-3" type="submit" onClick={props.LoadTrain}>Find Train</button>
                                 </div>
                             </div>
 
@@ -63,13 +65,14 @@ function TrainForm(props) {
                             <i class="fa fa-headphones fa-2x flex-shrink-0 bg-primary p-3 text-white"></i>
                             <div class="ps-4">
                                 <h6>Call for any query!</h6>
-                                <h3 class="text-primary m-0">+91 79999 29 288</h3>
+                                <h3 class="text-primary m-0">+91 8055-971-351</h3>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>);
+        </div>
+        </>);
 }
 
 export default TrainForm;
