@@ -1,6 +1,5 @@
 package com.railnexus.pojos;
 
-
 //import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -23,6 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 @Entity
 @Table(name = "stations")
 @Getter
@@ -32,70 +32,75 @@ import lombok.ToString;
 @ToString
 public class Station {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-    @Column(name = "name", length = 80, nullable = false)
-    private String name;
+	@Column(name = "name", length = 80, nullable = false)
+	private String name;
 
-    @Column(name = "code", length = 10,nullable = false)
-    private String code;
+	@Column(name = "code", length = 10, nullable = false)
+	private String code;
 
-    @Column(name = "cityName", length = 30, nullable = false)
-    private String cityName;
+	@Column(name = "cityName", length = 30, nullable = false)
+	private String cityName;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "trains_stations",
-               joinColumns = @JoinColumn(name = "station_id"),
-               inverseJoinColumns = @JoinColumn(name = "train_no"))
-    private Set<Train> trains = new HashSet<>();
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE },fetch = FetchType.LAZY)
+	@JoinTable(name = "trains_stations", joinColumns = @JoinColumn(name = "station_id"), inverseJoinColumns = @JoinColumn(name = "train_no"))
+	private Set<Train> trains = new HashSet<>();
 
-    @OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Train> originatingTrains = new HashSet<>();
+	public boolean addTrainRouteToStation(Train train) {
+		train.getTrainRoute().add(this);
+		return trains.add(train);
+	}
 
-    @OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Train> terminatingTrains = new HashSet<>();
-    
-    @OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Distance> originatingTrainsDist = new HashSet<>();
+	public boolean removeTrainFromStation(Train train) {
+		train.getTrainRoute().remove(this);
+		return trains.remove(train);
+	}
 
-    @OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Distance> terminatingTrainsDist = new HashSet<>();
-    
-    // Constructors, getters, setters, and other methods
+	@OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Train> originatingTrains = new HashSet<>();
 
-    public boolean addOriginatingTrain(Train train) {
-        train.setOriginStation(this);
-        return originatingTrains.add(
-        		train);
-    }
+	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Train> terminatingTrains = new HashSet<>();
 
-    public boolean addTerminatingTrain(Train train) {
-        train.setDestinationStation(this);
-        return terminatingTrains.add(train);
-    }
+	@OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Distance> originatingTrainsDist = new HashSet<>();
 
-    public boolean removeOriginatingTrain(Train train) {
-        train.setOriginStation(null);
-        return originatingTrains.remove(train);
-    }
+	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Distance> terminatingTrainsDist = new HashSet<>();
 
-    public boolean removeTerminatingTrain(Train train) {
-        train.setDestinationStation(null);
-        return terminatingTrains.remove(train);
-    }
+	// Constructors, getters, setters, and other methods
 
+	public boolean addOriginatingTrain(Train train) {
+		train.setOriginStation(this);
+		return originatingTrains.add(train);
+	}
 
-    public boolean addTrain(Train train) {
-        return trains.add(train);
-    }
+	public boolean addTerminatingTrain(Train train) {
+		train.setDestinationStation(this);
+		return terminatingTrains.add(train);
+	}
 
-    public boolean removeTrain(Train train) {
-        return trains.remove(train);
-    }
+	public boolean removeOriginatingTrain(Train train) {
+		train.setOriginStation(null);
+		return originatingTrains.remove(train);
+	}
 
+	public boolean removeTerminatingTrain(Train train) {
+		train.setDestinationStation(null);
+		return terminatingTrains.remove(train);
+	}
+
+	public boolean addTrain(Train train) {
+		return trains.add(train);
+	}
+
+	public boolean removeTrain(Train train) {
+		return trains.remove(train);
+	}
 
 	@Override
 	public int hashCode() {
@@ -114,5 +119,4 @@ public class Station {
 		return id == other.id;
 	}
 
-    
 }

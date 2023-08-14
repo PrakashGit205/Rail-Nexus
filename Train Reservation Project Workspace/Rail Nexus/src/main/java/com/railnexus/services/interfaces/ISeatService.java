@@ -6,4 +6,5 @@ import com.railnexus.pojos.Seat;
 
 public interface ISeatService {
 	List<Seat> showAvailableSeats(Long trainNo);
+	
 }

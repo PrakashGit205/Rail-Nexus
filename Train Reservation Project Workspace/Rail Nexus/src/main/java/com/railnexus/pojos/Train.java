@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.railnexus.pojos.enums.TrainType;
 
 import lombok.AllArgsConstructor;
@@ -34,32 +35,75 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Train {
+public class Train extends SuperId {
 
 	@ManyToMany(mappedBy = "trains")
 	private List<Station> trainRoute = new ArrayList<>();
+
+	public boolean addStationToRoute(Station station) {
+		trainRoute.add(station);
+		return	station.getTrains().add(this);
+	}
+
+	public boolean removeStationFromRoute(Station station) {
+		trainRoute.remove(station);
+		return	station.getTrains().remove(this);
+	}
+
 	@OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Fair> fairs = new ArrayList<>();
+
+	public boolean addFair(Fair fair) {
+		fair.setTrain(this);
+		return fairs.add(fair);
+	}
+
+	public boolean removeFair(Fair fair) {
+		fair.setTrain(null);
+		return fairs.remove(fair);
+	}
 
 	@OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Seat> seats = new ArrayList<>();
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	public boolean addSeat(Seat seat) {
+		seat.setTrain(this);
+		return seats.add(seat);
+	}
+
+	public boolean removeSeat(Seat seat) {
+		seat.setTrain(null);
+		return seats.remove(seat);
+	}
+
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "origin_station", nullable = false)
 	private Station originStation;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "destination_station", nullable = false)
 	private Station destinationStation;
-
-	@Id
+	
+	public boolean addOriginStation(Station station) {
+		originStation = station;
+		return station.getOriginatingTrains().add(this);
+	}
+	
+	public boolean addDestinationStation(Station station) {
+		destinationStation = station;
+		return station.getTerminatingTrains().add(this);
+	}
+	
+	
+	
 	@Column(name = "train_no")
-	private Long id;
+	private Long trainNo;
 
 	@Column(name = "train_name", length = 100, nullable = false)
 	private String trainName;
 	@Column(name = "origin_time")
-	private LocalTime originTIme;
+//	@JsonFormat(pattern = "HH:mm:ss")
+	private LocalTime originTime;
 
 	@Column(name = "origin_dest_distance")
 	private Double originDestDistance;
@@ -68,13 +112,7 @@ public class Train {
 	@Column(length = 15, name = "train_type")
 	private TrainType trainType;
 
-	public List<Fair> getFairs() {
-		return fairs;
-	}
-
-	public void setFairs(List<Fair> fairs) {
-		this.fairs = fairs;
-	}
+	
 
 	@Column(name = "mon")
 	private boolean monday;
@@ -97,22 +135,14 @@ public class Train {
 	@Column(name = "sun")
 	private boolean sunday;
 
-	public boolean addRoute(Station station) {
-		return trainRoute.add(station);
-	}
-
-	public boolean removeRoute(Station station) {
-		return trainRoute.remove(station);
-	}
-
 	public Train(Long trainNo, String trainName, Station originStation, Station destinationStation,
-			LocalTime originTIme, Double originDestDistance, List<Station> trainRoute, TrainType trainType) {
+			LocalTime originTime, Double originDestDistance, List<Station> trainRoute, TrainType trainType) {
 		super();
-		this.id = trainNo;
+		this.trainNo = trainNo;
 		this.trainName = trainName;
 		this.originStation = originStation;
 		this.destinationStation = destinationStation;
-		this.originTIme = originTIme;
+		this.originTime = originTime;
 		this.originDestDistance = originDestDistance;
 		this.trainRoute = trainRoute;
 		this.trainType = trainType;
@@ -120,7 +150,7 @@ public class Train {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(trainNo);
 	}
 
 	@Override
@@ -132,7 +162,7 @@ public class Train {
 		if (getClass() != obj.getClass())
 			return false;
 		Train other = (Train) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(trainNo, other.trainNo);
 	}
 
 }

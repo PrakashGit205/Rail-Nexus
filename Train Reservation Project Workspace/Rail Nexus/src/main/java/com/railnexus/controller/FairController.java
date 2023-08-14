@@ -2,6 +2,7 @@ package com.railnexus.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,17 +19,20 @@ import com.railnexus.services.interfaces.IFairService;
 public class FairController {
 	@Autowired
 	private FairDao dao;
-	
+
 	@Autowired
 	private IFairService service;
-	
+	@Autowired
+	private ModelMapper model;
+
 	@GetMapping("/{trainNo}")
-	public List<Fair> showAvailaSeatsByTrain( @PathVariable Long trainNo){
+	public List<Fair> showAvailaSeatsByTrain(@PathVariable Long trainNo) {
 		return service.showFairByTrainId(trainNo);
 	}
+
 	@GetMapping("/{trainNo}/{classType}")
-	public List<Fair> showAvailaSeatsByClass( @PathVariable Long trainNo,@PathVariable String classType){
-		return service.showBoogieFair(trainNo,classType);
+	public List<Fair> showAvailaSeatsByClass(@PathVariable Long trainNo, @PathVariable String classType) {
+		return service.showBoogieFair(trainNo, classType);
 	}
 
 }

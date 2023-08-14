@@ -32,7 +32,7 @@ public class Fair extends SuperId {
 	@Column(name = "seat_type", length = 30)
 	private ClassType classType;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "train_no")
 	private Train train;
 

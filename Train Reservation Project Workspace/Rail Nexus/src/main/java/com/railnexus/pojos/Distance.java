@@ -1,6 +1,7 @@
 package com.railnexus.pojos;
 
 import javax.annotation.Generated;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,11 +28,11 @@ import lombok.ToString;
 @Table(name = "distance")
 public class Distance extends SuperId {
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "origin_station",nullable = false)
 	private Station originStation;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "destination_station",nullable = false)
 	private Station destinationStation;
 	@Column(nullable = false)
