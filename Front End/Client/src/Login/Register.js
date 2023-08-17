@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+    import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import NavBar from "../NavBar/NavBar";
 
 function Register() {
@@ -15,7 +15,6 @@ function Register() {
            
     }
     useEffect(()=>{
-
         setTimeout(() => {
             setMessage("");
         }, 3000);

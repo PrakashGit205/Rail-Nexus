@@ -29,11 +29,11 @@ import lombok.ToString;
 public class Distance extends SuperId {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "origin_station",nullable = false)
+	@JoinColumn(name = "origin_station_id",nullable = false)
 	private Station originStation;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "destination_station",nullable = false)
+	@JoinColumn(name = "destination_station_id",nullable = false)
 	private Station destinationStation;
 	
 	@Column(nullable = false)

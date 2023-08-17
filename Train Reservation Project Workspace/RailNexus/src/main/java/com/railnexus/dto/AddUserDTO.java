@@ -19,7 +19,6 @@ public class AddUserDTO {
     private String address;
     private String email;
     private String userName;
-    private LocalDate regDate;
     private String mobile;
     private String gender;
     private String password;

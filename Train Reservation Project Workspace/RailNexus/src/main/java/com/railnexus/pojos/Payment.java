@@ -35,7 +35,13 @@ public class Payment extends SuperId {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "passenger_id")
 	private Passenger passenger;
-
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
+	
+	
+	
 	@Column(nullable = false)
 	private Double amount;
 

@@ -42,11 +42,16 @@ public class User extends SuperId {
 	@Column(name = "mobile",length = 15,nullable = false,unique = true )
 	private String mobile;
 	
-	@Column(name = "gender",length = 1)
+	@Column(name = "gender",length = 10)
 	private String gender;
 	
 	@OneToMany(mappedBy = "user")
 	private List<Passenger> passengers = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user")
+	private List<PassengerHistory> passengersHistory = new ArrayList<>();
+	
+	
 	
 	@Override
 	public int hashCode() {

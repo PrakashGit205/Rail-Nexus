@@ -1,19 +1,34 @@
 import { useState } from "react";
 import NavBar from "../NavBar/NavBar";
-
+import stationService from "../Services/Station.Service";
 function TrainForm(props) {
     const [stations, setStaions] = useState([]);
+    // const LoadStation = () => {
+    //     var server = new XMLHttpRequest();
+    //     server.onreadystatechange = () => {
+    //         debugger;
+    //         if (server.readyState == 4 && server.status == 200) {
+    //             console.log(server.responseText)
+    //             debugger;
+    //             setStaions(JSON.parse(server.responseText));
+    //         }
+    //     }
+    //     server.open("GET", "http://localhost:7070/station");
+    //     server.send();
+    // }
     const LoadStation = () => {
-        var server = new XMLHttpRequest();
-        server.onreadystatechange = () => {
-            debugger;
-            if (server.readyState == 4 && server.status == 200) {
-                setStaions(JSON.parse(server.responseText));
-            }
-        }
-        server.open("GET", "http://127.0.0.1:9999/stations");
-        server.send();
-    }
+        stationService
+          .getAll()
+          .then((response) => {
+            console.log('Printing employees data', response.data);
+            setStaions(response.data);
+            // setTempemp(response.data);
+            //  console.warn(response.data);
+          })
+          .catch((error) => {
+            console.log('Something went wrong', error);
+          });
+      };
 
     useState(() => {
         LoadStation();
@@ -23,7 +38,7 @@ function TrainForm(props) {
         <NavBar></NavBar>
         <div class="container-xxl py-5" style={{ display: props.formDisplay }}>
             <div class="container py-5">
-                <div class="row g-5 align-items-center">
+                <div class="row g-10 align-items-right">
                     <div className="col-lg-7">
                         <div className="bg-light text-center p-5 wow fadeIn" data-wow-delay="0.5s">
 
@@ -57,18 +72,7 @@ function TrainForm(props) {
 
                         </div>
                     </div>
-                    <div class="col-lg-5 wow fadeInUp" data-wow-delay="0.1s">
-                        <h6 class="text-secondary text-uppercase mb-3">Get A Ticket</h6>
-                        <h1 class="mb-5">Get First Ticket Free!</h1>
-                        <p class="mb-5">In the auspicious day of our Start of the Journey we are giving free ticket for First Travelling</p>
-                        <div class="d-flex align-items-center">
-                            <i class="fa fa-headphones fa-2x flex-shrink-0 bg-primary p-3 text-white"></i>
-                            <div class="ps-4">
-                                <h6>Call for any query!</h6>
-                                <h3 class="text-primary m-0">+91 8055-971-351</h3>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -13,6 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserResponseDTO {
+	private Long id;
 	 private String firstName;
 	    private String lastName;
 	    private String address;

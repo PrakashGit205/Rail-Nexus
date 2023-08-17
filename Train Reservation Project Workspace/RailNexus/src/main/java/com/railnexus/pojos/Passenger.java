@@ -42,7 +42,7 @@ public class Passenger extends SuperId {
     @Column(name = "PNR", length = 10,unique = true)
     private String PNR;
 
-    @Column(name = "name", length = 30, nullable = false)
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @Column(name = "gender", length = 6, nullable = false)

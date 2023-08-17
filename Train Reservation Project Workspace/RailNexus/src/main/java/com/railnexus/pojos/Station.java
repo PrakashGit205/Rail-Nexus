@@ -40,7 +40,7 @@ public class Station extends SuperId {
 	@Column(name = "name", length = 80, nullable = false)
 	private String name;
 
-	@Column(name = "code", length = 10, nullable = false,unique = true)
+	@Column(name = "code", length = 10, nullable = false, unique = true)
 	private String code;
 
 	@Column(name = "cityName", length = 30, nullable = false)
@@ -48,51 +48,68 @@ public class Station extends SuperId {
 
 	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<Passenger> arrivingPassengers = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "sourceStation", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<Passenger> departingPassengers = new ArrayList<>();
-	
-	
-	
-	
+
 	@OneToMany(mappedBy = "currentStation", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<RunningTrain> runningTrains = new ArrayList<>();
+
 	
-	 public void addArrivingPassenger(Passenger passenger) {
-	        arrivingPassengers.add(passenger);
-	        passenger.setDestinationStation(this);
-	    }
+	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	private List<PassengerHistory> arrivedPassengersHistory = new ArrayList<>();
 
-	    public void removeArrivingPassenger(Passenger passenger) {
-	        arrivingPassengers.remove(passenger);
-	        passenger.setDestinationStation(null);
-	    }
+	@OneToMany(mappedBy = "sourceStation", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	private List<PassengerHistory> departedPassengersHistory = new ArrayList<>();
 
-	    // Add and Remove methods for departingPassengers
-	    public void addDepartingPassenger(Passenger passenger) {
-	        departingPassengers.add(passenger);
-	        passenger.setSourceStation(this);
-	    }
-
-	    public void removeDepartingPassenger(Passenger passenger) {
-	        departingPassengers.remove(passenger);
-	        passenger.setSourceStation(null);
-	    }
-
-	    // Add and Remove methods for runningTrains
-	    public void addRunningTrain(RunningTrain train) {
-	        runningTrains.add(train);
-	        train.setCurrentStation(this);
-	    }
-
-	    public void removeRunningTrain(RunningTrain train) {
-	        runningTrains.remove(train);
-	        train.setCurrentStation(null);
-	    }
+	@OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Train> originatingTrains = new HashSet<>();
+	
+	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Train> terminatingTrains = new HashSet<>();
+	
+	@OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Distance> originatingTrainsDist = new HashSet<>();
+	
+	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Distance> terminatingTrainsDist = new HashSet<>();
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinTable(name = "trains_stations", joinColumns = @JoinColumn(name = "station_id"), inverseJoinColumns = @JoinColumn(name = "train_no"))
 	private Set<Train> trains = new HashSet<>();
+	
+	public void addArrivingPassenger(Passenger passenger) {
+		arrivingPassengers.add(passenger);
+		passenger.setDestinationStation(this);
+	}
+
+	public void removeArrivingPassenger(Passenger passenger) {
+		arrivingPassengers.remove(passenger);
+		passenger.setDestinationStation(null);
+	}
+
+	// Add and Remove methods for departingPassengers
+	public void addDepartingPassenger(Passenger passenger) {
+		departingPassengers.add(passenger);
+		passenger.setSourceStation(this);
+	}
+
+	public void removeDepartingPassenger(Passenger passenger) {
+		departingPassengers.remove(passenger);
+		passenger.setSourceStation(null);
+	}
+
+	// Add and Remove methods for runningTrains
+	public void addRunningTrain(RunningTrain train) {
+		runningTrains.add(train);
+		train.setCurrentStation(this);
+	}
+
+	public void removeRunningTrain(RunningTrain train) {
+		runningTrains.remove(train);
+		train.setCurrentStation(null);
+	}
+
 
 	public boolean addTrainRouteToStation(Train train) {
 		train.getTrainRoute().add(this);
@@ -104,17 +121,6 @@ public class Station extends SuperId {
 		return trains.remove(train);
 	}
 
-	@OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Train> originatingTrains = new HashSet<>();
-
-	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Train> terminatingTrains = new HashSet<>();
-
-	@OneToMany(mappedBy = "originStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Distance> originatingTrainsDist = new HashSet<>();
-
-	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Distance> terminatingTrainsDist = new HashSet<>();
 
 	// Constructors, getters, setters, and other methods
 
