@@ -1,0 +1,120 @@
+{
+  "id": 18234,
+  "trainName": "narmada Express",
+  "originStationId": 1,
+  "destinationStationId": 2,
+ "originTime":"18:09:00",
+  "originDestDistance": 900,
+  "trainType": "PASSENGER",
+  "monday": true,
+  "tuesday": true,
+  "wednesday": true,
+  "thursday": true,
+  "friday": true,
+  "saturday": true,
+  "sunday": true
+}
+
+
+{
+  "firstName": "Prakash",
+  "lastName": "Kumar",
+  "address": "Jabalpur",
+  "email": "p@gmail.com",
+  "userName": "prakash247",
+  "mobile": "1234567",
+  "gender": "male",
+  "password": "12345"
+}
+
+INSERT INTO `stations` VALUES (1,'Indore','INDB','Indore Junction'),(2,'Bhopal','BPL','Bhopal Junction');
+INSERT INTO trains (
+  id,
+  fri,
+  mon,
+  origin_dest_distance,
+  origin_time,
+  sat,
+  sun,
+  thu,
+  train_name,
+  train_no,
+  train_type,
+  tue,
+  wed,
+  destination_station,
+  origin_station
+) VALUES (
+  8,
+  1,
+  1,
+  1000,
+  '08:00:00',
+  1,
+  1,
+  1,
+  'Rajdhani Express',
+  123845,
+  'INTERCITY',
+  1,
+  1,
+  1,
+  2
+), (
+  5,
+  0,
+  1,
+  500,
+  '12:00:00',
+  1,
+  1,
+  1,
+  'Shatabdi Express',
+  675890,
+  'INTERCITY',
+  1,
+  1,
+  1,
+  2
+), (
+  6,
+  1,
+  0,
+  700,
+  '16:00:00',
+  0,
+  1,
+  1,
+  'Duronto Express',
+  464567,
+  'INTERCITY',
+  0,
+  1,
+  1,
+  2
+), (
+  7,
+  1,
+  1,
+  300,
+  '20:00:00',
+  1,
+  0,
+  1,
+  'Garib Rath Express',
+  987615,
+  'INTERCITY',
+  1,
+  0,
+  1,
+  2
+);
+select * from stations;
+select * from running_trains;
+select * from trains;
+INSERT INTO running_trains (id, delay, origin_date, current_station_id, train_id)
+VALUES
+  (1, 0, CURDATE()+1, 1, 1),
+  (2, 0, CURDATE()+1, 2, 2),
+  (3, 0, CURDATE(), 1, 3),
+  (4, 0, CURDATE(), 2, 4);

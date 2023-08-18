@@ -1,0 +1,47 @@
+General Shortcuts:
+
+Ctrl + N: Open New Wizard.
+Ctrl + S: Save the current file.
+Ctrl + Shift + S: Save All.
+Ctrl + Z: Undo.
+Ctrl + Y: Redo.
+Ctrl + F: Find text.
+Ctrl + H: Search and Replace.
+Ctrl + C: Copy selected text.
+Ctrl + X: Cut selected text.
+Ctrl + V: Paste copied/cut text.
+Ctrl + D: Delete line at cursor.
+Ctrl + / or Ctrl + Shift + /: Comment/uncomment selected lines.
+Ctrl + Space: Content Assist/Code Completion.
+Navigation Shortcuts:
+
+Ctrl + E: Show All Opened Files.
+Ctrl + Shift + E: Show All Opened Views.
+Ctrl + F6: Switch between open editors.
+Ctrl + Shift + T: Open Type.
+Ctrl + Shift + R: Open Resource.
+Ctrl + Shift + L: Show Key Assist.
+Spring Shortcuts:
+
+Ctrl + Alt + T: Quick access to refactorings.
+Ctrl + 1: Quick fix for errors.
+Ctrl + Space: Autocomplete/Content Assist.
+Ctrl + Shift + O: Organize imports.
+Ctrl + T: Show Type Hierarchy.
+Debugging Shortcuts:
+
+F5: Step into.
+F6: Step over.
+F7: Step return.
+F8: Resume/Continue debugging.
+Ctrl + Shift + B: Toggle breakpoint.
+Code Formatting and Styling:
+
+Ctrl + Shift + F: Format selected code.
+Ctrl + I: Correct indentation.
+Other Useful Shortcuts:
+
+Ctrl + Shift + L: Show all available shortcuts.
+Ctrl + Shift + P: Jump to matching bracket.
+Ctrl + Shift + F9: Rebuild all projects.
+Ctrl + Shift + C: Open Call Hierarchy.
