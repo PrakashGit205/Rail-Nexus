@@ -11,7 +11,7 @@ import Dashboard from './Pages/Dashboard';
 
 const Seats = () => <h1>Seats Content</h1>;
 
-function App() {
+function Admin() {
 
 
   return (
@@ -30,4 +30,4 @@ function App() {
   );
 }
 
-export default App;
+export default Admin;

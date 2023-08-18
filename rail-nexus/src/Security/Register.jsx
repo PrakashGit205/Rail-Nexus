@@ -211,6 +211,9 @@ function Register() {
         >
           Register
         </button>
+        <br />
+        <br />
+        <br />
       </div>
     </div>
   );

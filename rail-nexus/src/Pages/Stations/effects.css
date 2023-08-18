@@ -1,0 +1,28 @@
+.fade-in {
+  animation: fadeInAnimation 1s ease-in-out forwards;
+}
+
+.fade-out {
+  animation: fadeOutAnimation 1s ease-in-out forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(0);
+      }
+}
+
+@keyframes fadeOutAnimation {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    
+}

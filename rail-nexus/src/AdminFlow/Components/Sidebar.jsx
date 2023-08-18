@@ -14,7 +14,7 @@ useEffect(() => {
   return (
     <nav id="sidebar" style={{ position:'sticky',position:'-webkit-sticky' }}>
       <div className="sidebar-header" style={{ position:'sticky',position:'-webkit-sticky' }}>
-        <h3>Welcome Admin Name</h3>
+        <h3>Welcome Prakash</h3>
       </div>
       <ul className="list-unstyled components">
         <li className= {active.dashboard}onClick={()=>{ setActive({dashboard : "active",trains:"",stations:"",seats:""})}}>

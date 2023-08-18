@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import httpClient from "../Services/User.service";
+import UserService from "../Services/User.service";
 const Login = () => {
     const history = useHistory();
     const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ const Login = () => {
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
         } else {
-            console.log("Form submitted:", formData);
+            UserService.post().then();
         }
     };
 
