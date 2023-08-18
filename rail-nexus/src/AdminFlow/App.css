@@ -1,0 +1,54 @@
+/* src/App.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
+  background-color: #37474F;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+}
+
+.components {
+  padding: 0;
+  list-style: none;
+}
+
+.components li a {
+  padding: 10px 15px;
+  text-align: left;
+  display: block;
+  color: #ccc;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.components li a:hover {
+  background-color: #263238;
+  color: #fff;
+}
+
+.active > a {
+  background-color: #263238;
+  color: #fff;
+}
+
+#content {
+  flex: 1; /* Take up remaining available space */
+  padding: 20px;
+  background-color: #f4f4f4;
+}

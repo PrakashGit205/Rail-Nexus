@@ -1,13 +1,13 @@
 import { BrowserRouter } from 'react-router-dom';
 
-import Controller from './AdminFlow';
-import HomePage from './Pages/HomePage';
+
+import AllStations from './Pages/Stations/AllStations';
 
 function App() {
   return (
    <>
    <BrowserRouter>
-   <Controller></Controller>
+   <AllStations></AllStations>
    
    </BrowserRouter>
    

@@ -23,7 +23,7 @@ import com.railnexus.services.StationService;
 //import io.swagger.v3.oas.annotations.parameters.RequestBody;
 //org.springframework.web.bind.annotation.
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/station")
 public class StationController {
 	@Autowired

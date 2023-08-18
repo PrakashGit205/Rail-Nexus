@@ -32,7 +32,7 @@ import lombok.ToString;
 public class RunningTrain extends SuperId {
 	
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
-	@JoinColumn(name = "train_no")
+	@JoinColumn(name = "train_id")
 	private Train train;
 	
 	// what is train departure date

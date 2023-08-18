@@ -1,24 +1,33 @@
+// src/App.js
+import React from 'react';
+import { Route } from 'react-router-dom';
+import Sidebar from './Components/Sidebar';
+import "./App.css"
+import Trains from './Trains/AllTrains';
+import Stations from './Pages/Stations';
+import RunningTrains from './Trains/RunningTrains';
+import Dashboard from './Pages/Dashboard';
 
-import Login from "../Security/Login";
-import HomePage from "../Pages/HomePage";
-import Register from "../Security/Register";
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 
-function Controller() {
+const Seats = () => <h1>Seats Content</h1>;
+
+function App() {
+
+
   return (
-    <>
-       
-            <Switch>
-                {/* <Route exact path="/" render={() => { return <h1>hi</h1> }}></Route> */}
-                <Route exact path="/login" component={Login}></Route>
-                    <Route exact path="/" component={HomePage}></Route>
-                <Route exact path="/register" component={Register}></Route>
-                   
-            </Switch>
-           
-          
-    </>
+  
+      <div className="wrapper">
+        <Sidebar />
+        <div id="content">
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/trains" component={Trains} />
+          <Route path="/stations" component={Stations} />
+          <Route path="/seats" component={Seats} />
+          <Route path="/running-trains" component={RunningTrains} />
+        </div>
+      </div>
+    
   );
 }
 
-export default Controller;
+export default App;

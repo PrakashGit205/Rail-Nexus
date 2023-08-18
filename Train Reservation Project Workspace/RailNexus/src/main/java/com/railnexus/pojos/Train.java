@@ -125,6 +125,8 @@ public class Train extends SuperId {
 		return station.getTerminatingTrains().add(this);
 	}
 
+	private Long trainSpeed;
+	
 	@Column(name = "train_no", unique = true, nullable = false)
 	private Long trainNo;
 

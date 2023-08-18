@@ -1,0 +1,40 @@
+/* src/components/Sidebar.css */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100vh;
+    background-color: #922323;
+    color: #fff;
+    transition: all 0.3s;
+    
+  }
+  
+  .sidebar-header {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .components {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .components li a {
+    padding: 10px 15px;
+    text-align: left;
+    display: block;
+    color: #ccc;
+    transition: background-color 0.3s; 
+  }
+  
+  .components li a:hover {
+    background-color: #263238;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .active > a {
+    background-color: #1f78a4;
+    color: #fff;
+  }
+  

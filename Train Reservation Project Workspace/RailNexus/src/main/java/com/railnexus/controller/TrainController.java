@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import com.railnexus.services.TrainService;
 
 @RestController
 @RequestMapping("/trains")
+@CrossOrigin(origins = "*")
 public class TrainController {
 	@Autowired
 	private TrainDao dao;
@@ -30,8 +32,8 @@ public class TrainController {
 	private ModelMapper model;
 
 	@GetMapping
-	public List<Train> allTrains() {
-		return dao.findAll();
+	public List<TrainResponseDTO> allTrains() {
+		return dao.findAll().stream().map(train->model.map(train, TrainResponseDTO.class)).toList();
 	}
 
 	@PostMapping
