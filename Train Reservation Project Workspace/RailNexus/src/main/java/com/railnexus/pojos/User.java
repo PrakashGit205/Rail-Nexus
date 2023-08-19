@@ -7,8 +7,12 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.railnexus.pojos.enums.UserRoles;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -45,11 +49,16 @@ public class User extends SuperId {
 	@Column(name = "gender",length = 10)
 	private String gender;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 25, name = "role")
+	private UserRoles role;;
+	
 	@OneToMany(mappedBy = "user")
 	private List<Passenger> passengers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
 	private List<PassengerHistory> passengersHistory = new ArrayList<>();
+	
 	
 	
 	

@@ -13,10 +13,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class LoginResponse {
-	public LoginResponse(boolean b) {
-		this.isValid = b;
-	}
-	private Long id;
+//	public LoginResponse(boolean b) {
+//		this.isValid = b;
+//	}
+	private String token;
+//	private String mesg;
+//	private boolean isValid;
+//	private Long id;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -24,6 +27,7 @@ public class LoginResponse {
 	private String userName;
 	private LocalDate regDate;
 	private String mobile;
-	private String gender;
-	private Boolean isValid;
+	private String role;
+//	private String gender;
+//	private Boolean isValid;
 }

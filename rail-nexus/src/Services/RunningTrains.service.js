@@ -2,7 +2,7 @@
 import axios from 'axios';
 import BaseURL from '../GlobalConfig';
 var httpClient = axios.create({
-  baseURL: `${BaseURL}/running`,
+  baseURL: `${BaseURL}/api/running`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,7 +12,7 @@ const getAll = () => {
   return httpClient.get('');
 };
 
-const create = (data) => {
+const post = (data) => {
   return httpClient.post('', data);
 };
 
@@ -27,4 +27,4 @@ const update = (data) => {
 const remove = (id) => {
   return httpClient.delete(`/${id}`);
 };
-export default { getAll, create, get, update, remove };
+export default { getAll, post, get, update, remove };

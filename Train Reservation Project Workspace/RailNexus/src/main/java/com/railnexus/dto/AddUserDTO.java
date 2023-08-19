@@ -22,4 +22,5 @@ public class AddUserDTO {
     private String mobile;
     private String gender;
     private String password;
+    private String role;
 }

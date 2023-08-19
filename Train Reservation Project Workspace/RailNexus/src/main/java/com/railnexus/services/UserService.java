@@ -50,4 +50,13 @@ public class UserService implements IUserService{
 		return userDao.save(user);
 	}
 
+	public User updateUser(AddUserDTO dto) {
+		User user = mapper.map(dto, User.class);
+		user.setRegDate(LocalDate.now());
+		return userDao.save(user);
+	}
+	public void deleteUser(Long id) {
+//		User user = 		userDao.findById(id).orElseThrow(()->new ResourceNotFoundException("user id not found") );
+		 userDao.deleteById(id) ;
+	}
 }

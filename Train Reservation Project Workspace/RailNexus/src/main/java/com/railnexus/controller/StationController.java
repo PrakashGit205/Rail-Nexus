@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,7 @@ import com.railnexus.services.StationService;
 //org.springframework.web.bind.annotation.
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/station")
+@RequestMapping("/api/station")
 public class StationController {
 	@Autowired
 	private StationDao dao;
@@ -42,12 +43,17 @@ public class StationController {
 	}
 
 	@PostMapping
+//	@PreAuthorize("hasRole('ADMIN')")
 	public StationResponseDTO addStation(@RequestBody AddStationDTO station) {
 		System.out.println(station);
 		return model.map(service.addStation(station), StationResponseDTO.class) ;
 	}
 	@GetMapping("/{id}")
 	public StationResponseDTO getStation(@PathVariable Long id) {
+		return model.map(dao.findById(id).orElseThrow(()->new ResourceNotFoundException("invalid Station id")), StationResponseDTO.class);
+	}
+	@GetMapping("/train/{id}")
+	public StationResponseDTO getAllTrainInStation(@PathVariable Long id) {
 		return model.map(dao.findById(id).orElseThrow(()->new ResourceNotFoundException("invalid Station id")), StationResponseDTO.class);
 	}
 }

@@ -6,6 +6,8 @@ import RunningTrains from "../AdminFlow/Trains/RunningTrains";
 import Login from "./Login";
 import Register from "./Register"
 import Header from "../Pages/Header";
+import FilteredTrain from "../Pages/Trains/FilteredTrain";
+import App from "../Pages/Trains/pagedemo";
 function Controller() {
   return (
     <>
@@ -14,7 +16,7 @@ function Controller() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={Login}  />
         <Route exact path="/register" component={Register} />  
-        <Route exact path="/trains" component={Trains} />
+        <Route exact path="/trains" component={App} />
         <Route exact path="/stations" component={Stations} />
         {/* <Route path="/seats" component={Seats} /> */}
         <Route exact path="/running-trains" component={RunningTrains} />

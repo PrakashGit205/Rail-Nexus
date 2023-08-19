@@ -1,0 +1,26 @@
+/* App.css */
+.app-container {
+    display: flex;
+    transition: all 0.3s ease;
+}
+
+.sidebar {
+    /* Your sidebar styles */
+}
+
+.sidebar-open .main-content {
+    width: 100%; /* Expand the main content when the sidebar is open */
+}
+
+.main-content {
+    /* Your main content styles */
+    transition: width 0.3s ease; /* Add transition for width change */
+}
+
+.sidebar-overlay {
+    /* Your sidebar overlay styles */
+}
+
+.toggle-button {
+    /* Your toggle button styles */
+}

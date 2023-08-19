@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import com.railnexus.services.PassengerService;
 import com.railnexus.services.SeatService;
 
 @RestController
-@RequestMapping("/passenger")
+@RequestMapping("/api/passenger")
 @CrossOrigin(origins = "*")
 public class PassengerController {
 	@Autowired
@@ -40,6 +41,16 @@ public class PassengerController {
 	@PostMapping
 	public PassengerResponseDTO addPassenger(@RequestBody AddPassengerDTO dto) {
 		return model.map(service.addPassenger(dto), PassengerResponseDTO.class);
+	}
+	@GetMapping("/{pnrNo}")
+	public List<PassengerResponseDTO> passangerByPnrNo(@PathVariable String pnrNo) {
+		return dao.findByPnr(pnrNo).stream().map(passenger->model.map(passenger, PassengerResponseDTO.class)).toList() ;
+				
+	}
+	@GetMapping("/user/{userId}")
+	public List<PassengerResponseDTO> passangerByUserId(@PathVariable Long userId) {
+		return  dao.findByUserId(userId).stream().map(passenger->model.map(passenger, PassengerResponseDTO.class)).toList();
+				
 	}
 
 }

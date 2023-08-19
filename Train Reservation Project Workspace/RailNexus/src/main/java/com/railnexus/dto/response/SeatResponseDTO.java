@@ -20,7 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class SeatResponseDTO {
-	private Long trainNo;
+	private Long seatId;
 
 	private ClassType classType;
 

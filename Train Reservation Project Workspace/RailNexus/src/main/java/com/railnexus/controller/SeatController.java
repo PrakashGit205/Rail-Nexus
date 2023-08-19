@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,7 @@ import com.railnexus.pojos.Seat;
 import com.railnexus.services.SeatService;
 
 @RestController
-@RequestMapping("/seat")
+@RequestMapping("/api/seats")
 @CrossOrigin(origins = "*")
 public class SeatController {
 	@Autowired
@@ -28,7 +30,7 @@ public class SeatController {
 	private ModelMapper model;
 
 	@GetMapping("/{trainNo}")
-	public List<Seat> showAvailaSeats(@PathVariable Long trainNo) {
-		return service.showAvailableSeats(trainNo);
+	public ResponseEntity<?> showAvailaSeats(@PathVariable Long trainNo) {
+		return ResponseEntity.status(HttpStatus.OK).body(service.showAvailableSeats(trainNo));
 	}
 }

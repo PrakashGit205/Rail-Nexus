@@ -1,9 +1,8 @@
 import { BrowserRouter } from 'react-router-dom';
 
 import Controlleer from './Security/AllUserRoutes'
-import "./GlobalCss.css"
+
 import { useState } from 'react';
-import Admin from './AdminFlow';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -20,7 +19,7 @@ function App() {
           Toggle Mode
         </button> */}
    <BrowserRouter>
-   <Admin></Admin>
+   <Controlleer></Controlleer>
    </BrowserRouter>
    </div>
    

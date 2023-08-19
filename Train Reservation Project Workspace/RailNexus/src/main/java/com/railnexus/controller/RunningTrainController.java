@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +23,7 @@ import com.railnexus.pojos.RunningTrain;
 import com.railnexus.services.RunningTrainService;
 
 @RestController
-@RequestMapping("/running")
+@RequestMapping("/api/running")
 @CrossOrigin(origins = "*")
 public class RunningTrainController {
 
@@ -35,17 +37,18 @@ public class RunningTrainController {
 	private ModelMapper model;
 	
 	@GetMapping
-	public List<RunningTrainResponseDTO> trainSchedule(){
-		return service.trainSchedules();
+	public ResponseEntity<?> trainSchedule(){
+		return ResponseEntity.status(HttpStatus.OK).body(service.trainSchedules());
 	}
 	@GetMapping("/{date}")
-	public List<RunningTrainResponseDTO> trainByDate(@PathVariable LocalDate date){
-		return dao.findByOriginDate(date).stream().map(train->model.map(train, RunningTrainResponseDTO.class)).toList();
+	public ResponseEntity<?> trainByDate(@PathVariable LocalDate date){
+		return ResponseEntity.status(HttpStatus.OK).body(dao.findByOriginDate(date).stream().map(train->model.map(train, RunningTrainResponseDTO.class)).toList());
 			
 	}
 //	@GetMapping("/{originId}/{sourceId}")
-	@PostMapping
-	public List<RunningTrainResponseDTO> getTrain(@RequestBody FirstDataDTO dto){
-		return service.trainStationAndDate(dto.getOriginId(), dto.getSourceId(), dto.getOriginDate());
+	@PostMapping	
+	public ResponseEntity<?> getTrainByOriginAndSource(@RequestBody FirstDataDTO dto){
+		
+		return ResponseEntity.status(HttpStatus.OK).body(service.trainStationAndDateAndClass(dto));
 	}
 }

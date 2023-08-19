@@ -3,32 +3,32 @@ import NavBar from "../NavBar/NavBar";
 import stationService from "../Services/Station.Service";
 function TrainForm(props) {
     const [stations, setStaions] = useState([]);
-    // const LoadStation = () => {
-    //     var server = new XMLHttpRequest();
-    //     server.onreadystatechange = () => {
-    //         debugger;
-    //         if (server.readyState == 4 && server.status == 200) {
-    //             console.log(server.responseText)
-    //             debugger;
-    //             setStaions(JSON.parse(server.responseText));
-    //         }
-    //     }
-    //     server.open("GET", "http://localhost:7070/station");
-    //     server.send();
-    // }
     const LoadStation = () => {
-        stationService
-          .getAll()
-          .then((response) => {
-            console.log('Printing employees data', response.data);
-            setStaions(response.data);
-            // setTempemp(response.data);
-            //  console.warn(response.data);
-          })
-          .catch((error) => {
-            console.log('Something went wrong', error);
-          });
-      };
+        var server = new XMLHttpRequest();
+        server.onreadystatechange = () => {
+            debugger;
+            if (server.readyState == 4 && server.status == 200) {
+                console.log(server.responseText)
+                debugger;
+                setStaions(JSON.parse(server.responseText));
+            }
+        }
+        server.open("GET", "http://localhost:7070/station");
+        server.send();
+    }
+    // const LoadStation = () => {
+    //     stationService
+    //       .getAll()
+    //       .then((response) => {
+    //         console.log('Printing employees data', response.data);
+    //         setStaions(response.data);
+    //         // setTempemp(response.data);
+    //         //  console.warn(response.data);
+    //       })
+    //       .catch((error) => {
+    //         console.log('Something went wrong', error);
+    //       });
+    //   };
 
     useState(() => {
         LoadStation();

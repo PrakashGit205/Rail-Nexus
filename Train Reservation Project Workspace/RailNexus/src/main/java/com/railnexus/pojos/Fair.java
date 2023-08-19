@@ -32,7 +32,7 @@ public class Fair extends SuperId {
 	private float fair;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "seat_type", length = 30)
+	@Column(name = "class_type", length = 30)
 	private ClassType classType;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -42,24 +42,6 @@ public class Fair extends SuperId {
 	@Column(name = "dist_for_fair")
 	private Double fairPerKm;
 
-//	@Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = super.hashCode();
-//		result = prime * result + Objects.hash(getId());
-//		return result;
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (!super.equals(obj))
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Fair other = (Fair) obj;
-//		return Float.floatToIntBits(getId()) == Float.floatToIntBits(other.getId());
-//	}
+
 
 }

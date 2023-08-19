@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.railnexus.pojos.RunningTrain;
 import com.railnexus.pojos.Station;
+import com.railnexus.pojos.enums.ClassType;
 
 import java.time.LocalDate;
 
@@ -21,7 +22,8 @@ public interface RunningTrainDao extends JpaRepository<RunningTrain, Long> {
 
 	List<RunningTrain> findByTrainTrainNo(Long train);
 
-	List<RunningTrain> findByTrainOriginStationIdAndTrainDestinationStationIdAndOriginDate(Long originId, Long sourceId,
+	List<RunningTrain> findByTrainOriginStationCodeAndTrainDestinationStationCodeAndOriginDate(String originId, String sourceId,
 			LocalDate originDate);
-
+	
+	List<RunningTrain> findByTrainOriginStationCodeAndTrainDestinationStationCode(String originId, String sourceId);
 }

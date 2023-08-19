@@ -22,4 +22,5 @@ public class UserResponseDTO {
 	    private LocalDate regDate;
 	    private String mobile;
 	    private String gender;
+	    private String role;
 }

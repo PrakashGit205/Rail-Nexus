@@ -4,7 +4,7 @@ import BaseURL from '../GlobalConfig';
 
 
 var httpClient = axios.create({
-  baseURL: `${BaseURL}/trains`,
+  baseURL: `${BaseURL}/api/trains`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,8 +18,8 @@ const create = (data) => {
   return httpClient.post('', data);
 };
 
-const get = (id) => {
-  return httpClient.get(`${id}`);
+const get = (source,destination,date,seatType) => {
+  return httpClient.get(`/${source}/${destination}/${date}/${seatType}`);
 };
 
 const update = (data) => {

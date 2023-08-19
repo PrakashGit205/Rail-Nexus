@@ -3,15 +3,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import httpClient from "../Services/User.service";
 import UserService from "../Services/User.service";
+import { FloatingLabel, Form } from "react-bootstrap";
 const Login = () => {
     const history = useHistory();
     const [formData, setFormData] = useState({
-        username: "",
+        email: "",
         password: "",
     });
 
     const [errors, setErrors] = useState({
-        username: "",
+        email: "",
         password: "",
     });
 
@@ -31,8 +32,8 @@ const Login = () => {
         event.preventDefault();
         let newErrors = {};
 
-        if (formData.username.trim() === "") {
-            newErrors.username = "Username is required";
+        if (formData.email.trim() === "") {
+            newErrors.email = "email is required";
         }
 
         if (formData.password.trim() === "") {
@@ -55,23 +56,42 @@ const Login = () => {
                             <h3 className="card-title text-center">Login</h3>
 
                             <div className="form-group">
-                                <label htmlFor="username">Username</label>
+                                <FloatingLabel
+                                    controlId="floatingInput"
+                                    label="Email address"
+                                    className="mb-3"
+                                >
+                                    <Form.Control type="email" placeholder="name@example.com"  id="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={onTextChange}
+                                     />
+                                </FloatingLabel>
+                                
+
+                                {/* <label htmlFor="email">email</label>
                                 <input
                                     type="text"
-                                    className={`form-control ${errors.username && "is-invalid"}`}
-                                    id="username"
-                                    name="username"
-                                    value={formData.username}
+                                    className={`form-control ${errors.email && "is-invalid"}`}
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
                                     onChange={onTextChange}
-                                    placeholder="UserName"
-                                />
-                                {errors.username && (
-                                    <div className="invalid-feedback">{errors.username}</div>
+                                    placeholder="email"
+                                /> */}
+                                {errors.email && (
+                                    <div className="invalid-feedback">{errors.email}</div>
                                 )}
                             </div>
                             <br />
                             <div className="form-group">
-                                <label htmlFor="password">Password</label>
+                            <FloatingLabel controlId="floatingPassword" label="Password">
+                                    <Form.Control type="password" placeholder="Password"   id="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={onTextChange}/>
+                                </FloatingLabel>
+                                {/* <label htmlFor="password">Password</label>
                                 <input
                                     placeholder="Password"
                                     type="password"
@@ -80,7 +100,7 @@ const Login = () => {
                                     name="password"
                                     value={formData.password}
                                     onChange={onTextChange}
-                                />
+                                /> */}
                                 {errors.password && (
                                     <div className="invalid-feedback">{errors.password}</div>
                                 )}

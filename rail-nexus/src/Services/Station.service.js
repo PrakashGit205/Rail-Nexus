@@ -2,7 +2,7 @@
 import axios from 'axios';
 import BaseURL from '../GlobalConfig';
 var httpClient = axios.create({
-  baseURL: `${BaseURL}/station`,
+  baseURL: `${BaseURL}/api/station`,
   headers: {
     'Content-Type': 'application/json',
   },

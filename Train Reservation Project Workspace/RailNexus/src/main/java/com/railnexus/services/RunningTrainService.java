@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import com.railnexus.dao.RunningTrainDao;
+import com.railnexus.dto.FirstDataDTO;
 import com.railnexus.dto.response.RunningTrainResponseDTO;
 import com.railnexus.pojos.RunningTrain;
 import com.railnexus.pojos.Train;
@@ -24,9 +25,17 @@ public class RunningTrainService implements IRunningTrainService {
 	@Autowired
 	private ModelMapper mapper;
 
-	public List<RunningTrainResponseDTO> trainStationAndDate(Long originId, Long sourceId, LocalDate originDate) {
-		List<RunningTrain> dto = dao.findByTrainOriginStationIdAndTrainDestinationStationIdAndOriginDate(originId,
-				sourceId, originDate);
+	public List<RunningTrainResponseDTO> trainStationAndDateAndClass(FirstDataDTO requestDto) {
+		List<RunningTrain> dto = null;
+		System.out.println(requestDto);
+
+		if (requestDto.getOriginId() != null && requestDto.getSourceId() != null && requestDto.getOriginDate() != null)
+			dto = dao.findByTrainOriginStationCodeAndTrainDestinationStationCodeAndOriginDate(requestDto.getOriginId(),
+					requestDto.getSourceId(), requestDto.getOriginDate());
+		else if (requestDto.getOriginId() != null && requestDto.getSourceId() != null)
+			dto = dao.findByTrainOriginStationCodeAndTrainDestinationStationCode(requestDto.getOriginId(),
+					requestDto.getSourceId());
+
 		List<RunningTrainResponseDTO> toSendDto = dto.stream()
 				.map(train -> mapper.map(train, RunningTrainResponseDTO.class)).toList();
 
@@ -38,10 +47,11 @@ public class RunningTrainService implements IRunningTrainService {
 			toSendDto.get(i).setOriginTime(dto.get(i).getTrain().getOriginTime());
 
 		}
-
+		System.out.println("data of request"+toSendDto);
 		return toSendDto;
 	}
-	public List<RunningTrainResponseDTO> trainSchedules(){
+
+	public List<RunningTrainResponseDTO> trainSchedules() {
 		List<RunningTrain> dto = dao.findAll();
 		List<RunningTrainResponseDTO> toSendDto = dto.stream()
 				.map(train -> mapper.map(train, RunningTrainResponseDTO.class)).toList();
