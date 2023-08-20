@@ -8,6 +8,7 @@ import Register from "./Register"
 import Header from "../Pages/Header";
 import FilteredTrain from "../Pages/Trains/FilteredTrain";
 import App from "../Pages/Trains/pagedemo";
+import Admin from "../AdminFlow";
 function Controller() {
   return (
     <>
@@ -18,6 +19,7 @@ function Controller() {
         <Route exact path="/register" component={Register} />  
         <Route exact path="/trains" component={App} />
         <Route exact path="/stations" component={Stations} />
+        <Route exact path ="/admin" component={Admin}/>
         {/* <Route path="/seats" component={Seats} /> */}
         <Route exact path="/running-trains" component={RunningTrains} />
       </Switch>

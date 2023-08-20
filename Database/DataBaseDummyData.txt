@@ -1,0 +1,132 @@
+INSERT INTO `stations` (`city_name`, `id`, `code`, `name`)
+VALUES
+  ('Bhopal Junction', 31, 'BPL', 'Bhopal'),
+  ('Jabalpur Junction', 32, 'JBP', 'Jabalpur'),
+  ('Gwalior Junction', 33, 'GWL', 'Gwalior'),
+  ('Ujjain Junction', 34, 'UJN', 'Ujjain'),
+  ('Habibganj', 35, 'HBJ', 'Bhopal Habibganj'),
+  ('Indore Junction', 36, 'INDB', 'Indore');
+INSERT INTO `trains` (`train_no`, `train_name`, `origin_station`, `destination_station`, `origin_time`, `origin_dest_distance`, `train_speed`, `train_type`, `mon`, `tue`, `wed`, `thu`, `fri`, `sat`, `sun`)
+VALUES
+  (12367, 'Ujjain Intercity', 34, 31, '10:45:00', 170, 0, 'Intercity', 1, 0, 1, 0, 1, 0, 1),
+  (12489, 'Indore Rajdhani', 36, 33, '14:30:00', 500, 0, 'Rajdhani', 1, 0, 1, 0, 1, 0, 1),
+  (12835, 'Bhopal Express', 31, 33, '06:00:00', 320, 1, 'Express', 1, 1, 1, 1, 1, 1, 1),  (12945, 'Jabalpur Superfast', 32, 33, '09:30:00', 390, 1, 'Superfast', 1, 0, 1, 0, 1, 0, 1);
+  
+  INSERT INTO `users` (`first_name`, `last_name`, `address`, `mobile`, `email`, `gender`, `username`, `reg_date`, `password`, `role`)
+VALUES
+  ('Aarav', 'Patel', '123 Street, Mumbai', '9876543210', 'aarav@example.com', 'Male', 'aaravp', '2023-05-27', 'password1', 'user'),
+  ('Aditi', 'Sharma', '456 Road, Delhi', '9876543211', 'aditi@example.com', 'Female', 'aditis', '2023-05-27', 'password2', 'user'),
+  ('Aryan', 'Singh', '789 Avenue, Bangalore', '9876543212', 'aryan@example.com', 'Male', 'aryans', '2023-05-27', 'password3', 'user'),
+  -- Insert more user data as needed
+  ('Anita', 'Verma', '987 Fourth Ave, Chennai', '9876043215', 'anita.verma@example.com', 'Female', 'anitaverma', '2023-05-27', 'passwordxyz', 'user');
+INSERT INTO `users` (`first_name`, `last_name`, `address`, `mobile`, `email`, `gender`, `username`, `reg_date`, `password`, `role`)
+VALUES
+  ('Prakash', 'Rathour', '123 Admin Street, City', '9876543216', 'prakash@example.com', 'Male', 'prakashr', '2023-08-19', 'adminpassword', 'admin');
+INSERT INTO `seats` (`train_id`, `boogie`, `class_type`, `seat_type`, `total_seat`)
+VALUES
+  (1, 'A1', 'FIRST_CLASS', 'LOWER_BERTH', 80),
+  (1, 'B1', 'SECOND_CLASS', 'MIDDLE_BIRTH', 80),
+  (1, 'C1', 'SLEEPER_CLASS', 'UPPER_BERTH', 80),
+  (1, 'C2', 'SLEEPER_CLASS', 'DISABLE', 80),
+  (1, 'S1', 'GENERAL', 'WINDOW_BERTH', 80),
+  (1, 'S2', 'GENERAL', 'DISABLE', 80),
+  (1, 'S3', 'GENERAL', 'MIDDLE_BIRTH', 80),
+  (1, 'S4', 'GENERAL', 'LOWER_BERTH', 80),
+  (1, 'S5', 'GENERAL', 'UPPER_BERTH', 80),
+  (1, 'S6', 'GENERAL', 'WINDOW_BERTH', 80),
+  (2, 'A1', 'FIRST_CLASS', 'LOWER_BERTH', 80),
+  (2, 'B1', 'SECOND_CLASS', 'MIDDLE_BIRTH', 80),
+  (2, 'C1', 'SLEEPER_CLASS', 'UPPER_BERTH', 80),
+  (2, 'C2', 'SLEEPER_CLASS', 'DISABLE', 80),
+  (2, 'S1', 'GENERAL', 'WINDOW_BERTH', 80),
+  (2, 'S2', 'GENERAL', 'DISABLE', 80),
+  (2, 'S3', 'GENERAL', 'MIDDLE_BIRTH', 80),
+  (2, 'S4', 'GENERAL', 'LOWER_BERTH', 80),
+  (2, 'S5', 'GENERAL', 'UPPER_BERTH', 80),
+  (2, 'S6', 'GENERAL', 'WINDOW_BERTH', 80);
+  -- Seat distribution per boogie for FIRST_CLASS
+INSERT INTO `seats` (`train_id`, `boogie`, `class_type`, `seat_type`, `total_seat`)
+VALUES
+  -- Train 1 - FIRST_CLASS
+  (1, 'A1', 'FIRST_CLASS', 'LOWER_BERTH', 20),
+  (1, 'A1', 'FIRST_CLASS', 'UPPER_BERTH', 20),
+  (1, 'A1', 'FIRST_CLASS', 'WINDOW_BERTH', 40),
+  (1, 'B1', 'FIRST_CLASS', 'LOWER_BERTH', 20),
+  (1, 'B1', 'FIRST_CLASS', 'UPPER_BERTH', 20),
+  (1, 'B1', 'FIRST_CLASS', 'WINDOW_BERTH', 40),
+  -- ... (repeat for other boogies and trains)
+
+  -- Train 2 - FIRST_CLASS
+  (2, 'A1', 'FIRST_CLASS', 'LOWER_BERTH', 20),
+  (2, 'A1', 'FIRST_CLASS', 'UPPER_BERTH', 20),
+  (2, 'A1', 'FIRST_CLASS', 'WINDOW_BERTH', 40),
+  (2, 'B1', 'FIRST_CLASS', 'LOWER_BERTH', 20),
+  (2, 'B1', 'FIRST_CLASS', 'UPPER_BERTH', 20),
+  (2, 'B1', 'FIRST_CLASS', 'WINDOW_BERTH', 40)
+  -- ... (repeat for other boogies and trains)
+;
+
+-- Seat distribution per boogie for SECOND_CLASS
+INSERT INTO `seats` (`train_id`, `boogie`, `class_type`, `seat_type`, `total_seat`)
+VALUES
+  -- Train 1 - SECOND_CLASS
+  (1, 'A1', 'SECOND_CLASS', 'LOWER_BERTH', 40),
+  (1, 'A1', 'SECOND_CLASS', 'UPPER_BERTH', 40),
+  (1, 'A1', 'SECOND_CLASS', 'WINDOW_BERTH', 80),
+  (1, 'B1', 'SECOND_CLASS', 'LOWER_BERTH', 40),
+  (1, 'B1', 'SECOND_CLASS', 'UPPER_BERTH', 40),
+  (1, 'B1', 'SECOND_CLASS', 'WINDOW_BERTH', 80),
+  -- ... (repeat for other boogies and trains)
+
+  -- Train 2 - SECOND_CLASS
+  (2, 'A1', 'SECOND_CLASS', 'LOWER_BERTH', 40),
+  (2, 'A1', 'SECOND_CLASS', 'UPPER_BERTH', 40),
+  (2, 'A1', 'SECOND_CLASS', 'WINDOW_BERTH', 80),
+  (2, 'B1', 'SECOND_CLASS', 'LOWER_BERTH', 40),
+  (2, 'B1', 'SECOND_CLASS', 'UPPER_BERTH', 40),
+  (2, 'B1', 'SECOND_CLASS', 'WINDOW_BERTH', 80)
+  -- ... (repeat for other boogies and trains)
+;
+
+-- Seat distribution per boogie for SLEEPER_CLASS
+INSERT INTO `seats` (`train_id`, `boogie`, `class_type`, `seat_type`, `total_seat`)
+VALUES
+  -- Train 1 - SLEEPER_CLASS
+  (1, 'A1', 'SLEEPER_CLASS', 'LOWER_BERTH', 60),
+  (1, 'A1', 'SLEEPER_CLASS', 'UPPER_BERTH', 60),
+  (1, 'A1', 'SLEEPER_CLASS', 'WINDOW_BERTH', 120),
+  (1, 'B1', 'SLEEPER_CLASS', 'LOWER_BERTH', 60),
+  (1, 'B1', 'SLEEPER_CLASS', 'UPPER_BERTH', 60),
+  (1, 'B1', 'SLEEPER_CLASS', 'WINDOW_BERTH', 120),
+  -- ... (repeat for other boogies and trains)
+
+  -- Train 2 - SLEEPER_CLASS
+  (2, 'A1', 'SLEEPER_CLASS', 'LOWER_BERTH', 60),
+  (2, 'A1', 'SLEEPER_CLASS', 'UPPER_BERTH', 60),
+  (2, 'A1', 'SLEEPER_CLASS', 'WINDOW_BERTH', 120),
+  (2, 'B1', 'SLEEPER_CLASS', 'LOWER_BERTH', 60),
+  (2, 'B1', 'SLEEPER_CLASS', 'UPPER_BERTH', 60),
+  (2, 'B1', 'SLEEPER_CLASS', 'WINDOW_BERTH', 120)
+  -- ... (repeat for other boogies and trains)
+;
+
+-- Seat distribution per boogie for GENERAL
+INSERT INTO `seats` (`train_id`, `boogie`, `class_type`, `seat_type`, `total_seat`)
+VALUES
+  -- Train 1 - GENERAL
+  (1, 'A1', 'GENERAL', 'DISABLE', 40),
+  (1, 'A1', 'GENERAL', 'MIDDLE_BIRTH', 40),
+  (1, 'A1', 'GENERAL', 'LOWER_BERTH', 40),
+  (1, 'B1', 'GENERAL', 'DISABLE', 40),
+  (1, 'B1', 'GENERAL', 'MIDDLE_BIRTH', 40),
+  (1, 'B1', 'GENERAL', 'LOWER_BERTH', 40),
+  -- ... (repeat for other boogies and trains)
+
+  -- Train 2 - GENERAL
+  (2, 'A1', 'GENERAL', 'DISABLE', 40),
+  (2, 'A1', 'GENERAL', 'MIDDLE_BIRTH', 40),
+  (2, 'A1', 'GENERAL', 'LOWER_BERTH', 40),
+  (2, 'B1', 'GENERAL', 'DISABLE', 40),
+  (2, 'B1', 'GENERAL', 'MIDDLE_BIRTH', 40),
+  (2, 'B1', 'GENERAL', 'LOWER_BERTH', 40);
+  -- ... (repeat for other boogies and trains)

@@ -1,13 +1,32 @@
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
+function ProfileIcon() {
+    return (
+        // You can replace this with your actual profile icon component
+        <i class="bi bi-person"></i>
+        // <img src="/path/to/profile-icon.png" alt="Profile" width="30" height="30" />
+    );
+}
 function Header() {
     const history = useHistory();
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Default: not logged in
+
+    // Function to handle login
+    const handleLogin = () => {
+        // Perform your login logic here
+        // Once logged in, update the authentication status
+        setIsLoggedIn(true);
+    };
+    const LogOut = () => {
+        setIsLoggedIn(false);
+        history.push("/")
+    }
     return (<>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
                 <a class="navbar-brand" href="/">
-                    <a src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top"/>
-                        Rail Nexus
+                    <a src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top" />
+                    Rail Nexus
                 </a>
                 <button
                     className="navbar-toggler"
@@ -76,10 +95,46 @@ function Header() {
                         </li> */}
                     </ul>
                     <div className="d-flex">
-
-                        <button className="btn btn-outline-info" type="submit" onClick={() => history.push("/login")}>
-                            Login/Signup
-                        </button>
+                        {/* Conditional rendering based on authentication status */}
+                        {isLoggedIn ? (
+                            <>
+                            <ul>
+                                <li>
+                                <button
+                                    className="btn btn-outline-info"
+                                    type="submit"
+                                    onClick={() => history.push("/admin")}
+                                >
+                                    Go to My Profile
+                                </button>
+                                </li>
+                               
+                            </ul>
+                            <ul>
+                                <li>
+                                <button
+                                    className="btn btn-outline-danger"
+                                    type="submit"
+                                    onClick={() => LogOut()}
+                                >
+                                    Log Out
+                                </button>
+                                </li>
+                            </ul>
+                                
+                             
+                               
+                            </>
+                        ) : (
+                            <button
+                                className="btn btn-outline-info"
+                                type="submit"
+                                onClick={() => handleLogin()}
+                            >
+                                Login/Signup
+                            </button>
+                        )
+                        }
                     </div>
                 </div>
             </div>

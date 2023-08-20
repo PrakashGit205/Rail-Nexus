@@ -11,7 +11,7 @@ const App = () => {
         sourceId: ""
     });
 
-    const [isOpen, setIsopen] = useState(true);
+    const [isOpen, setIsopen] = useState(false);
 
     const ToggleSidebar = () => {
         isOpen === true ? setIsopen(false) : setIsopen(true);

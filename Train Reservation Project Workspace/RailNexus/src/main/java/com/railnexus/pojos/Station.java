@@ -74,9 +74,13 @@ public class Station extends SuperId {
 	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Distance> terminatingTrainsDist = new HashSet<>();
 	
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
-	@JoinTable(name = "trains_stations", joinColumns = @JoinColumn(name = "station_id"), inverseJoinColumns = @JoinColumn(name = "train_no"))
-	private Set<Train> trains = new HashSet<>();
+//	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+//	@JoinTable(name = "trains_stations", joinColumns = @JoinColumn(name = "station_id"), inverseJoinColumns = @JoinColumn(name = "train_no"))
+//	private Set<Train> trains = new HashSet<>();
+//	
+	@OneToMany(mappedBy = "station", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	private List<TrainStation> trainPassing = new ArrayList<>();
+
 	
 	public void addArrivingPassenger(Passenger passenger) {
 		arrivingPassengers.add(passenger);
@@ -111,15 +115,7 @@ public class Station extends SuperId {
 	}
 
 
-	public boolean addTrainRouteToStation(Train train) {
-		train.getTrainRoute().add(this);
-		return trains.add(train);
-	}
 
-	public boolean removeTrainFromStation(Train train) {
-		train.getTrainRoute().remove(this);
-		return trains.remove(train);
-	}
 
 
 	// Constructors, getters, setters, and other methods
@@ -144,13 +140,7 @@ public class Station extends SuperId {
 		return terminatingTrains.remove(train);
 	}
 
-	public boolean addTrain(Train train) {
-		return trains.add(train);
-	}
 
-	public boolean removeTrain(Train train) {
-		return trains.remove(train);
-	}
 
 //	@Override
 //	public int hashCode() {

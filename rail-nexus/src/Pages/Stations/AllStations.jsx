@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import StationService from '../../Services/Station.service';
 import "./effects.css"
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Card } from 'react-bootstrap';
 const TrainReservationForm = () => {
     const history = useHistory();
     const [formData, setFormData] = useState({
@@ -67,7 +68,9 @@ const TrainReservationForm = () => {
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
-                        <div className="card">
+                   
+        
+                        <div className="card mb-15">
                             <div className="card-header bg-info text-white">
                                 <h4>Train Reservation</h4>
                             </div>

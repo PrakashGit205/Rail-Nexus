@@ -54,6 +54,10 @@ public class Train extends SuperId {
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "train")
 	private List<Passenger> passengers = new ArrayList<>();
 
+	
+//	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "train")
+//	private List<RunningTrain> runningTrain = new ArrayList<>();
+	
 	public boolean addPassenger(Passenger passenger) {
 		passenger.setTrain(this);
 		return passengers.add(passenger);
@@ -68,18 +72,12 @@ public class Train extends SuperId {
     // Represents the fares associated with this train.
     // Allows tracking the fare details for different classes or categories.
 	
-	@ManyToMany(mappedBy = "trains")
-	private List<Station> trainRoute = new ArrayList<>();
 
-	public boolean addStationToRoute(Station station) {
-		trainRoute.add(station);
-		return station.getTrains().add(this);
-	}
-
-	public boolean removeStationFromRoute(Station station) {
-		trainRoute.remove(station);
-		return station.getTrains().remove(this);
-	}
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "train")
+	private List<TrainStation> trainRoute = new ArrayList<>();
+	
+	
+	
 
 	@OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Fair> fairs = new ArrayList<>();
@@ -165,7 +163,7 @@ public class Train extends SuperId {
 	private boolean sunday;
 
 	public Train(Long trainNo, String trainName, Station originStation, Station destinationStation,
-			LocalTime originTime, Double originDestDistance, List<Station> trainRoute, TrainType trainType) {
+			LocalTime originTime, Double originDestDistance,  TrainType trainType) {
 		super();
 		this.trainNo = trainNo;
 		this.trainName = trainName;
@@ -173,7 +171,7 @@ public class Train extends SuperId {
 		this.destinationStation = destinationStation;
 		this.originTime = originTime;
 		this.originDestDistance = originDestDistance;
-		this.trainRoute = trainRoute;
+	
 		this.trainType = trainType;
 	}
 

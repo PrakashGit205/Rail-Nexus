@@ -19,7 +19,7 @@ function Admin() {
       <div className="wrapper">
         <Sidebar />
         <div id="content">
-          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/admin" component={Dashboard} />
           <Route path="/trains" component={Trains} />
           <Route path="/stations" component={Stations} />
           <Route path="/seats" component={Seats} />

@@ -12,17 +12,17 @@ function App() {
   };
   return (
    <>
-   <div
+   {/* <div
       className={`app ${darkMode ? 'dark-mode' : 'light-mode'}`}
-    >
+    > */}
 {/* <button onClick={toggleDarkMode}>
           Toggle Mode
         </button> */}
    <BrowserRouter>
    <Controlleer></Controlleer>
    </BrowserRouter>
-   </div>
-   
+   {/* </div> */}
+  
    </>
   );
 }

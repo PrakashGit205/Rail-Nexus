@@ -13,12 +13,25 @@ function FilteredTrain(props) {
   const [trains, setTrains] = useState([]);
   const [expandedTrainId, setExpandedTrainId] = useState(null);
   const [Seats, setSeats] = useState([]);
-
+// const [filtered, setfiltered] = useState([])
+var traifilter;
+const seenTrainNumbers = new Set();
   useEffect(() => {
     RunningTrainsService.post(formData)
       .then((response) => {
         console.log('Printing trains data', response.data);
         setTrains(response.data);
+
+          traifilter = trains.filter(train => {
+          if (!seenTrainNumbers.has(train.trainNo)) {
+            seenTrainNumbers.add(train.trainNo);
+            return true;
+          }
+          return false;
+        });
+        
+        console.log(traifilter)
+
       })
       .catch((error) => {
         console.log('Something went wrong', error);
@@ -38,6 +51,7 @@ function FilteredTrain(props) {
       // Fetch and set seats data for the selected train
       SeatService.get(id)
         .then((response) => {
+
           setSeats(response.data);
         })
         .catch((error) => console.log(error));
