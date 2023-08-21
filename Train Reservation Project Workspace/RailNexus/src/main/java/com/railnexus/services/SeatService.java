@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.railnexus.dao.DistanceDao;
+import com.railnexus.dao.FairDao;
 import com.railnexus.dao.LiveSeatDao;
 import com.railnexus.dao.SeatDao;
 import com.railnexus.dao.TrainDao;
@@ -17,6 +19,8 @@ import com.railnexus.dto.response.LiveSeatResponse;
 import com.railnexus.dto.response.RunningTrainResponseDTO;
 import com.railnexus.dto.response.SeatResponseDTO;
 import com.railnexus.exception.ResourceNotFoundException;
+import com.railnexus.pojos.Distance;
+import com.railnexus.pojos.Fair;
 import com.railnexus.pojos.Seat;
 import com.railnexus.services.interfaces.ISeatService;
 @Service
@@ -25,10 +29,12 @@ public class SeatService implements ISeatService {
 
 	@Autowired
 	private SeatDao dao;
-	
+	@Autowired
+	private FairDao fairDao;
 	@Autowired
 	private LiveSeatDao liveDao;
-	
+	@Autowired
+	private DistanceDao distanceDao;
 	@Autowired
 	private TrainDao trainDao;
 	
@@ -47,15 +53,44 @@ public class SeatService implements ISeatService {
 		
 
 		    List<Object[]> queryResult = liveDao.getTotalSeatsByClassAndDate(originDate, trainNo);
-
+		    List<Fair> fairs = fairDao.findByTrainId(trainNo);
+		    List<Distance> distance = distanceDao.findByOriginStationIdAndDestinationStationIdOrDestinationStationIdAndOriginStationId(trainNo, trainNo, trainNo, trainNo);
 		    List<LiveSeatResponse> responseList = queryResult.stream()
 		            .map(row -> new LiveSeatResponse((String) row[0], (LocalDate) row[1], (Long) row[2]))
 		            .collect(Collectors.toList());
 		System.out.println(responseList);
+//		 responseList
+
+List<LiveSeatResponse> combinedList = responseList.stream()
+    .map(response -> {
+        Fair fair = fairs.stream()
+            .filter(f -> f.getClassType().equals(response.getClassType()) && f.getTrain().getId().equals(trainNo))
+            .findFirst()
+            .orElse(null);
+
+        if (fair != null) {
+            // Create a new LiveSeatResponse object with price information
+            return new LiveSeatResponse(
+                response.getClassType(),
+                response.getDestinationTime(),
+                response.getAvailableSeats(),
+                fair.getFair()
+            );
+           
+        } else {
+            return response; // No matching fair found, return the original response
+        }
+    })
+    .collect(Collectors.toList());
 		
+		System.out.println("this is combined list of seat"+combinedList);
+		
+		
+		
+//		List<LiveSeatResponse> responseList2 = responseList.stream().map(train -> mapper.map(train, LiveSeatResponse.class)).toList();
 //		List<LiveSeatResponse> list=	liveDao.getTotalSeatsByClassAndDate(originDate, trainNo).stream().map(train -> mapper.map(train, LiveSeatResponse.class)).toList();
-		System.out.println(responseList);
-		return responseList;
+//		System.out.println(responseList);
+		return combinedList;
 	}
 	
 	

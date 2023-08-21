@@ -36,13 +36,13 @@ public class FairService implements IFairService {
 
 	@Override
 	public List<Fair> showBoogieFair(Long trainNo, String classType) {
-		// TODO Auto-generated method stub
-		return dao.findByClassTypeAndTrainId(ClassType.valueOf(classType.toUpperCase()), trainNo);
+		
+		return dao.findByClassTypeAndTrainId(classType, trainNo);
 	}
 
 	@Override
 	public List<Fair> showBySourceAndDestination(Long sourceId, Long destinationId) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	

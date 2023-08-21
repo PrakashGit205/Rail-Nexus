@@ -12,5 +12,6 @@ import com.railnexus.pojos.enums.ClassType;
 
 public interface FairDao extends JpaRepository<Fair, Long> {
 	List<Fair> findByTrainId(Long trainNo);
-	List<Fair> findByClassTypeAndTrainId(ClassType classType,Long trainNo);
+	List<Fair> findByClassTypeAndTrainId(String classType,Long trainNo);
+//	List<Fair> findByTrainIdAndClassType()
 }

@@ -18,4 +18,12 @@ public class LiveSeatResponse {
 //	private String seatType;
 	private LocalDate destinationTime;
 	private Long availableSeats;
+	private float fair;
+	public LiveSeatResponse(String classType, LocalDate destinationTime, Long availableSeats) {
+		super();
+		this.classType = classType;
+		this.destinationTime = destinationTime;
+		this.availableSeats = availableSeats;
+	}
+
 }

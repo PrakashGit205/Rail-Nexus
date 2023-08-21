@@ -15,7 +15,7 @@ const TrainReservationForm = () => {
         originDate: '',
         classType: '',
     });
-
+    
     const [message, setMessage] = useState();
     const [stations, setStaions] = useState([]);
 

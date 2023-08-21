@@ -31,9 +31,9 @@ public class Fair extends SuperId {
 
 	private float fair;
 
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(name = "class_type", length = 30)
-	private ClassType classType;
+	private String classType;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "train_no")

@@ -3,13 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import FilteredTrain from './FilteredTrain';
 import Header from '../Header';
 import Example from './TrainFIlterDemo';
+import { useMyContext } from '../../MyContext';
+import { Modal } from 'react-bootstrap';
+import Login from '../../Security/Login';
 
 const FilterSidebar = (props) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [filters, setFilters] = useState({
         originDate: "",
-        originId: "",
-        sourceId: ""
+        sourceId: "",
+        originId: ""
     });
 
     const [isOpen, setIsopen] = useState(false);
@@ -25,9 +28,13 @@ const FilterSidebar = (props) => {
         }));
 
     };
+    const { show, setShow, handleClose, handleShow } = useMyContext();
 
     return (<>
         {/* <Header></Header> */}
+        <Modal show={show} onHide={handleClose}>
+            <Login></Login>
+        </Modal>
         <div className="container-fluid mt-3">
              <div className={`sidebar ${isOpen == true ? 'active' : ''}`}>
                         <div className="sd-header">

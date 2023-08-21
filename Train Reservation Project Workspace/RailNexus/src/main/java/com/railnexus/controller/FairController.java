@@ -45,11 +45,12 @@ public class FairController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.showBoogieFair(trainNo, classType).stream()
 				.map(fair -> model.map(fair, FairResponseDTO.class)).toList());
 	}
+
 	@GetMapping("/station/{sourceId}/{destinationId}")
 	public ResponseEntity<?> showBySourceAndDestination(@PathVariable Long sourceId, @PathVariable Long destinationId) {
 
-		return ResponseEntity.status(HttpStatus.OK).body(service.showBySourceAndDestination(sourceId, destinationId).stream()
-				.map(fair -> model.map(fair, FairResponseDTO.class)).toList());
+		return ResponseEntity.status(HttpStatus.OK).body(service.showBySourceAndDestination(sourceId, destinationId)
+				.stream().map(fair -> model.map(fair, FairResponseDTO.class)).toList());
 	}
 
 }
