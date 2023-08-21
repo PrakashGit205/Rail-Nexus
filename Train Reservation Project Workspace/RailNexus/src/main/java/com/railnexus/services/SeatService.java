@@ -15,6 +15,7 @@ import com.railnexus.dao.FairDao;
 import com.railnexus.dao.LiveSeatDao;
 import com.railnexus.dao.SeatDao;
 import com.railnexus.dao.TrainDao;
+import com.railnexus.dto.response.DistanceResponseDTO;
 import com.railnexus.dto.response.LiveSeatResponse;
 import com.railnexus.dto.response.RunningTrainResponseDTO;
 import com.railnexus.dto.response.SeatResponseDTO;
@@ -48,17 +49,21 @@ public class SeatService implements ISeatService {
 		return dao.findByTrainId(trainNo).stream().map(train -> mapper.map(train, SeatResponseDTO.class)).toList();
 	}
 
-	public List<LiveSeatResponse> showAvailableSeats(Long trainNo,LocalDate originDate){
+	public List<LiveSeatResponse> showAvailableSeats(Long trainNo,LocalDate originDate,Long sourceId,Long originId){
 		System.out.println(liveDao.getTotalSeatsByClassAndDate(originDate, trainNo));
 		
 
 		    List<Object[]> queryResult = liveDao.getTotalSeatsByClassAndDate(originDate, trainNo);
 		    List<Fair> fairs = fairDao.findByTrainId(trainNo);
-		    List<Distance> distance = distanceDao.findByOriginStationIdAndDestinationStationIdOrDestinationStationIdAndOriginStationId(trainNo, trainNo, trainNo, trainNo);
+		    
+		    List<Distance> distance = distanceDao.findByOriginStationIdAndDestinationStationIdOrDestinationStationIdAndOriginStationId(sourceId, originId, originId, sourceId);
+		    DistanceResponseDTO distance2=  distance.stream().map(d->mapper.map(d, DistanceResponseDTO.class)).findFirst().get();
+		    System.out.println(distance2);
+//		    System.out.println(distance);
 		    List<LiveSeatResponse> responseList = queryResult.stream()
 		            .map(row -> new LiveSeatResponse((String) row[0], (LocalDate) row[1], (Long) row[2]))
 		            .collect(Collectors.toList());
-		System.out.println(responseList);
+//		System.out.println(responseList);
 //		 responseList
 
 List<LiveSeatResponse> combinedList = responseList.stream()
@@ -74,7 +79,7 @@ List<LiveSeatResponse> combinedList = responseList.stream()
                 response.getClassType(),
                 response.getDestinationTime(),
                 response.getAvailableSeats(),
-                fair.getFair()
+                (fair.getFair()/100) * distance2.getDistance()
             );
            
         } else {
@@ -83,7 +88,7 @@ List<LiveSeatResponse> combinedList = responseList.stream()
     })
     .collect(Collectors.toList());
 		
-		System.out.println("this is combined list of seat"+combinedList);
+//		System.out.println("this is combined list of seat"+combinedList);
 		
 		
 		

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.railnexus.pojos.TrainStation;
 
 public interface TrainStationDao extends JpaRepository<TrainStation, Long> {
- List<TrainStation>	findByStationCodeOrStationCode(String sourceId,String destinationId);
+ List<TrainStation>	findByStationIdOrStationId(Long sourceId,Long destinationId);
 	
 }

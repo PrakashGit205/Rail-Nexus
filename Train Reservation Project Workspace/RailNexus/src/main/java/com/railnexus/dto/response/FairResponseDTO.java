@@ -17,7 +17,7 @@ import lombok.ToString;
 public class FairResponseDTO {
 	private float fair;
 
-	private ClassType classType;
+	private String classType;
 
 	private Long trainNo;
 

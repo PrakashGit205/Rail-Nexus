@@ -1,34 +1,10 @@
-:root {
-    --background-color-light: #ffffff;
-    --background-color-dark: #1a1a1a;
-    --text-color-light: #333333;
-    --text-color-dark: #f0f0f0;
-   
+body {
+  background-color: #dadada;
+  color: #1f2023;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1f2023;
+    color: #dadada;
   }
-  .app {
-    /* Common styles for both modes */
-    font-family: Arial, sans-serif;
-    transition: background-color 0.5s, color 0.5s;
-  }
-  html {
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
-  .light-mode {
-
-    --background-color: var(--background-color-light);
-    --text-color: var(--text-color-light);
-  }
-  
-  .dark-mode {
-    --background-color: var(--background-color-dark);
-    --text-color: var(--text-color-dark);
-  }
-  
-  .app {
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
-  
-  /* More styles for different elements */
-  
+}

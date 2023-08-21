@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useMyContext } from "../MyContext";
 
 function Header() {
-    const { show, setShow, handleClose, handleShow,isLoggedIn, setIsLoggedIn } = useMyContext();
+    const { show, setShow, handleClose, handleShow, isLoggedIn, setIsLoggedIn } = useMyContext();
     const history = useHistory();
     // const [isLoggedIn, setIsLoggedIn] = useState(false); // Default: not logged in
     // const [show, setShow] = useState(false);
@@ -12,29 +12,29 @@ function Header() {
     // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
     useEffect(() => {
-        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn");
+        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
         var User = sessionStorage.getItem("User");
         if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
             setIsLoggedIn(true);
         }
     }, [])
     useEffect(() => {
-        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn");
+        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
         var User = sessionStorage.getItem("User");
         if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
             setIsLoggedIn(true);
         }
         else
-        setIsLoggedIn(false);
+            setIsLoggedIn(false);
     }, [isLoggedIn])
-    
+
     // Function to handle login
     const handleLogin = () => {
         // Perform your login logic here
         // Once logged in, update the authentication status
         setShow(true);
         // history.push("/login")
-        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn");
+        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
         var User = sessionStorage.getItem("User");
         if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
             setIsLoggedIn(true);
@@ -42,7 +42,7 @@ function Header() {
     };
     const LogOut = () => {
         sessionStorage.removeItem("User");
-        sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("isLoggedIn123");
         setIsLoggedIn(false);
         history.push("/")
     }
@@ -135,8 +135,18 @@ function Header() {
                                         className="me-4"
                                         aria-label="Search"
                                     />
-                                    <Button variant="outline-success">Search</Button>
+                                    <Button variant="outline-success" >Search</Button>
                                 </Form>
+                                {/* <InputGroup className="mb-3">
+                                    <Form.Control
+                                        placeholder="Recipient's username"
+                                        aria-label="Recipient's username"
+                                        aria-describedby="basic-addon2"
+                                    />
+                                    <Button variant="outline-primary" id="button-addon2">
+                                        search
+                                    </Button>
+                                </InputGroup> */}
                             </li>
                         </ul>
                         {/* Conditional rendering based on authentication status */}

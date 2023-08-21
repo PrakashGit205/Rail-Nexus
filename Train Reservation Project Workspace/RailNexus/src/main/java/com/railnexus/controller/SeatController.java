@@ -41,6 +41,6 @@ public class SeatController {
 	@PostMapping
 	public ResponseEntity<?> showAvailaSeatsByDate(@RequestBody SeatRequestDTO dto) {
 		System.out.println(dto);
-		return ResponseEntity.status(HttpStatus.OK).body(service.showAvailableSeats(dto.getTrainNo(),dto.getOriginDate()));
+		return ResponseEntity.status(HttpStatus.OK).body(service.showAvailableSeats(dto.getTrainNo(),dto.getOriginDate(),dto.getSourceId(),dto.getOriginId()));
 	}
 }

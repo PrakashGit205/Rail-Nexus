@@ -1,5 +1,8 @@
 package com.railnexus.pojos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.railnexus.pojos.enums.ClassType;
@@ -44,7 +48,8 @@ public class Seat extends SuperId{
 	@Column(name = "total_seat")
 	private int totalSeat;
 	
-	
+	@OneToMany(mappedBy = "seat")
+	private List<CanceledSeats> canceledSeats = new ArrayList<>();
 	
 	
 	@Override

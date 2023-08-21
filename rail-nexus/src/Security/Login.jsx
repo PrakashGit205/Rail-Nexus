@@ -64,10 +64,13 @@ const Login = () => {
           setUser(response.data);
           console.log(user);
           sessionStorage.setItem("User", JSON.stringify(response.data));
-          sessionStorage.setItem("isLoggedIn", "true");
           handleClose(false);
           setIsLoggedIn(true);
-          history.push("/profile");
+          if('user'.match(response.data.role)){
+            sessionStorage.setItem("isLoggedIn123", "true");
+            history.push("/profile");
+
+          }
         })
         .catch((error) => {
           setErrors({ password: "Wrong Email or password" });
@@ -78,13 +81,13 @@ const Login = () => {
 
   return (
     <>
-      <div className="card">
+      <div className="card" >
         <CloseButton
           onClick={() => {
             handleClose();
           }}
         ></CloseButton>
-        <div className="card-body">
+        <div className="card-body ">
           <h3 className="card-title text-center">Login</h3>
 
           <div className="form-group">

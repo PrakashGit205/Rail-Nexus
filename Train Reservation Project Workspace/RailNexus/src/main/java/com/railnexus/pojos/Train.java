@@ -76,7 +76,8 @@ public class Train extends SuperId {
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "train")
 	private List<TrainStation> trainRoute = new ArrayList<>();
 	
-	
+	@OneToMany( mappedBy = "train")
+	private List<CanceledSeats> canceledSeats = new ArrayList<>();
 	
 
 	@OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

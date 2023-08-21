@@ -19,4 +19,6 @@ import lombok.ToString;
 public class SeatRequestDTO {
 private LocalDate originDate;
 private Long trainNo;
+private Long sourceId;
+private Long originId;
 }

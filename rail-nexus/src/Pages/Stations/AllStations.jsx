@@ -15,7 +15,7 @@ const TrainReservationForm = () => {
         originDate: '',
         classType: '',
     });
-    
+
     const [message, setMessage] = useState();
     const [stations, setStaions] = useState([]);
 
@@ -29,6 +29,7 @@ const TrainReservationForm = () => {
     };
 
     useEffect(() => {
+        LoadStation();
         // Set the fade-in effect when the component mounts
         setFadeIn(true);
         return () => {
@@ -54,9 +55,9 @@ const TrainReservationForm = () => {
         }, 3000);
 
     }, [message]);
-    useState(() => {
-        LoadStation();
-    }, [])
+    // useState(() => {
+    //     LoadStation();
+    // }, [])
     const onSubmitFun = () => {
         console.log(formData);
         if (formData.sourceId == "" || formData.originId == "") {
@@ -96,7 +97,7 @@ const TrainReservationForm = () => {
                                     >
                                         <option >From</option>
                                         {stations.map((station) => (
-                                            <option value={station.code}>
+                                            <option value={station.id}>
                                                 {station.name} ({station.code})
                                             </option>
                                         ))}
@@ -114,7 +115,7 @@ const TrainReservationForm = () => {
                                     >
                                         <option>To</option>
                                         {stations.map((station) => (
-                                            <option value={station.code}>
+                                            <option value={station.id}>
                                                 {station.name} ({station.code})
                                             </option>
                                         ))}

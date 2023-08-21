@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class StationResponseDTO {
+	private Long id;
 	private String name;
 	private String code;
 	private String cityName;

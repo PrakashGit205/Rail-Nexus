@@ -36,7 +36,7 @@ public class RunningTrainService implements IRunningTrainService {
 		List<RunningTrain> dto = null;
 		List<RunningTrain> newDto = null;
 		System.out.println(requestDto);
-		List<TrainStation> trainsAndStations = trainStationDao.findByStationCodeOrStationCode(requestDto.getSourceId(),
+		List<TrainStation> trainsAndStations = trainStationDao.findByStationIdOrStationId(requestDto.getSourceId(),
 				requestDto.getOriginId());
 //		System.out.println(trainsAndStations);
 		trainsAndStations.sort((a, b) -> a.getSequence() - b.getSequence());
@@ -45,11 +45,11 @@ public class RunningTrainService implements IRunningTrainService {
 		int j = 0;
 		for (int i = 0; i < trainsAndStations.size(); i++) {
 
-			if (requestDto.getSourceId().equals(trainsAndStations.get(i).getStation().getCode())) {
+			if (requestDto.getSourceId().equals(trainsAndStations.get(i).getStation().getId())) {
 				j = trainsAndStations.get(i).getSequence();
 				dto = (trainsAndStations.get(i).getTrain().getRunningTrain());
 //				flag = true;
-			} else if (requestDto.getOriginId().equals(trainsAndStations.get(i).getStation().getCode())
+			} else if (requestDto.getOriginId().equals(trainsAndStations.get(i).getStation().getId())
 					&& j > trainsAndStations.get(i).getSequence()) {
 				dto.addAll(trainsAndStations.get(i).getTrain().getRunningTrain());
 

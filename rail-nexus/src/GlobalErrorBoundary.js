@@ -5,7 +5,6 @@ class GlobalErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ hasError: true, error: error });
-    // You can also log the error or send it to a monitoring service
     console.error("An error occurred:", error);
   }
 

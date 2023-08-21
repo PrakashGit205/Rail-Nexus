@@ -49,7 +49,8 @@ function FilteredTrain(props) {
     } else {
       setExpandedTrainId(id);
       // Fetch and set seats data for the selected train
-      SeatService.post({originDate:originDate ,trainNo : 1})
+      console.log({originDate:originDate ,trainNo : 1,originId: formData.originId,sourceId:formData.sourceId})
+      SeatService.post({originDate:originDate ,trainNo : 1,originId: formData.originId,sourceId:formData.sourceId})
         .then((response) => {
 
           console.log(response.data)
@@ -59,16 +60,6 @@ function FilteredTrain(props) {
         .catch((error) => console.log(error));
     }
   };
-  // const totalSeatsByClass = {};
-
-  // Seats.forEach((seat) => {
-  //   if (!totalSeatsByClass[seat.classType]) {
-  //     totalSeatsByClass[seat.classType] = 0;
-  //   }
-  //   totalSeatsByClass[seat.classType] += seat.totalSeats;
-  // });
-  
-  // console.log(totalSeatsByClass);
   return (
     <>
    <div className={`container mt-5 fade-in`}>
@@ -117,6 +108,7 @@ function FilteredTrain(props) {
                 <div className="col-md-2 py-2" key={index}>  {seat.classType}</div>
                 {/* <div className="col-md-2 py-2" key={index}> {seat.seatType}</div> */}
                 <div className="col-md-2 py-2" key={index}>  {seat.availableSeats}</div>
+                <div className="col-md-2 py-2" key={index}>  {seat.price}</div>
                 <button className="btn btn-primary col-md-2 py-2" onClick={() => bookTrain(train.id,seat)}>Book Train</button>{" "}
             {/* </div> */}
           </div>

@@ -17,8 +17,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class FirstDataDTO {
-	String originId;
-	String sourceId;
+	Long originId;
+	Long sourceId;
 	LocalDate originDate;
 	
 }
