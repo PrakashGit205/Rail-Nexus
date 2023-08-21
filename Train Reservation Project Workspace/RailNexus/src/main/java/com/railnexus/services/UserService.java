@@ -40,7 +40,8 @@ public class UserService implements IUserService{
 	@Override
 	public User login(String email, String password) {
 		// TODO Auto-generated method stub
-		return null;
+		return userDao.findByEmailAndPassword(email, password).orElseThrow(() -> new ResourceNotFoundException("Invalid User Id!!!"));
+		
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.railnexus.pojos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -37,16 +38,16 @@ public class LiveSeat extends SuperId {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Train train;
 	
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(length = 20, name = "class_type")
-	private ClassType classType;
+	private String classType;
 	
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(length = 20, name = "seat_type")
-	private SeatType seatType;
+	private String seatType;
 	
 	@Column(name = "destination_time")
-	private LocalDateTime destinationTime;
+	private LocalDate destinationTime;
 	
 	@Column(name = "available_seats")
 	private int availableSeats;

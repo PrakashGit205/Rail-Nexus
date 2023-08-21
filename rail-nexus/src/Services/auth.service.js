@@ -2,7 +2,7 @@ import axios from 'axios';
 import BaseURL from '../GlobalConfig';
 
 const httpClient = axios.create({
-  baseURL: BaseURL+"/api/user",
+  baseURL: BaseURL+"/signin",
   headers: {
     'Content-Type': 'application/json',
   },

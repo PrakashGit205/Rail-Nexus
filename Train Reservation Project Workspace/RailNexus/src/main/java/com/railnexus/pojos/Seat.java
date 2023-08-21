@@ -33,13 +33,13 @@ public class Seat extends SuperId{
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private Train train;
 	
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(length = 20, name = "class_type")
-	private ClassType classType;
+	private String classType;
 	
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(length = 20, name = "seat_type")
-	private SeatType seatType;
+	private String seatType;
 	
 	@Column(name = "total_seat")
 	private int totalSeat;

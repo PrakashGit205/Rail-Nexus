@@ -9,20 +9,32 @@ import Header from "../Pages/Header";
 import FilteredTrain from "../Pages/Trains/FilteredTrain";
 import App from "../Pages/Trains/pagedemo";
 import Admin from "../AdminFlow";
+import FilterSidebar from "../Pages/Trains/pagedemo";
+import MyContext, { useMyContext } from "../MyContext";
+import { useState } from "react";
+import ProtectedRoute from "./ProtectedRoute";
+import Profile from '../UserFlow/Profile'
 function Controller() {
+  const [show, setShow] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
   return (
     <>
+<MyContext.Provider value={{show,setShow,handleClose,handleShow,isLoggedIn,setIsLoggedIn}}>
     <Header></Header>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={Login}  />
         <Route exact path="/register" component={Register} />  
-        <Route exact path="/trains" component={App} />
+        <Route exact path="/running-trains" component={FilterSidebar} />
         <Route exact path="/stations" component={Stations} />
         <Route exact path ="/admin" component={Admin}/>
+        <ProtectedRoute exact path = "/profile" component={Profile}/>
         {/* <Route path="/seats" component={Seats} /> */}
-        <Route exact path="/running-trains" component={RunningTrains} />
+        {/* <Route exact path="/running-trains" component={RunningTrains} /> */}
       </Switch>
+      </MyContext.Provider>
     </>
   );
 }

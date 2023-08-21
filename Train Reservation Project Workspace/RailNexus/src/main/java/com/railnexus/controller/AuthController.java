@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,8 @@ import com.railnexus.security.CustomUserDetails;
 import com.railnexus.services.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/signin")
+@CrossOrigin(origins = "*")
 public class AuthController {
 //dep :
 	@Autowired
@@ -40,9 +42,10 @@ public class AuthController {
 	 * success : Auth Resp DTO : mesg + JWT token + SC 200 IN case of failure : SC
 	 * 401
 	 */
-	@PostMapping("/signin")
-	public ResponseEntity<?> signIn(@RequestBody @Valid LoginRequestDTO request) {
+	@PostMapping()
+	public ResponseEntity<?> signIn(@RequestBody LoginRequestDTO request) {
 		// Authentication i/f ---> implemented by UserNamePasswordAuthToken
+		System.out.println(request);
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(request.getEmail(),
 						request.getPassword());
 				//log.info("auth token " + authToken);

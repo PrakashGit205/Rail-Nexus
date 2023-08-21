@@ -130,3 +130,104 @@ VALUES
   (2, 'B1', 'GENERAL', 'MIDDLE_BIRTH', 40),
   (2, 'B1', 'GENERAL', 'LOWER_BERTH', 40);
   -- ... (repeat for other boogies and trains)
+
+
+
+
+
+ -- Row 1
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (31, 32, 230);
+
+-- Row 2
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (31, 33, 320);
+
+-- Row 3
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (31, 34, 170);
+
+-- Row 4
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (31, 36, 420);
+
+-- Row 5
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (32, 33, 390);
+
+-- Row 6
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (32, 34, 410);
+
+-- Row 7
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (32, 36, 340);
+
+-- Row 8
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (33, 34, 310);
+
+-- Row 9
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (33, 36, 500);
+
+-- Row 10
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (34, 36, 380);
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (31, 35, 280);
+
+-- Distance between station 32 and 35
+INSERT INTO distance (origin_station_id, destination_station_id, distance)
+VALUES (32, 35, 360);
+
+-- Distance between station 34 and 35
+INSERT INTO distance (origin_station_id, destination_fairstation_id, distance)
+VALUES (34, 35, 190);
+
+INSERT INTO trains_stations (train_id, station_id, sequence) VALUES (1, 34, 1);
+INSERT INTO trains_stations (train_id, station_id, sequence) VALUES (1, 35, 2);
+INSERT INTO trains_stations (train_id, station_id, sequence) VALUES (1, 31, 3);
+INSERT INTO trains_stations (train_id, station_id, sequence) VALUES (4, 32, 1);
+INSERT INTO trains_stations (train_id, station_id, sequence) VALUES (4, 31, 2);
+INSERT INTO trains_stations (train_id, station_id, sequence) VALUES (4, 34, 3);
+INSERT INTO trains_stations (train_id, station_id, sequence) VALUES (4, 36, 4);
+
+INSERT INTO running_trains (id, delay, origin_date, current_station_id, train_id)
+VALUES
+  (1, 0, CURDATE()+1, 31, 1),
+  (2, 0, CURDATE()+1, 32, 4),
+  (3, 0, CURDATE(), 31, 3),
+  (4, 0, CURDATE(), 32, 4);
+
+-- Insert data for train number 1
+INSERT INTO fair (class_type, fair, dist_for_fair, train_no)
+VALUES
+    ('FIRST_CLASS', 1200, 100, 1),
+    ('SECOND_CLASS', 800, 100, 1),
+    ('SLEEPER_CLASS', 500, 100, 1),
+    ('GENERAL', 100, 100, 1);
+
+-- Insert data for train number 2
+INSERT INTO fair (class_type, fair, dist_for_fair, train_no)
+VALUES
+    ('FIRST_CLASS', 1200, 100, 2),
+    ('SECOND_CLASS', 800, 100, 2),
+    ('SLEEPER_CLASS', 500, 100, 2),
+    ('GENERAL', 100, 100, 2);
+
+-- Insert data for train number 3
+INSERT INTO fair (class_type, fair, dist_for_fair, train_no)
+VALUES
+    ('FIRST_CLASS', 1300, 100, 3),
+    ('SECOND_CLASS', 900, 100, 3),
+    ('SLEEPER_CLASS', 500, 100, 3),
+    ('GENERAL', 200, 100, 3);
+
+-- Insert data for train number 4
+INSERT INTO fair (class_type, fair, dist_for_fair, train_no)
+VALUES
+    ('FIRST_CLASS', 1500, 100, 4),
+    ('SECOND_CLASS', 1100, 100, 4),
+    ('SLEEPER_CLASS', 500, 100, 4),
+    ('GENERAL', 200, 100, 4);

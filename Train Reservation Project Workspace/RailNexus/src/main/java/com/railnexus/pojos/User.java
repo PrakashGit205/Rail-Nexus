@@ -49,9 +49,9 @@ public class User extends SuperId {
 	@Column(name = "gender",length = 10)
 	private String gender;
 	
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(length = 25, name = "role")
-	private UserRoles role;;
+	private String role;;
 	
 	@OneToMany(mappedBy = "user")
 	private List<Passenger> passengers = new ArrayList<>();

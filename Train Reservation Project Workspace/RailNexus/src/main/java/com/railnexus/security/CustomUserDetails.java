@@ -33,7 +33,7 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// Can I return List<SimpleGrantedAuthority> ? YESS
-		return List.of(new SimpleGrantedAuthority(user.getRole().name()));
+		return List.of(new SimpleGrantedAuthority(user.getRole()));
 	}
 
 	@Override

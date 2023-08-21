@@ -2,7 +2,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Controlleer from './Security/AllUserRoutes'
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import MyContext from './MyContext';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -19,7 +20,9 @@ function App() {
           Toggle Mode
         </button> */}
    <BrowserRouter>
+  <MyContext.Provider>
    <Controlleer></Controlleer>
+   </MyContext.Provider>
    </BrowserRouter>
    {/* </div> */}
   

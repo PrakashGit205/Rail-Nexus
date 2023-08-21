@@ -19,7 +19,7 @@ public class LoginResponse {
 	private String token;
 //	private String mesg;
 //	private boolean isValid;
-//	private Long id;
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String address;

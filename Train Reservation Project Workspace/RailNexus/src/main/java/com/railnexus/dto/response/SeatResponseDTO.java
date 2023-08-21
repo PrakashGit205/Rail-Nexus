@@ -21,10 +21,14 @@ import lombok.ToString;
 @ToString
 public class SeatResponseDTO {
 	private Long seatId;
+	
+	
+	
+	private String classType;
 
-	private ClassType classType;
-
-	private SeatType seatType;
+	private String seatType;
 
 	private int totalSeat;
+	
+
 }

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FilteredTrain from './FilteredTrain';
 import Header from '../Header';
+import Example from './TrainFIlterDemo';
 
-const App = () => {
+const FilterSidebar = (props) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [filters, setFilters] = useState({
         originDate: "",
@@ -22,6 +23,7 @@ const App = () => {
             ...prevFilters,
             [filterName]: value,
         }));
+
     };
 
     return (<>
@@ -82,10 +84,11 @@ const App = () => {
                                 </div>
                     {/* Render your FilteredTrain component here */}
                     <FilteredTrain filters={filters} />
+                    {/* <Example></Example> */}
                 </main>
           </div> 
           </>  
     );
 };
 
-export default App;
+export default FilterSidebar;

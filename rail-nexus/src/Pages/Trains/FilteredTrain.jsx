@@ -13,23 +13,23 @@ function FilteredTrain(props) {
   const [trains, setTrains] = useState([]);
   const [expandedTrainId, setExpandedTrainId] = useState(null);
   const [Seats, setSeats] = useState([]);
-// const [filtered, setfiltered] = useState([])
-var traifilter;
-const seenTrainNumbers = new Set();
+  // const [filtered, setfiltered] = useState([])
+  var traifilter;
+  const seenTrainNumbers = new Set();
   useEffect(() => {
     RunningTrainsService.post(formData)
       .then((response) => {
         console.log('Printing trains data', response.data);
         setTrains(response.data);
 
-          traifilter = trains.filter(train => {
+        traifilter = trains.filter(train => {
           if (!seenTrainNumbers.has(train.trainNo)) {
             seenTrainNumbers.add(train.trainNo);
             return true;
           }
           return false;
         });
-        
+
         console.log(traifilter)
 
       })
@@ -38,67 +38,108 @@ const seenTrainNumbers = new Set();
       });
   }, []);
 
-  const bookTrain = (id) => {
-    // Your bookTrain logic here
+  const bookTrain = (trainNo,seat) => {
+    
   };
 
-  const toggleSeatView = (id) => {
+  const toggleSeatView = (id,originDate) => {
     if (expandedTrainId === id) {
       setExpandedTrainId(null);
       setSeats([]);
     } else {
       setExpandedTrainId(id);
       // Fetch and set seats data for the selected train
-      SeatService.get(id)
+      SeatService.post({originDate:originDate ,trainNo : 1})
         .then((response) => {
 
+          console.log(response.data)
           setSeats(response.data);
+          console.log(Seats)
         })
         .catch((error) => console.log(error));
     }
   };
+  // const totalSeatsByClass = {};
 
+  // Seats.forEach((seat) => {
+  //   if (!totalSeatsByClass[seat.classType]) {
+  //     totalSeatsByClass[seat.classType] = 0;
+  //   }
+  //   totalSeatsByClass[seat.classType] += seat.totalSeats;
+  // });
+  
+  // console.log(totalSeatsByClass);
   return (
     <>
-      <br /><br />
-      <div className={`container mt-5 fade-in`}>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="row bg-dark text-white">
-                <div className="col-md-3 rounded-left py-2">Train Name</div>
-                <div className="col-md-3 py-2">Train Number</div>
-                <div className="col-md-3 py-2">Train Type</div>
-                <div className="col-md-3 rounded-right py-2">Actions</div>
-              </div>
-              {trains.map((train, index) => (
-                <div key={index} className="row bg-light mb-2 rounded">
-                  <div className="col-md-3 py-2">{train.trainName}</div>
-                  <div className="col-md-3 py-2">{train.trainNo}</div>
-                  <div className="col-md-3 py-2">{train.trainType}</div>
-                  <div className="col-md-3 py-2">
-                    <button className="btn btn-secondary mr-2" onClick={() => bookTrain(train.id)}>Book Train</button>{" "}
-                    <button className="btn btn-success" onClick={() => toggleSeatView(train.id)}>
-                      {expandedTrainId === train.id ? "Hide Seats" : "View Seats"}
-                    </button>
-                  </div>
-                </div>
-              ))}
-              {/* Render seat data if expandedTrainId is set */}
-              {expandedTrainId !== null && (
-                <div className="row bg-light mb-2 rounded">
-                  <div className="col-md-12">
-                    {/* Render seat data here */}
-                    {Seats.map((seat, index) => (
-                      <div key={index}>Seat Number: {seat.seatNumber}, Availability: {seat.availability}</div>
-                    ))}
-                  </div>
-                </div>
-              )}
+   <div className={`container mt-5 fade-in`}>
+  <div className="container">
+    {/* <div className="row"> */}
+      {/* <div className="col-md-12"> */}
+        {/* add date filter source station and destionation station filter select option  */}
+        {
+        trains !== null && trains.length > 0 ? (
+          <div>
+            <div className="row bg-dark text-white">
+              <div className="col-md-2 rounded-left py-2">Train Name</div>
+              <div className="col-md-2 py-2">Train Number</div>
+              <div className="col-md-2 py-2">Train Arrival Time</div>
+              <div className="col-md-2 py-2">Train Departure Time</div>
+              <div className="col-md-2 py-2">Train Departure Date</div>
+              <div className="col-md-2 rounded-right py-2">Actions</div>
             </div>
+            {trains.map((train, index) => (
+              <div key={index} className="row bg-light mb-2 rounded">
+                <div className="col-md-2 py-2">{train.trainName}</div>
+                <div className="col-md-2 py-2">{train.trainNo}</div>
+                <div className="col-md-2 py-2">{train.trainType}</div>
+                <div className="col-md-2 py-2">{train.trainType}</div>
+                {/* <div className="col-md-2 py-2">{train.trainType}</div> */}
+                <div className="col-md-2 py-2">{train.originDate}</div>
+                <div className="col-md-2 py-2">
+                  <button className="btn btn-success" onClick={() => toggleSeatView(train.id,train.originDate)}>
+                    {expandedTrainId === train.id ? "Hide Seats" : "View Seats"}
+                  </button>
+                </div>
+                {
+                  expandedTrainId === train.id && (
+                    <>
+          <div className="row bg-info text-white">
+              <div className="col-md-2 rounded-left py-2">classType</div>
+              {/* <div className="col-md-2 py-2">seatType</div> */}
+              <div className="col-md-2 py-2">Available Seats</div>
+              <div className="col-md-2 py-2">Price</div>
+            </div>
+              {/* Render seat data here */}
+              {Seats.map((seat, index) => (
+                <>
+          <div className="row bg-outline-info mb-2 rounded">
+            {/* <div className="col-md-12"> */}
+                <div className="col-md-2 py-2" key={index}>  {seat.classType}</div>
+                {/* <div className="col-md-2 py-2" key={index}> {seat.seatType}</div> */}
+                <div className="col-md-2 py-2" key={index}>  {seat.availableSeats}</div>
+                <button className="btn btn-primary col-md-2 py-2" onClick={() => bookTrain(train.id,seat)}>Book Train</button>{" "}
+            {/* </div> */}
           </div>
-        </div>
+                </>
+              ))}
+          </>
+        )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="row bg-light mb-2 rounded">
+            <div className="col-md-12 py-2">No trains available on this route.</div>
+          </div>
+        )}
+        {/* Render seat data if expandedTrainId is set */}
+        
       </div>
+    {/* </div> */}
+  {/* </div> */}
+</div>
+
+
     </>
   );
 }

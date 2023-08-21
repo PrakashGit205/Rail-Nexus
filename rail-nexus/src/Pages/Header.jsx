@@ -1,23 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
-function ProfileIcon() {
-    return (
-        // You can replace this with your actual profile icon component
-        <i class="bi bi-person"></i>
-        // <img src="/path/to/profile-icon.png" alt="Profile" width="30" height="30" />
-    );
-}
-function Header() {
-    const history = useHistory();
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Default: not logged in
+import { useMyContext } from "../MyContext";
 
+function Header() {
+    const { show, setShow, handleClose, handleShow,isLoggedIn, setIsLoggedIn } = useMyContext();
+    const history = useHistory();
+    // const [isLoggedIn, setIsLoggedIn] = useState(false); // Default: not logged in
+    // const [show, setShow] = useState(false);
+
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+    useEffect(() => {
+        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn");
+        var User = sessionStorage.getItem("User");
+        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
+            setIsLoggedIn(true);
+        }
+    }, [])
+    useEffect(() => {
+        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn");
+        var User = sessionStorage.getItem("User");
+        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
+            setIsLoggedIn(true);
+        }
+        else
+        setIsLoggedIn(false);
+    }, [isLoggedIn])
+    
     // Function to handle login
     const handleLogin = () => {
         // Perform your login logic here
         // Once logged in, update the authentication status
-        setIsLoggedIn(true);
+        setShow(true);
+        // history.push("/login")
+        var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn");
+        var User = sessionStorage.getItem("User");
+        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
+            setIsLoggedIn(true);
+        }
     };
     const LogOut = () => {
+        sessionStorage.removeItem("User");
+        sessionStorage.removeItem("isLoggedIn");
         setIsLoggedIn(false);
         history.push("/")
     }
@@ -81,7 +106,13 @@ function Header() {
                                         Something else here
                                     </Link>
                                 </li>
+                                <li>
+
+                                </li>
                             </ul>
+                            <li>
+
+                            </li>
                         </li>
                         {/* <li className="nav-item">
                             <Link
@@ -95,44 +126,61 @@ function Header() {
                         </li> */}
                     </ul>
                     <div className="d-flex">
+                        <ul>
+                            <li>
+                                <Form className="d-flex">
+                                    <Form.Control
+                                        type="search"
+                                        placeholder="Search Train "
+                                        className="me-4"
+                                        aria-label="Search"
+                                    />
+                                    <Button variant="outline-success">Search</Button>
+                                </Form>
+                            </li>
+                        </ul>
                         {/* Conditional rendering based on authentication status */}
                         {isLoggedIn ? (
                             <>
-                            <ul>
-                                <li>
+                                <ul>
+                                    <li>
+                                        <button
+                                            className="btn btn-outline-info"
+                                            type="submit"
+                                            onClick={() => history.push("/admin")}
+                                        >
+                                            Go to My Profile
+                                        </button>
+                                    </li>
+
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <button
+                                            className="btn btn-outline-danger"
+                                            type="submit"
+                                            onClick={() => LogOut()}
+                                        >
+                                            Log Out
+                                        </button>
+                                    </li>
+                                </ul>
+
+
+
+                            </>
+                        ) : (
+                            <ul><li>
+
                                 <button
                                     className="btn btn-outline-info"
                                     type="submit"
-                                    onClick={() => history.push("/admin")}
+                                    onClick={() => handleLogin()}
                                 >
-                                    Go to My Profile
+                                    Login/Signup
                                 </button>
-                                </li>
-                               
-                            </ul>
-                            <ul>
-                                <li>
-                                <button
-                                    className="btn btn-outline-danger"
-                                    type="submit"
-                                    onClick={() => LogOut()}
-                                >
-                                    Log Out
-                                </button>
-                                </li>
-                            </ul>
-                                
-                             
-                               
-                            </>
-                        ) : (
-                            <button
-                                className="btn btn-outline-info"
-                                type="submit"
-                                onClick={() => handleLogin()}
-                            >
-                                Login/Signup
-                            </button>
+                            </li></ul>
+
                         )
                         }
                     </div>

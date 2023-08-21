@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Login from "./Login";
 import {Route} from 'react-router-dom';
 
@@ -6,7 +7,10 @@ function ProtectedRoute(props)
     var isLoggedIn = false;
 
     var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn");
-    if(isuserLoggedIn!=null && isuserLoggedIn=='true')
+    var User = sessionStorage.getItem("User");
+    console.log(JSON.parse(User))
+    // const [data, setData] = useState()
+    if(isuserLoggedIn!=null && isuserLoggedIn=='true'&& User != null)
     {
       isLoggedIn = true;
     }

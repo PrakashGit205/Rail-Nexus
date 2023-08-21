@@ -36,20 +36,19 @@ public class SecurityConfig {
 				authorizeRequests() // specify all authorization rules (i.e authorize all requests)
 				.antMatchers(
 						"/**",
-						"/api/**",
+						"/api/seats/**",
 						"/api/running/**",
 						"/user/**",
 						"/api/trains/**", 
 						"/api/stations/**", 
 						"/api/users/**",
+						"/api/user/**",
+						"/login",
 						"/api/fair/**",
 						"/swagger*/**", 
 						"/v*/api-docs/**"
-						).permitAll() // for incoming req ending
-																								// with /products/view :
-																								// no authentication n
-																								// authorization needed
-				.antMatchers("/products/purchase").hasRole("CUSTOMER")// only customer can purchase the products
+						).permitAll() // for incoming req ending															// authorization needed
+				.antMatchers("/profile/**").hasRole("USER")// only customer can purchase the products
 				.antMatchers("/api/add","/api/admin").hasRole("ADMIN") // only admin can add the products
 				.anyRequest().authenticated() // all remaining end points accessible only to authenticated users
 				.and().sessionManagement() // configure HttpSession management

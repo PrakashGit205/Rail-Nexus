@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.railnexus.dao.UserDao;
 import com.railnexus.dto.AddUserDTO;
+import com.railnexus.dto.LoginRequestDTO;
+import com.railnexus.dto.response.LoginResponse;
 import com.railnexus.dto.response.UserResponseDTO;
 import com.railnexus.exception.ResourceNotFoundException;
 import com.railnexus.pojos.User;
@@ -58,6 +60,10 @@ public class UserController {
 	public void deleteUser(@PathVariable Long id){
 		
 service.deleteUser(id);
+	}
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody LoginRequestDTO dto){
+		return ResponseEntity.status(HttpStatus.OK).body(model.map(service.login(dto.getEmail(), dto.getPassword()),LoginResponse.class));
 	}
 	
 }
