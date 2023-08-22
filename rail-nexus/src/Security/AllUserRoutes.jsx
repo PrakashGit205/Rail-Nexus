@@ -16,6 +16,9 @@ import ProtectedRoute from "./ProtectedRoute";
 import Profile from '../UserFlow/Profile';
 import About from '../Pages/Extras/About'
 import COntactUs from '../Pages/Extras/Contact-us'
+import { Modal } from "react-bootstrap";
+import BookSeat from '../Pages/Reservation/BookSeats'
+import Footer from '../Pages/Extras/Footer'
 // import second from '../../'
 function Controller() {
   const [show, setShow] = useState(false);
@@ -26,19 +29,28 @@ function Controller() {
     <>
 <MyContext.Provider value={{show,setShow,handleClose,handleShow,isLoggedIn,setIsLoggedIn}}>
     <Header></Header>
+    <Modal show={show} onHide={handleClose}>
+            <Login></Login>
+        </Modal>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={Login}  />
         <Route exact path="/register" component={Register} />  
         <Route exact path="/running-trains" component={FilterSidebar} />
-        <Route exact path="/stations" component={Stations} />
-        <Route exact path ="/admin" component={Admin}/>
+        {/* <Route exact path="/stations" component={Stations} /> */}
+        <ProtectedRoute   path ="/admin" component={Admin}/>
         <Route exact path ="/about-us" component={About}/>
         <Route exact path ="/contact-us" component={COntactUs}/>
-        <ProtectedRoute exact path = "/profile" component={Profile}/>
+        <ProtectedRoute exact path = "/book-seat" component={BookSeat}/> 
+        {/* <Route exact path="/admin/trains" component={Trains} /> */}
+          {/* <Route exact path="/admin/stations" component={Stations} /> */}
+          {/* <Route exact path="/admin/seats" component={Seats} /> */}
+          {/* <Route exact path="/admin/running-trains" component={RunningTrains} /> */}
+        <ProtectedRoute exact path = "/profile" component={Profile}/>    
         {/* <Route path="/seats" component={Seats} /> */}
         {/* <Route exact path="/running-trains" component={RunningTrains} /> */}
       </Switch>
+      <Footer></Footer>
       </MyContext.Provider>
     </>
   );

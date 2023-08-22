@@ -3,6 +3,8 @@ import React from 'react';
 import { Route, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 import TrainReservationForm from './Stations/AllStations';
+import SeatReservationForm from './Reservation/BookSeats';
+import DemoTrainReservationForm from './Stations/DemoStaions';
 function HomePage() {
 
     // const navigate=useNavigate
@@ -10,7 +12,7 @@ function HomePage() {
     debugger;
     return (<>
     
-       <TrainReservationForm></TrainReservationForm>
+       <DemoTrainReservationForm></DemoTrainReservationForm>
     </>);
 }
 

@@ -3,6 +3,7 @@ import TrainServices from "../../Services/Train.service";
 
 function Trains() {
   var [trains, setTrains] = useState([]);
+  console.log("in trains")
   useEffect(() => {
     TrainServices.getAll()
       .then((response) => {

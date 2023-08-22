@@ -14,6 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class LiveSeatResponse {
+	private Long id;
 	private String classType;
 //	private String seatType;
 	private LocalDate destinationTime;

@@ -23,10 +23,9 @@ public class DistanceService {
 	@Autowired
 	private ModelMapper mapper;
 	
-    List<Distance> findybyOriginAndDestination(
-	        Long originStationId1, Long destinationStationId1,
-	        Long destinationStationId2, Long originStationId2
+    public Distance findybyOriginAndDestination(
+	        Long originStationId1, Long destinationStationId1
 	    ){
-    	return dao.findByOriginStationIdAndDestinationStationIdOrDestinationStationIdAndOriginStationId(originStationId1, destinationStationId1, destinationStationId2, originStationId2);
+    	return dao.findByOriginStationIdAndDestinationStationIdOrDestinationStationIdAndOriginStationId(originStationId1, destinationStationId1,destinationStationId1,originStationId1).get(0);
     }
 }

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory, useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import UserService from "../Services/User.service";
-import { CloseButton, FloatingLabel, Form } from "react-bootstrap";
+import { CloseButton, FloatingLabel, Form, Modal } from "react-bootstrap";
 import { useMyContext } from "../MyContext";
 
 const Login = () => {
+  // const { show, handleClose } = useMyContext();
     const {  setIsLoggedIn } = useMyContext();
-  const { handleClose } = useMyContext();
+  const { handleClose,show } = useMyContext();
+  const location = useLocation();
+
   const [user, setUser] = useState({
     address: "",
     email: "",
@@ -49,6 +52,7 @@ const Login = () => {
 
     if (formData.email.trim() === "") {
       newErrors.email = "email is required";
+      
     }
 
     if (formData.password.trim() === "") {
@@ -60,17 +64,21 @@ const Login = () => {
     } else {
       UserService.login(formData)
         .then((response) => {
+
           console.log(response.data);
           setUser(response.data);
           console.log(user);
           sessionStorage.setItem("User", JSON.stringify(response.data));
-          handleClose(false);
-          setIsLoggedIn(true);
           if('user'.match(response.data.role)){
             sessionStorage.setItem("isLoggedIn123", "true");
-            history.push("/profile");
-
+            // history.push("/profile");
+              console.log('location.state:', location.state);
+  const { from } = location.state || { from: { pathname: '/' } };
+  console.log('from:', from);
+            
           }
+          setIsLoggedIn(true);
+          handleClose(false);
         })
         .catch((error) => {
           setErrors({ password: "Wrong Email or password" });
@@ -81,6 +89,7 @@ const Login = () => {
 
   return (
     <>
+    {/* <Modal show={show} onHide={handleClose}> */}
       <div className="card" >
         <CloseButton
           onClick={() => {
@@ -136,17 +145,21 @@ const Login = () => {
             Login
           </button>
           <br />
+          <div className='mb-3'>
+                <Link to='/fogot-password'>Forgot Pasword</Link>
+              </div>
           <label htmlFor="New User?">New User?</label>
           <br />
           <button
             type="submit"
             className="btn btn-secondary btn-block"
-            onClick={() => history.push("/register")}
+            onClick={() => {history.push("/register");  handleClose();}}
           >
             Register
           </button>
         </div>
       </div>
+      
     </>
   );
 };

@@ -76,6 +76,7 @@ List<LiveSeatResponse> combinedList = responseList.stream()
         if (fair != null) {
             // Create a new LiveSeatResponse object with price information
             return new LiveSeatResponse(
+            		response.getId(),
                 response.getClassType(),
                 response.getDestinationTime(),
                 response.getAvailableSeats(),

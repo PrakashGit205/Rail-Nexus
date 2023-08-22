@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
 
-const TrainReservationForm = () => {
+const DemoTrainReservationForm = () => {
     const { show, setShow, handleClose, handleShow } = useMyContext();
     const history = useHistory();
     const currentDate = new Date();
@@ -54,6 +54,16 @@ const TrainReservationForm = () => {
                 console.log('Something went wrong', error);
             });
     };
+
+    const defaultProps = {
+        options: stations,
+        getOptionLabel: (option) => option.cityName,
+      };
+      const flatProps = {
+        options: stations.map((option) => option.name),
+      };
+
+
     useEffect(() => {
         setTimeout(() => {
             setMessage("");
@@ -64,15 +74,17 @@ const TrainReservationForm = () => {
     //     LoadStation();
     // }, [])
     const onSubmitFun = () => {
-        console.log(formData);
+        console.log("this is fform data: ");
+        console.log(formData)
         if (formData.sourceId == "" || formData.originId == "") {
             setMessage("please select destination and source station")
             return;
         }
-        console.log(Date.now())
+        // console.log(Date.now())
         history.push("/running-trains", { formData: formData });
     }
-
+const [value, setValue] = useState(null);
+const [originValue, setOriginValue] = useState(null);
     return (<>
         {/* <Modal show={show} onHide={handleClose}>
             <Login></Login>
@@ -93,39 +105,44 @@ const TrainReservationForm = () => {
 
                                 <div className="form-group">
                                     <label htmlFor="sourceStation">source Station</label>
-                                    <select
-                                        className="form-control"
-                                        id="originId"
-                                        name="originId"
-                                        value={formData.originId}
-                                        onChange={onInputChange}
-
-                                    >
-                                        <option >From</option>
-                                        {stations.map((station) => (
-                                            <option value={station.id}>
-                                                {station.name} ({station.code})
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <Autocomplete
+                                {...defaultProps}
+                                id="sourceId"
+                                name="sourceId"
+                                clearOnEscape
+                                value={value}
+                                onChange={(event, newValue) => {
+                                    setValue(newValue);
+                                    // Set the selected value to your form data
+                                    setFormData((prevFormData) => ({
+                                        ...prevFormData,
+                                        sourceId: newValue.id, // Assuming the station object has an 'id' property
+                                    }));
+                                }}
+                                renderInput={(params) => (
+                                    <TextField {...params} label="source Station" variant="standard" />
+                                )}
+                            />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="destinationStation">destination Station</label>
-                                    <select
-                                        className="form-control"
-                                        id="sourceId"
-                                        name="sourceId"
-                                        value={formData.sourceId}
-                                        onChange={onInputChange}
-
-                                    >
-                                        <option>To</option>
-                                        {stations.map((station) => (
-                                            <option value={station.id}>
-                                                {station.name} ({station.code})
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <Autocomplete
+                                {...defaultProps}
+                                id="origin"
+                                name="origin"
+                                value={originValue}
+                                onChange={(event, newValue) => {
+                                    setOriginValue(newValue);
+                                    // Set the selected value to your form data
+                                    setFormData((prevFormData) => ({
+                                        ...prevFormData,
+                                        originId: newValue.id, // Assuming the station object has an 'id' property
+                                    }));
+                                }}
+                                renderInput={(params) => (
+                                    <TextField {...params} label="destination Station" variant="standard" />
+                                )}
+                            />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="date">Date</label>
@@ -180,4 +197,4 @@ const TrainReservationForm = () => {
     );
 };
 
-export default TrainReservationForm;
+export default DemoTrainReservationForm;

@@ -1,2 +1,17 @@
-create database deploydb;
-use deploydb;
+-- Query to see distance 
+
+SELECT d.distance,
+       s1.name AS origin_station_name,
+       s2.name AS destination_station_name
+FROM distance d
+JOIN stations s1 ON d.origin_station_id = s1.id
+JOIN stations s2 ON d.destination_station_id = s2.id;
+
+
+Query to get trains in sequence 
+
+SELECT train_id
+FROM trains_stations
+WHERE station_id IN (34,35) 
+GROUP BY train_id
+HAVING GROUP_CONCAT(station_id ORDER BY sequence) = '34,35'; 

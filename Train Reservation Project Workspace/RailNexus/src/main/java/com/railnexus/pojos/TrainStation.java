@@ -25,7 +25,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class TrainStation extends SuperId {
 	
@@ -39,4 +39,13 @@ public class TrainStation extends SuperId {
 	private  Station station;
 	
 	private int sequence;
+
+	@Override
+	public String toString() {
+		return "TrainStation [train=" + train.getTrainName() + ", station=" + station.getName() + ", sequence=" + sequence + "]";
+	}
+	
+	
+	
+	
 }

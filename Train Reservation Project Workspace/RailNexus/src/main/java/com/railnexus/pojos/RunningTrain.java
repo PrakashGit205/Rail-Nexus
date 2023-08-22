@@ -27,7 +27,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class RunningTrain extends SuperId {
 	
@@ -47,6 +47,12 @@ public class RunningTrain extends SuperId {
 	
 	@Column(name = "delay")
 	private Duration  duration;
+
+	@Override
+	public String toString() {
+		return "RunningTrain [train=" + train.getTrainName() + ", originDate=" + originDate + ", duration=" + duration + "]";
+	}
+	
 
 
 }

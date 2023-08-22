@@ -86,6 +86,7 @@ function Example() {
      {trains.map((train, index) => (
         <Card key={index}>
           <Card.Header>
+          
             {/* <Accordion.Toggle as={Button} variant="link" eventKey={index.toString()}>
               Train Name: {train.trainName} | Train Number: {train.trainNo} | Train Type: {train.trainType}
             </Accordion.Toggle> */}

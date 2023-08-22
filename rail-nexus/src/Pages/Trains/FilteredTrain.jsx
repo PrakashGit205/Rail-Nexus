@@ -17,6 +17,8 @@ function FilteredTrain(props) {
   var traifilter;
   const seenTrainNumbers = new Set();
   useEffect(() => {
+    console.log("in train type")
+    console.log(formData)
     RunningTrainsService.post(formData)
       .then((response) => {
         console.log('Printing trains data', response.data);
@@ -39,8 +41,13 @@ function FilteredTrain(props) {
   }, []);
 
   const bookTrain = (trainNo,seat) => {
-    
-  };
+seat.trainNo = trainNo;
+    history.push({
+      pathname: '/book-seat', // Destination path
+      state: {seat } // Pass the data using the state property
+    });
+  
+    };
 
   const toggleSeatView = (id,originDate) => {
     if (expandedTrainId === id) {
@@ -62,15 +69,23 @@ function FilteredTrain(props) {
   };
   return (
     <>
+    
    <div className={`container mt-5 fade-in`}>
+ 
   <div className="container">
+  
     {/* <div className="row"> */}
       {/* <div className="col-md-12"> */}
         {/* add date filter source station and destionation station filter select option  */}
+
         {
-        trains !== null && trains.length > 0 ? (
-          <div>
-            <div className="row bg-dark text-white">
+          trains !== null && trains.length > 0 ? (
+            <div>
+            <p class="h2">Trains From {trains.at(0).originStatioin} To  {trains.at(0).departStation}</p>
+            
+<p class="font-weight-normal">Distance : {trains.at(0).distance} KM</p>
+              <br />
+            <div className="row bg-dark text-white rounded">
               <div className="col-md-2 rounded-left py-2">Train Name</div>
               <div className="col-md-2 py-2">Train Number</div>
               <div className="col-md-2 py-2">Train Arrival Time</div>
@@ -78,23 +93,27 @@ function FilteredTrain(props) {
               <div className="col-md-2 py-2">Train Departure Date</div>
               <div className="col-md-2 rounded-right py-2">Actions</div>
             </div>
-            {trains.map((train, index) => (
+            {
+            trains.map((train, index) => (
               <div key={index} className="row bg-light mb-2 rounded">
                 <div className="col-md-2 py-2">{train.trainName}</div>
                 <div className="col-md-2 py-2">{train.trainNo}</div>
-                <div className="col-md-2 py-2">{train.trainType}</div>
-                <div className="col-md-2 py-2">{train.trainType}</div>
+                <div className="col-md-2 py-2">{train.originTime} </div>
+                
+                <div className="col-md-2 py-2">{train.departTime}</div>
                 {/* <div className="col-md-2 py-2">{train.trainType}</div> */}
                 <div className="col-md-2 py-2">{train.originDate}</div>
                 <div className="col-md-2 py-2">
                   <button className="btn btn-success" onClick={() => toggleSeatView(train.id,train.originDate)}>
-                    {expandedTrainId === train.id ? "Hide Seats" : "View Seats"}
+                    {
+                    expandedTrainId === train.id ? "Hide Seats" : "View Seats"
+                    }
                   </button>
                 </div>
                 {
                   expandedTrainId === train.id && (
                     <>
-          <div className="row bg-info text-white">
+          <div className="row bg-secondary text-white rounded">
               <div className="col-md-2 rounded-left py-2">classType</div>
               {/* <div className="col-md-2 py-2">seatType</div> */}
               <div className="col-md-2 py-2">Available Seats</div>
@@ -108,8 +127,8 @@ function FilteredTrain(props) {
                 <div className="col-md-2 py-2" key={index}>  {seat.classType}</div>
                 {/* <div className="col-md-2 py-2" key={index}> {seat.seatType}</div> */}
                 <div className="col-md-2 py-2" key={index}>  {seat.availableSeats}</div>
-                <div className="col-md-2 py-2" key={index}>  {seat.price}</div>
-                <button className="btn btn-primary col-md-2 py-2" onClick={() => bookTrain(train.id,seat)}>Book Train</button>{" "}
+                <div className="col-md-2 py-2" key={index}>{"₹"}   {seat.fair}</div>
+                <button className=" btn btn-outline-info col-md-2 py-2" onClick={() => bookTrain(train.id,seat)}>Book Ticket</button>{" "}
             {/* </div> */}
           </div>
                 </>

@@ -47,7 +47,7 @@ function Header() {
         history.push("/")
     }
     return (<>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark"style={{borderRadius:'0px'}} >
             <div className="container-fluid">
                 <a class="navbar-brand" href="/">
                     <a src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top" />
@@ -114,16 +114,7 @@ function Header() {
 
                             </li>
                         </li>
-                        {/* <li className="nav-item">
-                            <Link
-                                className="nav-link disabled"
-                                to = "/"
-                                tabIndex={-1}
-                                aria-disabled="true"
-                            >
-                                Disabled
-                            </Link>
-                        </li> */}
+
                     </ul>
                     <div className="d-flex">
                         <ul>
@@ -137,16 +128,7 @@ function Header() {
                                     />
                                     <Button variant="outline-success" >Search</Button>
                                 </Form>
-                                {/* <InputGroup className="mb-3">
-                                    <Form.Control
-                                        placeholder="Recipient's username"
-                                        aria-label="Recipient's username"
-                                        aria-describedby="basic-addon2"
-                                    />
-                                    <Button variant="outline-primary" id="button-addon2">
-                                        search
-                                    </Button>
-                                </InputGroup> */}
+
                             </li>
                         </ul>
                         {/* Conditional rendering based on authentication status */}

@@ -1,9 +1,13 @@
 import { useState } from "react";
 import Login from "./Login";
 import {Route} from 'react-router-dom';
+import { Modal } from "react-bootstrap";
+import { useMyContext } from "../MyContext";
+import FullLogin from "./FullLogin";
 
 function ProtectedRoute(props)
 {
+    const { show, handleClose } = useMyContext();
     var isLoggedIn = false;
 
     var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
@@ -27,7 +31,11 @@ function ProtectedRoute(props)
     }
     else
     {
-        return <Login></Login>   
+        return<>
+        {/* <Modal show={show} onHide={handleClose}> */}
+                <FullLogin></FullLogin>
+          
+            </> 
     }
 }
 

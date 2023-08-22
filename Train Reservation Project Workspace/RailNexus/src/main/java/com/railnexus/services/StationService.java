@@ -40,5 +40,9 @@ public class StationService implements IStationService {
 		
 		return stations.stream().map(station->mapper.map(station, StationResponseDTO.class)).toList();
 	}
+	public Station getStation(Long id) {
+		return dao.findById(id).orElseThrow();
+		
+	}
 
 }

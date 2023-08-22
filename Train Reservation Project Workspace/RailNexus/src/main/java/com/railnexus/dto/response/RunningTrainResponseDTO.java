@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.railnexus.pojos.Distance;
 import com.railnexus.pojos.Station;
 import com.railnexus.pojos.Train;
 
@@ -27,6 +28,7 @@ public class RunningTrainResponseDTO {
 	private String departStation;
 	private String runsOn;
 	private LocalTime departTime;
+	private float distance;
 	
 	private Duration  duration;
 //	private LocalTime deparTime;

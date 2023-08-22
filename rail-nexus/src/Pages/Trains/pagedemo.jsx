@@ -41,6 +41,7 @@ const FilterSidebar = (props) => {
                             <h4 className="mb-0">Filter</h4>
                             <div className="btn btn-primary" onClick={ToggleSidebar}><i className="fa fa-times">Close</i></div>
                         </div>
+                        
                         <div className="sd-body">
                             <ul>
                                 <li> <input
@@ -89,7 +90,9 @@ const FilterSidebar = (props) => {
                     <div className="btn btn-primary" onClick={ToggleSidebar} >
                                     <i  > Filter Trains</i>
                                 </div>
+                            
                     {/* Render your FilteredTrain component here */}
+                    
                     <FilteredTrain filters={filters} />
                     {/* <Example></Example> */}
                 </main>

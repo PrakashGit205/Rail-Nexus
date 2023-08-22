@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './sidebar.css';
 import "../App.css"
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Sidebar = () => {
 const [active,setActive] = useState({dashboard : "active",trains:"",stations:"",seats:"",RunningTrains:""});
@@ -10,7 +11,7 @@ useEffect(() => {
   console.log(active)
 
 }, [])
-
+const history = useHistory();
   return (
     <nav id="sidebar" style={{ position:'sticky',position:'-webkit-sticky' }}>
       <div className="sidebar-header" style={{ position:'sticky',position:'-webkit-sticky' }}>
@@ -19,20 +20,20 @@ useEffect(() => {
       <ul className="list-unstyled components">
         <li className= {active.dashboard}onClick={()=>{ setActive({dashboard : "active",trains:"",stations:"",seats:""})}}>
          
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/admin">Dashboard</Link>
          
         </li>
-        <li className= {active.trains} onClick={()=>{setActive({dashboard : "",trains:"active",stations:"",seats:""})}}>
-          <Link to="/trains">Trains</Link>
+        <li className= {active.trains} onClick={()=>{setActive({dashboard : "",trains:"active",stations:"",seats:""}  ); }}>
+          <Link to="/admin/trains" onClick={()=>{history.push("/admin/trains")} }>Trains</Link>
         </li>
         <li className= {active.stations}onClick={()=>{setActive({dashboard : "",trains:"",stations:"active",seats:""})}}>
-          <Link to="/stations">Stations</Link>
+          <Link to="/admin/stations">Stations</Link>
         </li>
         <li className= {active.seats}onClick={()=>{setActive({dashboard : "",trains:"",stations:"",seats:"active"})}}>
-          <Link to="/seats">Seats</Link>
+          <Link to="/admin/seats">Seats</Link>
         </li>
         <li className= {active.RunningTrains}onClick={()=>{setActive({dashboard : "",trains:"",stations:"",seats:"",RunningTrains:"active"})}}>
-          <Link to="/running-trains">Trains Schedule</Link>
+          <Link to="/admin/running-trains">Trains Schedule</Link>
         </li>
       </ul>
     </nav>
