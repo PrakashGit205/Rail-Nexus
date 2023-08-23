@@ -1,20 +1,26 @@
-
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-import React, { useState } from 'react';
-import { Form, Button, Col, Row, Card } from 'react-bootstrap';
-
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Row, Card } from 'react-bootstrap';
+import { Button } from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
 function SeatReservationForm() {
     const location = useLocation();
     const seat = location.state?.seat || {};
+    const train = location.state?.train || {};
     const [formData, setFormData] = useState({
         name: '',
         number: '',
         gender: '',
-        birthPreference: '',
-        disability: false,
-        trainNo: '',
-        seat: '',
+        seatType: '',
+        // disability: false,
+        // trainNo: '',
+        // seat: '',
     });
+    useEffect(() => {
+
+        console.log(seat)
+        console.log(train);
+    }, [])
 
     const [errors, setErrors] = useState({});
 
@@ -37,13 +43,13 @@ function SeatReservationForm() {
             newErrors.birthPreference = 'Birth preference is required';
         }
 
-        if (!formData.trainNo.trim()) {
-            newErrors.trainNo = 'Train number is required';
-        }
+        // if (!formData.trainNo.trim()) {
+        // newErrors.trainNo = 'Train number is required';
 
-        if (!formData.seat.trim()) {
-            newErrors.seat = 'Seat information is required';
-        }
+
+        // if (!formData.seat.trim()) {
+        //     newErrors.seat = 'Seat information is required';
+        // }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -70,59 +76,115 @@ function SeatReservationForm() {
             [name]: '',
         }));
     };
+    const [passengers, setPassengers] = useState([
+        {
+            name: '',
+            number: '',
+            gender: '',
+            seatType: '',
+            // disability: false
+        }
+    ]);
 
+    const handlePassengerChange = (index, field, value) => {
+        const updatedPassengers = [...passengers];
+        updatedPassengers[index][field] = value;
+        setPassengers(updatedPassengers);
+    };
+
+    const addPassenger = () => {
+        setPassengers([
+            ...passengers,
+            {
+                name: '',
+                number: '',
+                gender: '',
+                seatType: '',
+                // disability: false
+            }
+        ]);
+    };
+
+    const removePassenger = (index) => {
+        const updatedPassengers = [...passengers];
+        updatedPassengers.splice(index, 1);
+        setPassengers(updatedPassengers);
+    };
     return (
         <div className="container-fluid">
             <Row>
                 {/* Sidebar */}
-                <Col lg={3} className="bg-light p-3">
-                    <Card  className="h-100">
+                {/* <Col lg={3} className="bg-light p-3"> */}
+                {/* <MySidebar></MySidebar> */}
+                {/* <Card  className="h-100">
                         <Card.Body>
                             <Card.Title>Selected Details</Card.Title>
                             <Card.Text>
-                                <strong>Train Number:</strong> {formData.trainNo}
+                                <strong>You are Travelling By  {train.trainName} from {train.originStatioin} to {train.departStation} at {seat.destinationTime}</strong> 
                                 <br />
-                                <strong>Seat Type:</strong> {formData.seat}
+                                <br />
+                                <strong> In {seat.classType} Class Type </strong> 
+
                             </Card.Text>
                         </Card.Body>
-                    </Card>
-                </Col>
+                    </Card> */}
+                {/* </Col> */}
                 <Col lg={9}>
                     <div className="d-flex justify-content-center align-items-center h-100">
                         <div className="col-lg-8 col-md-10 col-sm-12">
-                            <h2>Seat Reservation Form</h2>
+                            {train != null && seat != null ? (
+                                <Card className="mb-4 p-3">
+                                    <Card.Body className="text-center">
+                                        <h3 className="mb-3">
+                                            You are Travelling By{' '}
+                                            <span className="text-primary">
+                                                {train.trainName} ({train.trainNo})
+                                            </span>{' '}
+                                            from{' '}
+                                            <span className="text-success">
+                                                {train.originStatioin} to {train.departStation}
+                                            </span>{' '}
+                                            at{' '}
+                                            <span className="text-info">{seat.destinationTime}</span>
+                                        </h3>
+                                    </Card.Body>
+                                </Card>
+                            ) : null}
                             <Form onSubmit={handleSubmit}>
-                                <Form.Group controlId="name">
-                                    <Form.Label>Name</Form.Label>
+                                <Form.Floating className="mb-3">
                                     <Form.Control
+                                        id="name"
                                         type="text"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
                                         isInvalid={!!errors.name}
+                                        autoComplete="given-name"
                                     />
+                                    <label htmlFor="name">Name</label>
                                     <Form.Control.Feedback type="invalid">
                                         {errors.name}
                                     </Form.Control.Feedback>
-                                </Form.Group>
+                                </Form.Floating>
 
-                                <Form.Group controlId="number">
-                                    <Form.Label>Number</Form.Label>
+                                <Form.Floating className="mb-3">
                                     <Form.Control
+                                        id="number"
                                         type="text"
                                         name="number"
                                         value={formData.number}
                                         onChange={handleChange}
                                         isInvalid={!!errors.number}
                                     />
+                                    <label htmlFor="number">Number</label>
                                     <Form.Control.Feedback type="invalid">
                                         {errors.number}
                                     </Form.Control.Feedback>
-                                </Form.Group>
+                                </Form.Floating>
 
-                                <Form.Group controlId="gender">
-                                    <Form.Label>Gender</Form.Label>
+                                <Form.Floating className="mb-3">
                                     <Form.Control
+                                        id="gender"
                                         as="select"
                                         name="gender"
                                         value={formData.gender}
@@ -134,72 +196,84 @@ function SeatReservationForm() {
                                         <option value="female">Female</option>
                                         <option value="other">Other</option>
                                     </Form.Control>
+                                    <label htmlFor="gender">Gender</label>
                                     <Form.Control.Feedback type="invalid">
                                         {errors.gender}
                                     </Form.Control.Feedback>
-                                </Form.Group>
+                                </Form.Floating>
 
-                                <Form.Group controlId="birthPreference">
-                                    <Form.Label>Birth Preference</Form.Label>
+                                <Form.Floating className="mb-3">
                                     <Form.Control
+                                        id="seatType"
                                         as="select"
-                                        name="birthPreference"
-                                        value={formData.birthPreference}
+                                        name="seatType"
+                                        value={formData.seatType}
                                         onChange={handleChange}
-                                        isInvalid={!!errors.birthPreference}
+                                        isInvalid={!!errors.seatType}
                                     >
                                         <option value="">Select Birth Preference</option>
-                                        <option value="upper">Upper</option>
-                                        <option value="middle">Middle</option>
-                                        <option value="lower">Lower</option>
+                                        <option value="UPPER_BERTH">Upper Birth</option>
+                                        <option value="MIDDLE_BIRTH">Middle Birth</option>
+                                        <option value="LOWER_BERTH">Lower  Birth</option>
+
+                                        <option value="WINDOW_BERTH">Window  Birth</option>
+                                        <option value="LOWER_BERTH">Senior Citizen</option>
+                                        <option value="DISABLE">Disable Birth</option>
+                                        
                                     </Form.Control>
+                                    <label htmlFor="seatType">Birth Preference</label>
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.birthPreference}
+                                        {errors.seatType}
                                     </Form.Control.Feedback>
-                                </Form.Group>
+                                </Form.Floating>
 
-                                <Form.Group controlId="disability">
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="Disability"
-                                        name="disability"
-                                        checked={formData.disability}
-                                        onChange={handleChange}
-                                    />
-                                </Form.Group>
+                                {/* <Form.Group controlId="disability" className="mb-3"> */}
+                                    {/* <Form.Check */}
+                                        {/* type="checkbox" */}
+                                        {/* // label="Disability" */}
+                                        {/* // name="disability" */}
+                                        {/* // checked={formData.disability} */}
+                                        {/* onChange={handleChange} */}
+                                    {/* /> */}
+                                {/* </Form.Group> */}
 
-                                <Form.Group controlId="trainNo">
-                                    <Form.Label>Train Number</Form.Label>
+                                {/* <Form.Floating className="mb-3">
                                     <Form.Control
+                                        // id="trainNo"
                                         type="text"
                                         name="trainNo"
                                         value={formData.trainNo}
                                         onChange={handleChange}
                                         isInvalid={!!errors.trainNo}
                                     />
+                                    <label htmlFor="trainNo">Train Number</label>
                                     <Form.Control.Feedback type="invalid">
                                         {errors.trainNo}
                                     </Form.Control.Feedback>
-                                </Form.Group>
+                                </Form.Floating>
 
-                                <Form.Group controlId="seat">
-                                    <Form.Label>Seat Information</Form.Label>
+                                <Form.Floating className="mb-3">
                                     <Form.Control
+                                        id="seat"
                                         type="text"
                                         name="seat"
                                         value={formData.seat}
                                         onChange={handleChange}
                                         isInvalid={!!errors.seat}
                                     />
+                                    <label htmlFor="seat">Seat Information</label>
                                     <Form.Control.Feedback type="invalid">
                                         {errors.seat}
                                     </Form.Control.Feedback>
-                                </Form.Group>
+                                </Form.Floating> */}
 
-                                <Button type="submit">Submit</Button>
+                                {/* <Button  type="submit">Submit</Button>
+                                 */}
+                                <Button variant="contained" type="submit" endIcon={<SendIcon />}>
+                                    Next
+                                </Button>
                             </Form>
                         </div>
-
                     </div>
                 </Col>
             </Row>

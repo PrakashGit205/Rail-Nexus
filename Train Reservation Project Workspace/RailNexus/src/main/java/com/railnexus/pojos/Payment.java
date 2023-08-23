@@ -48,8 +48,8 @@ public class Payment extends SuperId {
 	@Column(nullable = false)
 	private LocalDateTime paymentDateTime;
 
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private PaymentStatus status;
+	private String status;
 
 }

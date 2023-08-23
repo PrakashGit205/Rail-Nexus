@@ -51,6 +51,8 @@ public class Passenger extends SuperId {
     @ManyToOne
     @JoinColumn(name = "user_id",  nullable = false)
     private User user;
+    
+    private int age;
 
     @ManyToOne
     @JoinColumn(name = "destination_station",  nullable = false)
@@ -59,21 +61,33 @@ public class Passenger extends SuperId {
     @ManyToOne
     @JoinColumn(name = "origin_station",  nullable = false)
     private Station sourceStation;
+    
+    private LocalTime sourceTime;
+    
+    private LocalTime destinationTime;
 
     @ManyToOne
-    @JoinColumn(name = "train_no",  nullable = false)
+    @JoinColumn(name = "train_no",  nullable = true)
     private Train train;
-
+    
+//    @ManyToOne
+//    @JoinColumn(name = "running_train_no",  nullable = true)
+//    private RunningTrain train;
+    
     @Column(name = "seat_no")
     private Integer seatNo;
 
     @Column(name = "Boogie_no")
     private String boogieNo;
 
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "seat_status", length = 10)
-    private SeatStatus seatStatus;
+    private String seatStatus;
+    
+    @Column(name = "payment_status")
 
+    private Boolean paymentStatus;
+    
     // this is train booking date the day when customer booked the train
     @Column(name = "booking_date", nullable = false, updatable = false)
     private LocalDate bookingDate;

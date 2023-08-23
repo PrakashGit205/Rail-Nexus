@@ -8,8 +8,10 @@ import Login from '../../Security/Login';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
-
+import { DatePicker } from 'react-responsive-datepicker';
+import 'react-responsive-datepicker/dist/index.css'
 const DemoTrainReservationForm = () => {
+    const [isOpen, setIsOpen] = React.useState(false)
     const { show, setShow, handleClose, handleShow } = useMyContext();
     const history = useHistory();
     const currentDate = new Date();
@@ -109,7 +111,7 @@ const [originValue, setOriginValue] = useState(null);
                                 {...defaultProps}
                                 id="sourceId"
                                 name="sourceId"
-                                clearOnEscape
+                                disableClearable
                                 value={value}
                                 onChange={(event, newValue) => {
                                     setValue(newValue);
@@ -130,6 +132,7 @@ const [originValue, setOriginValue] = useState(null);
                                 {...defaultProps}
                                 id="origin"
                                 name="origin"
+                                disableClearable
                                 value={originValue}
                                 onChange={(event, newValue) => {
                                     setOriginValue(newValue);
@@ -153,9 +156,29 @@ const [originValue, setOriginValue] = useState(null);
                                         name="originDate"
                                         value={formData.originDate}
                                         onChange={onInputChange}
-                                        defaultValue={formattedDate}
+                                        // defaultValue={formattedDate}
 
                                     />
+                                     {/* <button   className="form-control"
+                                            onClick={() => {
+                                                setIsOpen(true)
+                                            }}
+                                        >
+                                            Choose date 
+                                        </button>
+                                        {/* <input type="text" name="originDate" id="originDate" > */}
+                                            
+                                        {/* </input> */}
+                                        {/* <DatePicker  name="originDate" id="originDate"  className="form-control"
+                                        value={formData.originDate}
+                                        onChange={onInputChange}
+                                            isOpen={isOpen}
+                                            onClose={() => setIsOpen(false)}
+                                            defaultValue={new Date()}
+                                            minDate={new Date(2022, 10, 10)}
+                                            maxDate={new Date(2024, 0, 10)}
+                                            headerFormat='DD, MM dd' */}
+                                        
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="seatType">Seat Type</label>

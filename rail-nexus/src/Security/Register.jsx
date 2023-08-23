@@ -114,6 +114,7 @@ function Register() {
             onChange={textChange}
             className={`form-control ${errors.firstName && 'is-invalid'}`}
             placeholder="First Name"
+            
           />
           {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
         </div>

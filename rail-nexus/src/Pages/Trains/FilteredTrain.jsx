@@ -9,7 +9,7 @@ import "./sidebarCss.css";
 function FilteredTrain(props) {
   const history = useHistory();
   const location = useLocation();
-  const formData = location.state.formData;
+  const formData = props.filters;
   const [trains, setTrains] = useState([]);
   const [expandedTrainId, setExpandedTrainId] = useState(null);
   const [Seats, setSeats] = useState([]);
@@ -19,6 +19,7 @@ function FilteredTrain(props) {
   useEffect(() => {
     console.log("in train type")
     console.log(formData)
+    sessionStorage.setItem("chosen stations", JSON.stringify(formData))
     RunningTrainsService.post(formData)
       .then((response) => {
         console.log('Printing trains data', response.data);
@@ -39,12 +40,12 @@ function FilteredTrain(props) {
         console.log('Something went wrong', error);
       });
   }, []);
-
-  const bookTrain = (trainNo,seat) => {
-seat.trainNo = trainNo;
+  useEffect(() => {console.log("it is changing")}, [props.filters.originDate]);
+  const bookTrain = (train,seat) => {
+// seat.trainNo = trainNo;
     history.push({
       pathname: '/book-seat', // Destination path
-      state: {seat } // Pass the data using the state property
+      state: {seat,train } // Pass the data using the state property
     });
   
     };
@@ -77,7 +78,8 @@ seat.trainNo = trainNo;
     {/* <div className="row"> */}
       {/* <div className="col-md-12"> */}
         {/* add date filter source station and destionation station filter select option  */}
-
+        <div className="scrollable-container">
+        <div className="scrollable-content" >
         {
           trains !== null && trains.length > 0 ? (
             <div>
@@ -85,7 +87,7 @@ seat.trainNo = trainNo;
             
 <p class="font-weight-normal">Distance : {trains.at(0).distance} KM</p>
               <br />
-            <div className="row bg-dark text-white rounded">
+            <div className="row bg-dark text-white rounded ">
               <div className="col-md-2 rounded-left py-2">Train Name</div>
               <div className="col-md-2 py-2">Train Number</div>
               <div className="col-md-2 py-2">Train Arrival Time</div>
@@ -124,11 +126,11 @@ seat.trainNo = trainNo;
                 <>
           <div className="row bg-outline-info mb-2 rounded">
             {/* <div className="col-md-12"> */}
-                <div className="col-md-2 py-2" key={index}>  {seat.classType}</div>
+                <div className="col-md-2 py-2" key={index +  5}>  {seat.classType}</div>
                 {/* <div className="col-md-2 py-2" key={index}> {seat.seatType}</div> */}
-                <div className="col-md-2 py-2" key={index}>  {seat.availableSeats}</div>
-                <div className="col-md-2 py-2" key={index}>{"₹"}   {seat.fair}</div>
-                <button className=" btn btn-outline-info col-md-2 py-2" onClick={() => bookTrain(train.id,seat)}>Book Ticket</button>{" "}
+                <div className="col-md-2 py-2" key={index+.5}>  {seat.availableSeats}</div>
+                <div className="col-md-2 py-2" key={index+.5}>{"₹"}   {seat.fair}</div>
+                <button className=" btn btn-outline-info col-md-2 py-2" onClick={() => bookTrain(train,seat)}>Book Ticket</button>{" "}
             {/* </div> */}
           </div>
                 </>
@@ -144,7 +146,8 @@ seat.trainNo = trainNo;
           </div>
         )}
         {/* Render seat data if expandedTrainId is set */}
-        
+        </div>
+        </div>
       </div>
     {/* </div> */}
   {/* </div> */}

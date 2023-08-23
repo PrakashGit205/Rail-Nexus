@@ -20,7 +20,7 @@ function App() {
           Toggle Mode
         </button> */}
    <BrowserRouter>
-  <MyContext.Provider>
+  <MyContext.Provider value={""}>
    <Controlleer></Controlleer>
    </MyContext.Provider>
    </BrowserRouter>

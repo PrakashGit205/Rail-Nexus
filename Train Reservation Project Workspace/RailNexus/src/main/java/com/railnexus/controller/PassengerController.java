@@ -21,7 +21,7 @@ import com.railnexus.services.PassengerService;
 import com.railnexus.services.SeatService;
 
 @RestController
-@RequestMapping("/api/passenger")
+@RequestMapping("/api/passengers")
 @CrossOrigin(origins = "*")
 public class PassengerController {
 	@Autowired

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useMyContext } from "../MyContext";
-
+import "./Header.css"
 function Header() {
     const { show, setShow, handleClose, handleShow, isLoggedIn, setIsLoggedIn } = useMyContext();
     const history = useHistory();
@@ -47,7 +47,7 @@ function Header() {
         history.push("/")
     }
     return (<>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark"style={{borderRadius:'0px'}} >
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-header"style={{borderRadius:'0px'}} >
             <div className="container-fluid">
                 <a class="navbar-brand" href="/">
                     <a src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top" />

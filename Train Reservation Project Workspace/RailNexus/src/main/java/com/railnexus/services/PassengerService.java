@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.railnexus.dao.PassengerDao;
+import com.railnexus.dao.SeatDao;
 import com.railnexus.dao.StationDao;
 import com.railnexus.dao.TrainDao;
 import com.railnexus.dto.AddPassengerDTO;
@@ -25,11 +26,19 @@ public class PassengerService implements IPassengerService {
 	private TrainDao trainDao;
 	@Autowired
 	private ModelMapper mapper;
+	@Autowired
+	private StationDao stationDao;
+	@Autowired 
+	private SeatDao seatDao;
 
 	public Passenger addPassenger(AddPassengerDTO dto) {
 	
 	Passenger psngrToAdd = mapper.map(dto, Passenger.class);
 	
+		return dao.save(psngrToAdd);
+	}
+	public Passenger  updatePassenger(AddPassengerDTO dto) {
+		Passenger psngrToAdd = mapper.map(dto, Passenger.class);
 		return dao.save(psngrToAdd);
 	}
 }

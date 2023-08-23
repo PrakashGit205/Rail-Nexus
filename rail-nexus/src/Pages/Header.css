@@ -1,0 +1,38 @@
+/* Header.css */
+.sticky-header {
+    background-color: #333;
+    color: rgb(8, 4, 4);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .sticky-header ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 1; /* Remove default padding */
+    margin: 1; /* Remove default margin */
+  }
+  .sticky-header nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .sticky-header input {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  /* App.css */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .content {
+    padding: 20px;
+    text-align: center;
+    line-height: 1.6;
+  }
+  

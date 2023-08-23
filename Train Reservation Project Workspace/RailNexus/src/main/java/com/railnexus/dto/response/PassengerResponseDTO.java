@@ -16,18 +16,27 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class PassengerResponseDTO {
-
+	private Long id;
+	
 	private String name;
 
 	private String gender;
 
 	private Long userId;
 
-	private Long destinationStationId;
+	private String destinationStation;
 
-	private Long sourceStationId;
+	private String sourceStation;
 
 	private Long trainNo;
 	
-	 private String PNR;
+	private String PNR;
+	
+	private String classType;
+	
+	private String seatType;
+	
+	private String seatNo;
+	
+	private String boogieNo;
 }

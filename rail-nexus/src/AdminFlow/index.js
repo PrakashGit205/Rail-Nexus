@@ -8,6 +8,8 @@ import Stations from './Pages/Stations';
 import RunningTrains from './Trains/RunningTrains';
 import Dashboard from './Pages/Dashboard';
 import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import ProtectedRoute from '../Security/ProtectedRoute';
+import AdminProtectedRoute from '../Security/AdminProtectedRoutes';
 
 
 const Seats = () => <h1>Seats Content</h1>;
@@ -21,11 +23,11 @@ console.log("in admin ")
         <Sidebar />
         <div id="content">
           <Switch>
-          <Route exact path="/admin" component={Dashboard} />
-          <Route exact path="/admin/stations" component={Stations} />
-          <Route exact path="/admin/trains" component={Trains} />
-          <Route exact path="/admin/seats" component={Seats} />
-          <Route exact path="/admin/running-trains" component={RunningTrains} />
+          <AdminProtectedRoute exact path="/admin/stations" component={Stations} />
+          <AdminProtectedRoute exact path="/admin/trains" component={Trains} />
+          <AdminProtectedRoute exact path="/admin/seats" component={Seats} />
+          <AdminProtectedRoute exact path="/admin/running-trains" component={RunningTrains} />
+          <AdminProtectedRoute exact path="/admin" component={Dashboard} />
           {/* <Route exact path="" component={Dashboard} /> */}
           </Switch>
         </div>

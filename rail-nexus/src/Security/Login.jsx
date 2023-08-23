@@ -4,7 +4,7 @@ import { Link, useHistory, useLocation } from "react-router-dom/cjs/react-router
 import UserService from "../Services/User.service";
 import { CloseButton, FloatingLabel, Form, Modal } from "react-bootstrap";
 import { useMyContext } from "../MyContext";
-
+import Alert from '@mui/material/Alert';
 const Login = () => {
   // const { show, handleClose } = useMyContext();
     const {  setIsLoggedIn } = useMyContext();
@@ -83,13 +83,16 @@ const Login = () => {
         .catch((error) => {
           setErrors({ password: "Wrong Email or password" });
           console.log(error);
+          // return (<></>)
         });
-    }
-  };
-
-  return (
-    <>
+      }
+    };
+    
+    return (
+      <>
     {/* <Modal show={show} onHide={handleClose}> */}
+      {/* {errors.password.length>0 ?  <Alert severity="error">This is an error alert — check it out!</Alert> : ""} */}
+      <Form onSubmit={() => {history.push("/register");  handleClose();}}>
       <div className="card" >
         <CloseButton
           onClick={() => {
@@ -112,6 +115,7 @@ const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={onTextChange}
+                
               />
             </FloatingLabel>
             {errors.email && (
@@ -153,13 +157,13 @@ const Login = () => {
           <button
             type="submit"
             className="btn btn-secondary btn-block"
-            onClick={() => {history.push("/register");  handleClose();}}
+            
           >
             Register
           </button>
         </div>
       </div>
-      
+      </Form>
     </>
   );
 };

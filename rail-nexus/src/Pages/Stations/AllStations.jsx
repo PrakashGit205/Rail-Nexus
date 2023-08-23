@@ -9,11 +9,13 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
 
+import { DatePicker } from 'react-responsive-datepicker'
+import 'react-responsive-datepicker/dist/index.css'
 const TrainReservationForm = () => {
     const { show, setShow, handleClose, handleShow } = useMyContext();
     const history = useHistory();
     const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().split('T')[0]; 
+    const formattedDate = currentDate.toISOString().split('T')[0];
     const [formData, setFormData] = useState({
         originId: '',
         sourceId: '',
@@ -21,6 +23,7 @@ const TrainReservationForm = () => {
         classType: '',
     });
 
+    const [isOpen, setIsOpen] = React.useState(false)
     const [message, setMessage] = useState();
     const [stations, setStaions] = useState([]);
 
@@ -128,8 +131,8 @@ const TrainReservationForm = () => {
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="date">Date</label>
-                                    <input
+                                    {/* <label htmlFor="date">Date</label> */}
+                                    {/* <input
                                         type="date"
                                         className="form-control"
                                         id="originDate"
@@ -138,7 +141,27 @@ const TrainReservationForm = () => {
                                         onChange={onInputChange}
                                         defaultValue={formattedDate}
 
-                                    />
+                                    /> */
+                                    }
+                              
+                                        <button
+                                            onClick={() => {
+                                                setIsOpen(true)
+                                            }}
+                                        >
+                                            Open date 
+                                        </button>
+                                        <DatePicker
+                                            isOpen={isOpen}
+                                            onClose={() => setIsOpen(false)}
+                                            defaultValue={new Date(2022, 8, 8)}
+                                            minDate={new Date(2022, 10, 10)}
+                                            maxDate={new Date(2023, 0, 10)}
+                                            headerFormat='DD, MM dd'
+                                        />
+                                   
+
+
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="seatType">Seat Type</label>
@@ -148,7 +171,7 @@ const TrainReservationForm = () => {
                                         name="classType"
                                         value={formData.classType}
                                         onChange={onInputChange}
-                                        
+
                                     >
 
                                         <option value="GENERAl">

@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import { useMyContext } from "../MyContext";
 import FullLogin from "./FullLogin";
 
-function ProtectedRoute(props)
+function AdminProtectedRoute(props)
 {
    
     var isLoggedIn = false;
@@ -39,4 +39,4 @@ function ProtectedRoute(props)
     }
 }
 
-export default ProtectedRoute;
+export default AdminProtectedRoute;
