@@ -40,7 +40,7 @@ public class SecurityConfig {
 //						"/api/running/**",
 //						"/user/**",
 //						"/api/trains/**", 
-//						"/api/stations/**", 
+//						"/api/station/**", 
 //						"/api/users/**",
 //						"/api/user/**",
 //						"/login",

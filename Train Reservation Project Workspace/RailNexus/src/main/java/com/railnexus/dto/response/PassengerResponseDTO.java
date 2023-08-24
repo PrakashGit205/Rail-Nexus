@@ -39,4 +39,14 @@ public class PassengerResponseDTO {
 	private String seatNo;
 	
 	private String boogieNo;
+	
+	private String mobile;
+	
+	private String status;
+	
+	private String sourceTime;
+	
+	private String destinationTime;
+	
+//	private String sourceTime;
 }

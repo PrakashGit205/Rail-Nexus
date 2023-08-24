@@ -40,10 +40,7 @@ public class CanceledSeats extends SuperId{
 //	@Enumerated(EnumType.STRING)
 	@Column(length = 20, name = "seat_type")
 	private String seatType;
-	@JoinColumn(name = "seat_number")
-	@ManyToOne( fetch = FetchType.LAZY)
-//	@Column(name = "seat_number")
-	private Seat seat;
+	
 	
 	
 }

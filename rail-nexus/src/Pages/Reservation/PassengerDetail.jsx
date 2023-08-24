@@ -8,29 +8,38 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 // import PassengerService from '../../Services/Passenger.service';
 
 function SeatReservationFormStyled() {
   const location = useLocation();
-    const seat = location.state?.seat || {};
-    const train = location.state?.train || {};
+  const history = useHistory();
+    // const seat = location.state?.seat || {};
+    // const train = location.state?.train || {};
     const user = JSON.parse(sessionStorage.getItem("User"));
-
+    const storedSeatEncoded = sessionStorage.getItem("seat");
+    const storedTrainEncoded = sessionStorage.getItem("train");
+    const storedStationEncoded = sessionStorage.getItem("station");
+    
+    const seat = JSON.parse(atob(storedSeatEncoded));
+    const train = JSON.parse(atob(storedTrainEncoded));
+    const station = JSON.parse(atob(storedStationEncoded));
     const [formData, setFormData] = useState({
         name: user.firstName + " " + user.lastName,
-        number: user.mobile,
+        mobile: user.mobile,
         gender: '',
         seatType: '',
         age : "",
         disability: false,
         userId : user.id,
-        sourceStationId : "",
-        destinationStationId : "",
+        sourceStationId : station.sourceId,
+        destinationStationId : station.originId,
         trainId : train.id,
         classType : seat.classType,
         fair : seat.fair,
-        originDate :  train.originDate
+        originDate :  train.originDate,
+        sourceTime : train.originTime,
+        destinationTime : train.departTime
 
     });
 
@@ -43,8 +52,8 @@ function SeatReservationFormStyled() {
             newErrors.name = 'Name is required';
         }
 
-        if (!formData.number.trim()) {
-            newErrors.number = 'Number is required';
+        if (!formData.mobile.trim()) {
+            newErrors.mobile = 'mobile is required';
         }
 
         if (!formData.gender) {
@@ -59,11 +68,14 @@ function SeatReservationFormStyled() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
         if (validateForm()) {
             console.log(train);
             console.log(seat)
+            console.log(station)
+            sessionStorage.setItem("passenger",btoa(JSON.stringify(formData)));
+            history.push('/payment');
             // PassengerService.post(formData).then((response)=>{
                 // console.log(response)}).catch((error)=>{console.log(error)});
 
@@ -72,7 +84,7 @@ function SeatReservationFormStyled() {
         }
     };
 
-    const handleChange = (event) => {
+    const onTextChange = (event) => {
         const { name, value, type, checked } = event.target;
         const fieldValue = type === 'checkbox' ? checked : value;
 
@@ -112,7 +124,7 @@ function SeatReservationFormStyled() {
                                     
                                 </Card>
                             ) : null}
-                            <Form onSubmit={handleSubmit}>
+                            <Form onSubmit={onSubmit}>
                                 <TextField
                                     required
                                     id="name"
@@ -120,7 +132,7 @@ function SeatReservationFormStyled() {
                                     label="Name"
                                     fullWidth
                                     value={formData.name}
-                                    onChange={handleChange}
+                                    onChange={onTextChange}
                                     error={!!errors.name}
                                     helperText={errors.name}
                                     variant="standard"
@@ -129,17 +141,17 @@ function SeatReservationFormStyled() {
                                 />
                                 <TextField
                                     required
-                                    id="number"
-                                    name="number"
-                                    label="Number"
+                                    id="mobile"
+                                    name="mobile"
+                                    label="mobile"
                                     fullWidth
-                                    value={formData.number}
-                                    onChange={handleChange}
-                                    error={!!errors.number}
-                                    helperText={errors.number}
+                                    value={formData.mobile}
+                                    onChange={onTextChange}
+                                    error={!!errors.mobile}
+                                    helperText={errors.mobile}
                                     variant="standard"
                                     className="mb-3"
-                                    autoComplete="given-number"
+                                    autoComplete="given-mobile"
                                 />
                                  <TextField
                                     required
@@ -148,7 +160,7 @@ function SeatReservationFormStyled() {
                                     label="age"
                                     fullWidth
                                     value={formData.age}
-                                    onChange={handleChange}
+                                    onChange={onTextChange}
                                     error={!!errors.age}
                                     helperText={errors.age}
                                     variant="standard"
@@ -163,7 +175,7 @@ function SeatReservationFormStyled() {
                                     select
                                     fullWidth
                                     value={formData.gender}
-                                    onChange={handleChange}
+                                    onChange={onTextChange}
                                     error={!!errors.gender}
                                     helperText={errors.gender}
                                     variant="standard"
@@ -182,7 +194,7 @@ function SeatReservationFormStyled() {
                                     select
                                     fullWidth
                                     value={formData.seatType}
-                                    onChange={handleChange}
+                                    onChange={onTextChange}
                                     error={!!errors.seatType}
                                     helperText={errors.seatType}
                                     variant="standard"
@@ -202,7 +214,7 @@ function SeatReservationFormStyled() {
                                             color="secondary"
                                             name="disability"
                                             checked={formData.disability}
-                                            onChange={handleChange}
+                                            onChange={onTextChange}
                                         />
                                     }
                                     label="Disability"
@@ -226,3 +238,4 @@ function SeatReservationFormStyled() {
 }
 
 export default SeatReservationFormStyled;
+

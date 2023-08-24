@@ -20,5 +20,8 @@ public interface LiveSeatDao extends JpaRepository<LiveSeat, Long> {
 		    @Param("destinationTime") LocalDate destinationTime,
 		    @Param("trainId") Long trainId);
 	List<LiveSeat> findByTrainIdAndDestinationTime(Long trainId,LocalDate destinationTime);
-
+	
+	List<LiveSeat> findByClassTypeAndDestinationTimeAndTrainId(String classType,Long trainId,LocalDate destinationTime);
+	List<LiveSeat> findByClassTypeAndDestinationTimeAndTrainIdAndSeatType(String classType,Long trainId,LocalDate destinationTime,String seatType);
+	
 }

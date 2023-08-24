@@ -15,6 +15,7 @@ import com.railnexus.dao.FairDao;
 import com.railnexus.dao.LiveSeatDao;
 import com.railnexus.dao.SeatDao;
 import com.railnexus.dao.TrainDao;
+import com.railnexus.dto.BookSeatRequestDTO;
 import com.railnexus.dto.response.DistanceResponseDTO;
 import com.railnexus.dto.response.LiveSeatResponse;
 import com.railnexus.dto.response.RunningTrainResponseDTO;
@@ -22,6 +23,7 @@ import com.railnexus.dto.response.SeatResponseDTO;
 import com.railnexus.exception.ResourceNotFoundException;
 import com.railnexus.pojos.Distance;
 import com.railnexus.pojos.Fair;
+import com.railnexus.pojos.LiveSeat;
 import com.railnexus.pojos.Seat;
 import com.railnexus.services.interfaces.ISeatService;
 @Service
@@ -97,6 +99,24 @@ List<LiveSeatResponse> combinedList = responseList.stream()
 //		List<LiveSeatResponse> list=	liveDao.getTotalSeatsByClassAndDate(originDate, trainNo).stream().map(train -> mapper.map(train, LiveSeatResponse.class)).toList();
 //		System.out.println(responseList);
 		return combinedList;
+	}
+	public void bookSeat(BookSeatRequestDTO dto) {
+		List<LiveSeat> liveSeat = null;
+		if(dto.getSeatType()==null) {
+			
+			liveSeat = liveDao.findByClassTypeAndDestinationTimeAndTrainId(dto.getClassType(), dto.getTrainId(), dto.getOriginDate());
+			Integer totalSeats = liveSeat.stream().filter((a)->!(a.getSeatType().equals("DISABLE"))).mapToInt(LiveSeat :: getAvailableSeats).sum();
+			if(totalSeats>=0)
+			liveSeat = liveSeat.stream().filter((a)->!(a.getSeatType().equals("DISABLE"))).sorted().toList();
+			else
+				liveSeat = liveSeat.stream().sorted().toList();
+			
+			
+		}else {
+			liveSeat = liveDao.findByClassTypeAndDestinationTimeAndTrainIdAndSeatType(dto.getClassType(), dto.getTrainId(), dto.getOriginDate(), dto.getSeatType());
+		}
+		
+		
 	}
 	
 	

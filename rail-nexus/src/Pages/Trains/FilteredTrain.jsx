@@ -5,47 +5,92 @@ import SeatService from "../../Services/Seat.service";
 import "../Stations/effects.css";
 import { Button } from "react-bootstrap";
 import "./sidebarCss.css";
-
+import moment from 'moment'
+import { useMyContext } from "../../MyContext";
 function FilteredTrain(props) {
   const history = useHistory();
   const location = useLocation();
   const formData = props.filters;
+  const {filters,setFilters} = useMyContext();
   const [trains, setTrains] = useState([]);
   const [expandedTrainId, setExpandedTrainId] = useState(null);
   const [Seats, setSeats] = useState([]);
   // const [filtered, setfiltered] = useState([])
   var traifilter;
   const seenTrainNumbers = new Set();
+  const [filteredData,setFilterData] = useState([]);
   useEffect(() => {
     console.log("in train type")
     console.log(formData)
-    sessionStorage.setItem("chosen stations", JSON.stringify(formData))
+    // sessionStorage.setItem("chosen stations", JSON.stringify(formData))
     RunningTrainsService.post(formData)
-      .then((response) => {
+      .then ( (response) =>  {
         console.log('Printing trains data', response.data);
         setTrains(response.data);
+        var currentDate ;
+        if(filteredData.originDate==""){
 
-        traifilter = trains.filter(train => {
-          if (!seenTrainNumbers.has(train.trainNo)) {
-            seenTrainNumbers.add(train.trainNo);
-            return true;
-          }
-          return false;
-        });
+         currentDate = moment();
+        }
+        else 
+        currentDate = filteredData.originDate;
 
-        console.log(traifilter)
-
+        // Filter the data array based on the date property
+         setFilterData(response.data.filter(item => {
+          // Assuming 'item.date' is a string representing the date (e.g., "2023-08-23")
+          const itemDate = moment(item.date);
+      
+          // Compare the item's date to the current date
+          return itemDate.isSame(currentDate, 'day');
+        }));
       })
       .catch((error) => {
         console.log('Something went wrong', error);
       });
   }, []);
-  useEffect(() => {console.log("it is changing")}, [props.filters.originDate]);
+  useEffect(() => {
+    console.log("in train type")
+    console.log(formData)
+    // sessionStorage.setItem("chosen stations", JSON.stringify(formData))
+    RunningTrainsService.post(filters)
+      .then ( (response) =>  {
+        console.log('Printing trains data', response.data);
+        setTrains(response.data);
+        var currentDate ;
+        if(filteredData.originDate==""){
+
+         currentDate = moment();
+        }
+        else 
+        currentDate = filteredData.originDate;
+
+        // Filter the data array based on the date property
+         setFilterData(response.data.filter(item => {
+          // Assuming 'item.date' is a string representing the date (e.g., "2023-08-23")
+          const itemDate = moment(item.date);
+      
+          // Compare the item's date to the current date
+          return itemDate.isSame(currentDate, 'day');
+        }));
+      })
+      .catch((error) => {
+        console.log('Something went wrong', error);
+      });
+  }, [filters]);
+
+  useEffect(() => {console.log("it is changing")}, [filters.originDate]);
   const bookTrain = (train,seat) => {
 // seat.trainNo = trainNo;
+const seatEncoded = btoa(JSON.stringify(seat));
+const trainEncoded = btoa(JSON.stringify(train));
+const stationEncoded = btoa(JSON.stringify(formData));
+
+sessionStorage.setItem("seat", seatEncoded);
+sessionStorage.setItem("train", trainEncoded);
+sessionStorage.setItem("station", stationEncoded);
     history.push({
       pathname: '/book-seat', // Destination path
-      state: {seat,train } // Pass the data using the state property
+      state: {seat,train,formData} // Pass the data using the state property
     });
   
     };
@@ -74,6 +119,7 @@ function FilteredTrain(props) {
    <div className={`container mt-5 fade-in`}>
  
   <div className="container">
+     
   
     {/* <div className="row"> */}
       {/* <div className="col-md-12"> */}
@@ -142,7 +188,7 @@ function FilteredTrain(props) {
           </div>
         ) : (
           <div className="row bg-light mb-2 rounded">
-            <div className="col-md-12 py-2">No trains available on this route.</div>
+            <div className="col-md-12 py-2">No trains available for in this route at {filters.originDate} .</div>
           </div>
         )}
         {/* Render seat data if expandedTrainId is set */}

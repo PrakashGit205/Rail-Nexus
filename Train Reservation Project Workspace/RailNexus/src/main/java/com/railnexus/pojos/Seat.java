@@ -48,10 +48,6 @@ public class Seat extends SuperId{
 	@Column(name = "total_seat")
 	private int totalSeat;
 	
-	@OneToMany(mappedBy = "seat")
-	private List<CanceledSeats> canceledSeats = new ArrayList<>();
-	
-	
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub

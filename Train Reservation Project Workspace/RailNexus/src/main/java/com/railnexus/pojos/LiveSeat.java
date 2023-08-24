@@ -30,7 +30,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
-public class LiveSeat extends SuperId {
+public class LiveSeat extends SuperId implements Comparable<LiveSeat> {
 
 	private String boogie;
 	
@@ -51,5 +51,15 @@ public class LiveSeat extends SuperId {
 	
 	@Column(name = "available_seats")
 	private int availableSeats;
+
+	@Override
+	public int compareTo(LiveSeat o) {
+		if(o.getId()==getId())
+		return 0;
+		else if (o.getId()>getId()) {
+			return -1;
+		}else
+			return 1;
+	}
 	
 }

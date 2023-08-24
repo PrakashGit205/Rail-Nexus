@@ -55,7 +55,7 @@ function SeatReservationForm() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
         if (validateForm()) {
             // Submit the form or perform any logic here
@@ -63,7 +63,7 @@ function SeatReservationForm() {
         }
     };
 
-    const handleChange = (event) => {
+    const onTextChange = (event) => {
         const { name, value, type, checked } = event.target;
         const fieldValue = type === 'checkbox' ? checked : value;
 
@@ -150,14 +150,14 @@ function SeatReservationForm() {
                                     </Card.Body>
                                 </Card>
                             ) : null}
-                            <Form onSubmit={handleSubmit}>
+                            <Form onSubmit={onSubmit}>
                                 <Form.Floating className="mb-3">
                                     <Form.Control
                                         id="name"
                                         type="text"
                                         name="name"
                                         value={formData.name}
-                                        onChange={handleChange}
+                                        onChange={onTextChange}
                                         isInvalid={!!errors.name}
                                         autoComplete="given-name"
                                     />
@@ -173,7 +173,7 @@ function SeatReservationForm() {
                                         type="text"
                                         name="number"
                                         value={formData.number}
-                                        onChange={handleChange}
+                                        onChange={onTextChange}
                                         isInvalid={!!errors.number}
                                     />
                                     <label htmlFor="number">Number</label>
@@ -188,7 +188,7 @@ function SeatReservationForm() {
                                         as="select"
                                         name="gender"
                                         value={formData.gender}
-                                        onChange={handleChange}
+                                        onChange={onTextChange}
                                         isInvalid={!!errors.gender}
                                     >
                                         <option value="">Select Gender</option>
@@ -208,7 +208,7 @@ function SeatReservationForm() {
                                         as="select"
                                         name="seatType"
                                         value={formData.seatType}
-                                        onChange={handleChange}
+                                        onChange={onTextChange}
                                         isInvalid={!!errors.seatType}
                                     >
                                         <option value="">Select Birth Preference</option>
@@ -233,7 +233,7 @@ function SeatReservationForm() {
                                         {/* // label="Disability" */}
                                         {/* // name="disability" */}
                                         {/* // checked={formData.disability} */}
-                                        {/* onChange={handleChange} */}
+                                        {/* onChange={onTextChange} */}
                                     {/* /> */}
                                 {/* </Form.Group> */}
 
@@ -243,7 +243,7 @@ function SeatReservationForm() {
                                         type="text"
                                         name="trainNo"
                                         value={formData.trainNo}
-                                        onChange={handleChange}
+                                        onChange={onTextChange}
                                         isInvalid={!!errors.trainNo}
                                     />
                                     <label htmlFor="trainNo">Train Number</label>
@@ -258,7 +258,7 @@ function SeatReservationForm() {
                                         type="text"
                                         name="seat"
                                         value={formData.seat}
-                                        onChange={handleChange}
+                                        onChange={onTextChange}
                                         isInvalid={!!errors.seat}
                                     />
                                     <label htmlFor="seat">Seat Information</label>

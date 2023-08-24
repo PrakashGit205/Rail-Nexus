@@ -8,8 +8,11 @@ import Login from '../../Security/Login';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
-import { DatePicker } from 'react-responsive-datepicker';
+// import { DatePicker } from 'react-responsive-datepicker';
 import 'react-responsive-datepicker/dist/index.css'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
+
 const DemoTrainReservationForm = () => {
     const [isOpen, setIsOpen] = React.useState(false)
     const { show, setShow, handleClose, handleShow } = useMyContext();
@@ -159,6 +162,19 @@ const [originValue, setOriginValue] = useState(null);
                                         // defaultValue={formattedDate}
 
                                     />
+                                    {/* <DatePicker  type="date"
+                                        className="form-control"
+                                        id="originDate"
+                                        name="originDate"
+                                        value={formData.originDate}
+                                        onChange={onInputChange}  /> */}
+                                        {/* <DesktopDatePicker  type="date"
+                                        className="form-control"
+                                        id="originDate"
+                                        name="originDate"
+                                        value={formData.originDate}
+                                        onChange={onInputChange}  /> */}
+                                        
                                      {/* <button   className="form-control"
                                             onClick={() => {
                                                 setIsOpen(true)

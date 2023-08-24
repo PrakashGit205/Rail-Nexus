@@ -71,6 +71,8 @@ public class RunningTrainService implements IRunningTrainService {
 		System.out.println("data of request dto " + dto);
 		
 		newDto = dto;
+//		newDto = dto.stream().filter(train -> train.getOriginDate().equals(LocalDate.now())).toList();
+		
 		
 		if (requestDto.getOriginId() != null && requestDto.getSourceId() != null
 				&& requestDto.getOriginDate() != null) {

@@ -21,6 +21,8 @@ import BookSeat from '../Pages/Reservation/BookSeats'
 import Footer from '../Pages/Extras/Footer'
 import AdminProtectedRoute from "./AdminProtectedRoutes";
 import SeatReservationFormStyled from "../Pages/Reservation/PassengerDetail";
+import PaymentForm from "../Pages/Reservation/Payment";
+import Ticket from "../Pages/Reservation/Ticket/TIcket";
 // import second from '../../'
 function Controller() {
   const [show, setShow] = useState(false);
@@ -49,6 +51,8 @@ function Controller() {
           {/* <Route exact path="/admin/seats" component={Seats} /> */}
           {/* <Route exact path="/admin/running-trains" component={RunningTrains} /> */}
           <ProtectedRoute exact path="/profile" component={Profile} />
+          <ProtectedRoute exact path="/payment" component={PaymentForm} />
+          <ProtectedRoute exact path="/ticket" component={Ticket} />
           {/* <Route path="/seats" component={Seats} /> */}
           {/* <Route exact path="/running-trains" component={RunningTrains} /> */}
           <AdminProtectedRoute exact path="/admin/stations" component={Admin} />

@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 function RegisterValid() {
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -19,7 +19,7 @@ function RegisterValid() {
   };
 
   return (<div className="container d-flex justify-content-center align-items-center ">
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form noValidate validated={validated} onSubmit={onSubmit}>
       <Row className="mb-4">
         <Form.Group as={Col} md="6" controlId="validationCustom01">
           <Form.Label>First name</Form.Label>
