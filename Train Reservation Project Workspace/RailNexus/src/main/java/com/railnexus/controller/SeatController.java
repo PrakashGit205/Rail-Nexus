@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.railnexus.dao.SeatDao;
+import com.railnexus.dto.BookSeatRequestDTO;
 import com.railnexus.dto.SeatRequestDTO;
 import com.railnexus.pojos.Seat;
 import com.railnexus.services.SeatService;
@@ -43,4 +44,9 @@ public class SeatController {
 		System.out.println(dto);
 		return ResponseEntity.status(HttpStatus.OK).body(service.showAvailableSeats(dto.getTrainNo(),dto.getOriginDate(),dto.getSourceId(),dto.getOriginId()));
 	}
+	@PostMapping("/book")
+	public ResponseEntity<?> bookSeat(@RequestBody BookSeatRequestDTO dto) {
+		System.out.println(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(service.bookSeat(dto));
+}
 }

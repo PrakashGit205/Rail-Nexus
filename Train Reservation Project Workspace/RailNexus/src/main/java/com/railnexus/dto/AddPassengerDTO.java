@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AddPassengerDTO {
-	private String id;
+	
 
 	private String name;
 
@@ -25,10 +25,10 @@ public class AddPassengerDTO {
 
 	private String mobile;
 	
+	private String email;
+	
 	private int age;
-	
-	private Boolean disability;
-	
+		
 	private Long destinationStationId;
 
 	private Long sourceStationId;
@@ -47,6 +47,6 @@ public class AddPassengerDTO {
 
 	private LocalTime destinationTime;
 	
-	
+	private String paymentStatus;
 
 }

@@ -23,6 +23,7 @@ import AdminProtectedRoute from "./AdminProtectedRoutes";
 import SeatReservationFormStyled from "../Pages/Reservation/PassengerDetail";
 import PaymentForm from "../Pages/Reservation/Payment";
 import Ticket from "../Pages/Reservation/Ticket/TIcket";
+import PaymentConfirm from "../Pages/Reservation/PaymentConfirmation";
 // import second from '../../'
 function Controller() {
   const [show, setShow] = useState(false);
@@ -53,12 +54,14 @@ function Controller() {
           <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/payment" component={PaymentForm} />
           <ProtectedRoute exact path="/ticket" component={Ticket} />
+          <ProtectedRoute exact path="/payment-confirmation" component={PaymentConfirm} />
           {/* <Route path="/seats" component={Seats} /> */}
           {/* <Route exact path="/running-trains" component={RunningTrains} /> */}
           <AdminProtectedRoute exact path="/admin/stations" component={Admin} />
           <AdminProtectedRoute exact path="/admin/trains" component={Admin} />
           <AdminProtectedRoute exact path="/admin/seats" component={Admin} />
           <AdminProtectedRoute exact path="/admin/running-trains" component={Admin} />
+          {/* <AdminProtectedRoute exact path="/admin" component={Admin} /> */}
         </Switch>
         <Footer></Footer>
       </MyContext.Provider>

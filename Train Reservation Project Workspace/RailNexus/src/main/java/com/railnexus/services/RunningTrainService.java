@@ -93,7 +93,7 @@ public class RunningTrainService implements IRunningTrainService {
 			toSendDto = newDto.stream().map(train -> mapper.map(train, RunningTrainResponseDTO.class)).toList();
 
 			for (int i = 0; i < newDto.size(); i++) {
-				toSendDto.get(i).setTrainNo(newDto.get(i).getTrain().getTrainNo());
+				toSendDto.get(i).setTrainNo(newDto.get(i).getTrain().getId());
 				toSendDto.get(i).setTrainName(newDto.get(i).getTrain().getTrainName());
 				toSendDto.get(i).setDepartStation(stationService.getStation(requestDto.getOriginId()).getName());
 				toSendDto.get(i).setOriginStatioin(stationService.getStation(requestDto.getSourceId()).getName());

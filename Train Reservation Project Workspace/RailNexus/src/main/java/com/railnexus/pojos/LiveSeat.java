@@ -28,7 +28,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class LiveSeat extends SuperId implements Comparable<LiveSeat> {
 
@@ -61,5 +61,12 @@ public class LiveSeat extends SuperId implements Comparable<LiveSeat> {
 		}else
 			return 1;
 	}
+
+	@Override
+	public String toString() {
+		return "id = " + getId()+" LiveSeat [boogie=" + boogie + ", train=" + train.getTrainName() + ", classType=" + classType + ", seatType=" + seatType
+				+ ", destinationTime=" + destinationTime + ", availableSeats=" + availableSeats + "]";
+	}
+	
 	
 }

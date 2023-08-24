@@ -75,7 +75,7 @@ public class Passenger extends SuperId {
 //    private RunningTrain train;
     
     @Column(name = "seat_no")
-    private Integer seatNo;
+    private String seatNo;
 
     @Column(name = "Boogie_no")
     private String boogieNo;
@@ -85,7 +85,6 @@ public class Passenger extends SuperId {
     private String seatStatus;
     
     @Column(name = "payment_status")
-
     private Boolean paymentStatus;
     
     // this is train booking date the day when customer booked the train

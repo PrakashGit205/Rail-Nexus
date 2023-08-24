@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FilteredTrain from './FilteredTrain';
-import MyContext, { useMyContext } from '../../MyContext';
-import { Modal } from 'react-bootstrap';
-import Login from '../../Security/Login';
+import MyContext from '../../MyContext';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { Autocomplete, TextField } from '@mui/material';
 import StationService from '../../Services/Station.service';

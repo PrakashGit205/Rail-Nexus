@@ -60,14 +60,14 @@ public class PassengerHistory extends SuperId {
 	private Train train;
 
 	@Column(name = "seat_no")
-	private Integer seatNo;
+	private String seatNo;
 
 	@Column(name = "Boogie_no")
 	private String boogieNo;
 
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(name = "seat_status", length = 10)
-	private SeatStatus seatStatus;
+	private String seatStatus;
 
 	// this is train booking date the day when customer booked the train
 	@Column(name = "booking_date", nullable = false, updatable = false)

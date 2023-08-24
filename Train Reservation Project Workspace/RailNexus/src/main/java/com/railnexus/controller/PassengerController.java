@@ -40,17 +40,23 @@ public class PassengerController {
 
 	@PostMapping
 	public PassengerResponseDTO addPassenger(@RequestBody AddPassengerDTO dto) {
-		return model.map(service.addPassenger(dto), PassengerResponseDTO.class);
+
+		PassengerResponseDTO rDto =  service.addPassenger(dto);
+		return rDto;
 	}
+
 	@GetMapping("/{pnrNo}")
 	public List<PassengerResponseDTO> passangerByPnrNo(@PathVariable String pnrNo) {
-		return dao.findByPnr(pnrNo).stream().map(passenger->model.map(passenger, PassengerResponseDTO.class)).toList() ;
-				
+		return dao.findByPnr(pnrNo).stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
+				.toList();
+
 	}
+
 	@GetMapping("/user/{userId}")
 	public List<PassengerResponseDTO> passangerByUserId(@PathVariable Long userId) {
-		return  dao.findByUserId(userId).stream().map(passenger->model.map(passenger, PassengerResponseDTO.class)).toList();
-				
+		return dao.findByUserId(userId).stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
+				.toList();
+
 	}
 
 }

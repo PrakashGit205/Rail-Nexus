@@ -6,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import PassengerService from '../../Services/Passenger.service';
 
 const CustomInput = ({ id, label, value, onChange, error, helperText, required }) => {
 
@@ -25,13 +26,13 @@ const CustomInput = ({ id, label, value, onChange, error, helperText, required }
 };
 
 export default function PaymentForm() {
-    const history = useHistory();
+  const history = useHistory();
   const [paymentData, setPaymentData] = React.useState({
     cardName: '',
     cardNumber: '',
     expDate: '',
     cvv: '',
-    saveCard:false
+    saveCard: false
   });
 
   const [errors, setErrors] = React.useState({
@@ -52,9 +53,16 @@ export default function PaymentForm() {
       }
     }
     setErrors(newErrors);
+    // if (!errors) {
+      var passenger = JSON.parse(atob(sessionStorage.getItem("passenger")));
+      passenger.paymentStatus = true;
+      console.log("in payment page ")
+      console.log(passenger)
+      sessionStorage.setItem("passenger", btoa(JSON.stringify(passenger)))
+      console.log(paymentData)
+      history.push("/payment-confirmation")
 
-    console.log(paymentData)
-    history.push("/ticket")
+    // }
 
     // Handle form submission logic here
   };
@@ -70,6 +78,7 @@ export default function PaymentForm() {
       [id]: false,
     }));
   };
+  
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100">
@@ -86,7 +95,7 @@ export default function PaymentForm() {
               onChange={onTextChange}
               error={errors.cardName}
               helperText={errors.cardName ? 'Name is required' : ''}
-              
+
             />
           </Grid>
           <Grid item xs={8}>
@@ -97,7 +106,7 @@ export default function PaymentForm() {
               onChange={onTextChange}
               error={errors.cardNumber}
               helperText={errors.cardNumber ? 'Card number is required' : ''}
-              
+
             />
           </Grid>
           <Grid item xs={8}>
@@ -108,7 +117,7 @@ export default function PaymentForm() {
               onChange={onTextChange}
               error={errors.expDate}
               helperText={errors.expDate ? 'Expiry date is required' : ''}
-              
+
             />
           </Grid>
           <Grid item xs={8}>
@@ -119,7 +128,7 @@ export default function PaymentForm() {
               onChange={onTextChange}
               error={errors.cvv}
               helperText={errors.cvv ? 'CVV is required' : ''}
-              
+
             />
           </Grid>
           <Grid item xs={12}>

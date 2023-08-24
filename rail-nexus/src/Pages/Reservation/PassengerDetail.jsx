@@ -16,11 +16,11 @@ function SeatReservationFormStyled() {
   const history = useHistory();
     // const seat = location.state?.seat || {};
     // const train = location.state?.train || {};
-    const user = JSON.parse(sessionStorage.getItem("User"));
+    const Storeduser = (sessionStorage.getItem("User"));
     const storedSeatEncoded = sessionStorage.getItem("seat");
     const storedTrainEncoded = sessionStorage.getItem("train");
     const storedStationEncoded = sessionStorage.getItem("station");
-    
+    const user = JSON.parse(atob(Storeduser));
     const seat = JSON.parse(atob(storedSeatEncoded));
     const train = JSON.parse(atob(storedTrainEncoded));
     const station = JSON.parse(atob(storedStationEncoded));
@@ -30,16 +30,17 @@ function SeatReservationFormStyled() {
         gender: '',
         seatType: '',
         age : "",
-        disability: false,
         userId : user.id,
+        email : user.email,
         sourceStationId : station.sourceId,
         destinationStationId : station.originId,
-        trainId : train.id,
+        trainId : train.trainNo,
         classType : seat.classType,
         fair : seat.fair,
         originDate :  train.originDate,
         sourceTime : train.originTime,
-        destinationTime : train.departTime
+        destinationTime : train.departTime,
+        paymentStatus : false
 
     });
 
@@ -75,11 +76,11 @@ function SeatReservationFormStyled() {
             console.log(seat)
             console.log(station)
             sessionStorage.setItem("passenger",btoa(JSON.stringify(formData)));
+            console.log('Form submitted:', formData);
             history.push('/payment');
             // PassengerService.post(formData).then((response)=>{
                 // console.log(response)}).catch((error)=>{console.log(error)});
 
-            console.log('Form submitted:', formData);
             // You can add logic to submit the form data to your server here
         }
     };

@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import "./sidebarCss.css";
 import moment from 'moment'
 import { useMyContext } from "../../MyContext";
+import { Divider } from "@mui/material";
 function FilteredTrain(props) {
   const history = useHistory();
   const location = useLocation();
@@ -89,8 +90,8 @@ sessionStorage.setItem("seat", seatEncoded);
 sessionStorage.setItem("train", trainEncoded);
 sessionStorage.setItem("station", stationEncoded);
     history.push({
-      pathname: '/book-seat', // Destination path
-      state: {seat,train,formData} // Pass the data using the state property
+      pathname: '/book-seat', 
+      state: {seat,train,formData}
     });
   
     };
@@ -101,7 +102,7 @@ sessionStorage.setItem("station", stationEncoded);
       setSeats([]);
     } else {
       setExpandedTrainId(id);
-      // Fetch and set seats data for the selected train
+     
       console.log({originDate:originDate ,trainNo : 1,originId: formData.originId,sourceId:formData.sourceId})
       SeatService.post({originDate:originDate ,trainNo : 1,originId: formData.originId,sourceId:formData.sourceId})
         .then((response) => {
@@ -121,9 +122,6 @@ sessionStorage.setItem("station", stationEncoded);
   <div className="container">
      
   
-    {/* <div className="row"> */}
-      {/* <div className="col-md-12"> */}
-        {/* add date filter source station and destionation station filter select option  */}
         <div className="scrollable-container">
         <div className="scrollable-content" >
         {
@@ -149,7 +147,6 @@ sessionStorage.setItem("station", stationEncoded);
                 <div className="col-md-2 py-2">{train.originTime} </div>
                 
                 <div className="col-md-2 py-2">{train.departTime}</div>
-                {/* <div className="col-md-2 py-2">{train.trainType}</div> */}
                 <div className="col-md-2 py-2">{train.originDate}</div>
                 <div className="col-md-2 py-2">
                   <button className="btn btn-success" onClick={() => toggleSeatView(train.id,train.originDate)}>
@@ -158,27 +155,24 @@ sessionStorage.setItem("station", stationEncoded);
                     }
                   </button>
                 </div>
+                {/* <Divider /> */}
                 {
                   expandedTrainId === train.id && (
                     <>
           <div className="row bg-secondary text-white rounded">
               <div className="col-md-2 rounded-left py-2">classType</div>
-              {/* <div className="col-md-2 py-2">seatType</div> */}
               <div className="col-md-2 py-2">Available Seats</div>
               <div className="col-md-2 py-2">Price</div>
             </div>
-              {/* Render seat data here */}
               {Seats.map((seat, index) => (
                 <>
-          <div className="row bg-outline-info mb-2 rounded">
-            {/* <div className="col-md-12"> */}
+          <div className="row bg-outline-info mb-2 rounded ">
                 <div className="col-md-2 py-2" key={index +  5}>  {seat.classType}</div>
-                {/* <div className="col-md-2 py-2" key={index}> {seat.seatType}</div> */}
                 <div className="col-md-2 py-2" key={index+.5}>  {seat.availableSeats}</div>
                 <div className="col-md-2 py-2" key={index+.5}>{"₹"}   {seat.fair}</div>
-                <button className=" btn btn-outline-info col-md-2 py-2" onClick={() => bookTrain(train,seat)}>Book Ticket</button>{" "}
-            {/* </div> */}
+                <button className=" btn btn-outline-primary col-md-2 py-2" onClick={() => bookTrain(train,seat)}>Book Ticket</button>{" "}
           </div>
+          <Divider />
                 </>
               ))}
           </>
@@ -191,12 +185,9 @@ sessionStorage.setItem("station", stationEncoded);
             <div className="col-md-12 py-2">No trains available for in this route at {filters.originDate} .</div>
           </div>
         )}
-        {/* Render seat data if expandedTrainId is set */}
         </div>
         </div>
       </div>
-    {/* </div> */}
-  {/* </div> */}
 </div>
 
 

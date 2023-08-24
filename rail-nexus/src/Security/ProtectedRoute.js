@@ -11,32 +11,28 @@ function ProtectedRoute(props)
     var isLoggedIn = false;
 
     var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
+    var isAdminLoggedIn = window.sessionStorage.getItem("isLoggedIn098");
     var User = sessionStorage.getItem("User");
-    console.log(JSON.parse(User))
+    // console.log(JSON.parse(User))
     // const [data, setData] = useState()
-    if(isuserLoggedIn!=null && isuserLoggedIn=='true'&& User != null)
-    {
-      isLoggedIn = true;
-    }
-    else
-    {
-       isLoggedIn = false;
-    }
- 
-
-    if(isLoggedIn)
+    if((isuserLoggedIn!=null && isuserLoggedIn=='true'&& User != null) || (isAdminLoggedIn =='true' && User != null))
     {
         return <Route exact path={props.path} 
                       component={props.component}/>
+    
     }
     else
     {
-        return<>
-        {/* <Modal show={show} onHide={handleClose}> */}
-                <FullLogin></FullLogin>
-          
-            </> 
+    //    isLoggedIn = false;
+       return<>
+       {/* <Modal show={show} onHide={handleClose}> */}
+               <FullLogin></FullLogin>
+         
+           </> 
     }
+ 
+
+  
 }
 
 export default ProtectedRoute;

@@ -1,9 +1,11 @@
 import UserSidebar from "./SideBar";
 
-function Profile() {
+function UserController() {
     return ( <>
     <UserSidebar></UserSidebar>
-    This is profile</> );
+    
+    
+    </> );
 }
 
-export default Profile;
+export default UserController;

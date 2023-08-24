@@ -14,9 +14,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class BookSeatRequestDTO {
-	private LocalDate originDate;
 	private Long trainId;
+	private LocalDate originDate;
 	private String classType;
 	private String seatType;
+	public BookSeatRequestDTO(Long trainId, LocalDate originDate, String classType) {
+		super();
+		this.trainId = trainId;
+		this.originDate = originDate;
+		this.classType = classType;
+	}
+	
 	
 }

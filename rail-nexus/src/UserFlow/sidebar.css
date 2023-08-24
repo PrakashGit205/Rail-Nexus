@@ -1,0 +1,29 @@
+/* UserSidebar.css */
+.nav-link {
+    color: white; /* Default color for links */
+    transition: color 0.3s; /* Smooth transition for color changes */
+  }
+  
+  /* Styling for non-active links on hover */
+  .nav-link:not(.active):hover {
+    color: #17a2b8; /* Change color on hover */
+  }
+  
+  /* Styling for active link */
+  .nav-link.active,
+  .nav-link.active:hover {
+    background-color: #343a40; /* Background color for the active link */
+    color: #17a2b8; /* Text color for the active link */
+  }
+  
+  /* Icon color */
+  .me-2 {
+    fill: white; /* Default color for icons */
+    transition: fill 0.3s; /* Smooth transition for fill changes */
+  }
+  
+  /* Icon color for non-active links on hover */
+  .nav-link:not(.active):hover .me-2 {
+    fill: #17a2b8; /* Change icon color on hover */
+  }
+  

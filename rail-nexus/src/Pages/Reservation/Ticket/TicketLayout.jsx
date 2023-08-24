@@ -1,14 +1,21 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-
+import PassengerService from "../../../Services/Passenger.service"
 const TicketLayout = () => {
 //   var passengerData;
   const [passengerData, setPassengerData] = useState({});
   useEffect(() => {
+    console.log(atob(sessionStorage.getItem('passenger')))
     const storedPassengerData = JSON.parse(atob(sessionStorage.getItem('passenger')));
-    setPassengerData(storedPassengerData);
-    console.log(passengerData);
+    // PassengerService.post(storedPassengerData).then((response)=>{
+    //   console.log(response.data);
+      setPassengerData(storedPassengerData);
+
+    // })
+    // setPassengerData(storedPassengerData);
+    console.log("passenger data")
+    console.log(storedPassengerData);
   }, []);
 
   return (
@@ -48,7 +55,7 @@ const TicketLayout = () => {
           >
             <div style={{ display: 'flex', gap: '34%' }}>
               <div>
-                <h5>PRN : {passengerData.PNR}</h5>
+                <h5>PRN : {passengerData.pnr}</h5>
               </div>
               <div>
                 <h5>Transaction ID : {passengerData.transactionId}</h5>
@@ -58,7 +65,7 @@ const TicketLayout = () => {
           <hr />
           <h5 style={{ paddingLeft: 10 }}>
             <u>
-              <b>Duranto Express (12270)</b>
+              <b>{passengerData.train} (12270)</b>
             </u>
           </h5>
           <br />
@@ -69,7 +76,7 @@ const TicketLayout = () => {
               </h6>
               <p>
                 {passengerData.originDate} <br />
-                <b>{passengerData.sourceStation}</b>
+                <b>{passengerData.sourceStationName}</b>
                 <br />
                 Departure Time : {passengerData.sourceTime}
               </p>
@@ -80,7 +87,7 @@ const TicketLayout = () => {
               </h6>
               <p>
                 {passengerData.destinationDate} <br />
-                <b>{passengerData.destinationStation}</b>
+                <b>{passengerData.destinationStationName}</b>
                 <br />
                 Arrival Time : {passengerData.destinationTime}
               </p>
@@ -93,7 +100,7 @@ const TicketLayout = () => {
               <br />
               Class : {passengerData.classType}
               <br />
-              Coach (Seat) : {passengerData.coach}
+              Coach (Seat) : {passengerData.boogieNo}
               <br />
               Seat No. : {passengerData.seatNo}{' '}
               <b>{passengerData.gender === 'male' ? ' (M) ' : ' (F) '}</b>

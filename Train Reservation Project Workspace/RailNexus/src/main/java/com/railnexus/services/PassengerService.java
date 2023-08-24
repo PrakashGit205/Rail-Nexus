@@ -1,6 +1,7 @@
 package com.railnexus.services;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -14,6 +15,8 @@ import com.railnexus.dao.StationDao;
 import com.railnexus.dao.TrainDao;
 import com.railnexus.dao.UserDao;
 import com.railnexus.dto.AddPassengerDTO;
+import com.railnexus.dto.BookSeatRequestDTO;
+import com.railnexus.dto.response.BookedSeatDTO;
 import com.railnexus.dto.response.PassengerResponseDTO;
 import com.railnexus.exception.ResourceNotFoundException;
 import com.railnexus.pojos.LiveSeat;
@@ -41,11 +44,15 @@ public class PassengerService implements IPassengerService {
 	private SeatDao seatDao;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private SeatService seatService;
 
-	public Passenger addPassenger(AddPassengerDTO dto) {
+	public PassengerResponseDTO addPassenger(AddPassengerDTO dto) {
 
 		Passenger passenger = mapper.map(dto, Passenger.class);
-		passenger.setPaymentStatus(false); // Set initial payment status
+		System.out.println(passenger);
+		System.out.println(dto);
+//		passenger.setPaymentStatus(); // Set initial payment status
 		passenger.setBookingDate(LocalDate.now());
 		Train train = trainDao.findById(dto.getTrainId())
 				.orElseThrow(() -> new ResourceNotFoundException("train not found"));
@@ -57,10 +64,19 @@ public class PassengerService implements IPassengerService {
 				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
 		// Create and populate the Seat entity
-		LiveSeat seat = new LiveSeat();
-		seat.setClassType(dto.getClassType());
-		seat.setSeatType(dto.getSeatType());
-	
+//		LiveSeat seat = new LiveSeat();
+
+		BookedSeatDTO bookedSeat = seatService.bookSeat(mapper.map(dto, BookSeatRequestDTO.class));
+		if (bookedSeat != null) {
+			passenger.setSeatNo(bookedSeat.getSeatNo());
+			passenger.setBoogieNo(bookedSeat.getBoogie());
+			passenger.setSeatStatus("CONFIRM");
+		} else
+			passenger.setSeatStatus("WAITING");
+
+//		seat.setClassType(dto.getClassType());
+//		seat.setSeatType(dto.getSeatType());
+
 //		    seat.setFair(dto.getFair());
 		// You may need to set other seat details as well
 //		seatDao.save(seat); // Save the seat entity
@@ -76,8 +92,16 @@ public class PassengerService implements IPassengerService {
 		passenger.setTrain(train);
 		passenger.setSourceStation(sourceStation);
 		passenger.setDestinationStation(destinationStation);
-
-		return dao.save(passenger);
+		passenger.setTrainDepartureDate(dto.getOriginDate());
+Random random = new Random();
+		passenger.setPnr(random.nextInt(100000) +random.nextInt(100000)+random.nextInt(100000)+ "");
+		Passenger savedPassenger = dao.save(passenger);
+		PassengerResponseDTO toSendDto = mapper.map(savedPassenger, PassengerResponseDTO.class);
+		toSendDto.setSourceStationName(savedPassenger.getSourceStation().getCityName())
+		;
+		toSendDto.setDestinationStationName(savedPassenger.getDestinationStation().getCityName());
+		System.out.println(toSendDto);
+		return toSendDto;
 	}
 
 	public Passenger updatePassenger(AddPassengerDTO dto) {

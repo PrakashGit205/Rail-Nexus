@@ -27,7 +27,8 @@ public class SeatResponseDTO {
 	private String classType;
 
 	private String seatType;
-
+	
+	
 	private int totalSeat;
 	
 

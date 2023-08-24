@@ -6,6 +6,8 @@ import "./Header.css"
 function Header() {
     const { show, setShow, handleClose, handleShow, isLoggedIn, setIsLoggedIn } = useMyContext();
     const history = useHistory();
+    // var isClicked  = false;
+    const [isClicked,setIsClicked] = useState(false);
     // const [isLoggedIn, setIsLoggedIn] = useState(false); // Default: not logged in
     // const [show, setShow] = useState(false);
 
@@ -139,9 +141,31 @@ function Header() {
                                         <button
                                             className="btn btn-outline-info"
                                             type="submit"
-                                            onClick={() => history.push("/admin")}
+                                            onClick={() => {
+                                                if(isClicked==false){
+                                                //  isClicked = true;
+                                                 setIsClicked(true);
+                                                var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn098");
+                                                if(isuserLoggedIn == 'true')
+                                                history.push("/admin")
+                                            else
+                                                history.push("/profile");
+                                                }
+                                                else{
+                                                    // isClicked = false
+
+                                                    setIsClicked(false);
+                                                    history.push("/")
+                                                }
+
+                                            
+                                            
+                                            }}
+
                                         >
-                                            Go to My Profile
+                                           { isClicked ? ( <>Book Train</>) : ( <> Go to My Profile</>)
+                                           
+                                        }
                                         </button>
                                     </li>
 

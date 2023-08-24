@@ -24,9 +24,9 @@ public class PassengerResponseDTO {
 
 	private Long userId;
 
-	private String destinationStation;
+	private String destinationStationName;
 
-	private String sourceStation;
+	private String sourceStationName;
 
 	private Long trainNo;
 	
