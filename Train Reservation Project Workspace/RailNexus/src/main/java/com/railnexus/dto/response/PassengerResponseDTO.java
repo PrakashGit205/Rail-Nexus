@@ -42,7 +42,7 @@ public class PassengerResponseDTO {
 	
 	private String mobile;
 	
-	private String status;
+	private String seatStatus;
 	
 	private String sourceTime;
 	

@@ -5,9 +5,11 @@ import PassengerService from "../../../Services/Passenger.service"
 const TicketLayout = () => {
 //   var passengerData;
   const [passengerData, setPassengerData] = useState({});
+  const storedPassengerData = JSON.parse(atob(sessionStorage.getItem('passenger')));
+  const train =  JSON.parse(atob(sessionStorage.getItem('train')));
+  const oldPassenger = JSON.parse(atob(sessionStorage.getItem('oldPassenger')));
   useEffect(() => {
     console.log(atob(sessionStorage.getItem('passenger')))
-    const storedPassengerData = JSON.parse(atob(sessionStorage.getItem('passenger')));
     // PassengerService.post(storedPassengerData).then((response)=>{
     //   console.log(response.data);
       setPassengerData(storedPassengerData);
@@ -55,17 +57,17 @@ const TicketLayout = () => {
           >
             <div style={{ display: 'flex', gap: '34%' }}>
               <div>
-                <h5>PRN : {passengerData.pnr}</h5>
+                <h5>PRN : {storedPassengerData.pnr}</h5>
               </div>
               <div>
-                <h5>Transaction ID : {passengerData.transactionId}</h5>
+                <h5>Transaction ID : 8745665 {passengerData.transactionId}</h5>
               </div>
             </div>
           </div>
           <hr />
           <h5 style={{ paddingLeft: 10 }}>
             <u>
-              <b>{passengerData.train} (12270)</b>
+              <b>{train.trainName} ({train.trainNo})</b>
             </u>
           </h5>
           <br />
@@ -96,22 +98,22 @@ const TicketLayout = () => {
               <h6>Name : {passengerData.name}</h6>
               Gender : {passengerData.gender}
               <br />
-              Status : {passengerData.status}
+              Status : {passengerData.seatStatus}
               <br />
-              Class : {passengerData.classType}
+              Class : {oldPassenger.classType}
               <br />
               Coach (Seat) : {passengerData.boogieNo}
               <br />
               Seat No. : {passengerData.seatNo}{' '}
-              <b>{passengerData.gender === 'male' ? ' (M) ' : ' (F) '}</b>
+              {/* <b>{passengerData.gender === 'male' ? ' (M) ' : ' (F) '}</b> */}
             </div>
           </div>
         </div>
         <hr />
         <div style={{ paddingLeft: 30 }}>
           <h6>
-            Fare : ₹{passengerData.fair}/- (
-            {convertToWords(passengerData.fair)})
+            Fare : ₹{oldPassenger.fair}/- 
+            {/* {convertToWords(passengerData.fair)}) */}
           </h6>
         </div>
         <hr />

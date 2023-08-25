@@ -15,15 +15,17 @@ function Header() {
     // const handleShow = () => setShow(true);
     useEffect(() => {
         var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
+        var isadminLoggedIn = sessionStorage.getItem("isLoggedIn098");
         var User = sessionStorage.getItem("User");
-        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
+        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null || (isadminLoggedIn == 'true' && User != null )) {
             setIsLoggedIn(true);
         }
     }, [])
     useEffect(() => {
         var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
+        var isadminLoggedIn = sessionStorage.getItem("isLoggedIn098");
         var User = sessionStorage.getItem("User");
-        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
+        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null || (isadminLoggedIn == 'true' && User != null )) {
             setIsLoggedIn(true);
         }
         else
@@ -37,14 +39,16 @@ function Header() {
         setShow(true);
         // history.push("/login")
         var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn123");
+        var isadminLoggedIn = sessionStorage.getItem("isLoggedIn098");
         var User = sessionStorage.getItem("User");
-        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null) {
+        if (isuserLoggedIn != null && isuserLoggedIn == 'true' && User != null || (isadminLoggedIn == 'true' && User != null )) {
             setIsLoggedIn(true);
         }
     };
     const LogOut = () => {
         sessionStorage.removeItem("User");
         sessionStorage.removeItem("isLoggedIn123");
+        sessionStorage.removeItem("isLoggedIn098");
         setIsLoggedIn(false);
         history.push("/")
     }

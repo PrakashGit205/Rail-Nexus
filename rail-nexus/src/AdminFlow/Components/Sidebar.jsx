@@ -35,6 +35,10 @@ const history = useHistory();
         <li className= {active.RunningTrains}onClick={()=>{setActive({dashboard : "",trains:"",stations:"",seats:"",RunningTrains:"active"})}}>
           <Link to="/admin/running-trains">Trains Schedule</Link>
         </li>
+        <li className= {active.RunningTrains}onClick={()=>{setActive({dashboard : "",trains:"",stations:"",seats:"",RunningTrains:"active"})}}>
+          <Link to="/admin/running-trains">Passengers</Link>
+        </li>   
+        
       </ul>
     </nav>
   );

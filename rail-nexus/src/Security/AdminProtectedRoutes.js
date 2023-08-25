@@ -12,7 +12,7 @@ function AdminProtectedRoute(props)
 
     var isuserLoggedIn = window.sessionStorage.getItem("isLoggedIn098");
     var User = sessionStorage.getItem("User");
-    console.log(JSON.parse(User))
+    // console.log(JSON.parse(User))
     // const [data, setData] = useState()
     if(isuserLoggedIn!=null && isuserLoggedIn=='true'&& User != null)
     {

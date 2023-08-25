@@ -31,6 +31,11 @@ function Trains() {
   return (
     <>
       <div className="container">
+        <div className="ro">
+          <div className="col-md-4">
+
+          </div>
+      </div>
         <div className="row">
           {
             trains.map((train, index) => (
