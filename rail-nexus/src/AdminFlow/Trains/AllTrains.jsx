@@ -3,9 +3,11 @@ import TrainServices from "../../Services/Train.service";
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function Trains() {
   var [trains, setTrains] = useState([]);
+  const history =  useHistory();
   console.log("in trains")
   useEffect(() => {
     TrainServices.getAll()
@@ -20,7 +22,7 @@ function Trains() {
       });
   }, []);
   const editTrain = (id) => {
-
+    history.push("/admin/edit-train/"+id);
   }
   const deleteTrain = (id) => {
 
@@ -28,6 +30,13 @@ function Trains() {
   const cancelTrain = (id) => {
 
   }
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTrainSchedule, setSelectedTrainSchedule] = useState([]);
+  const viewTrainSchedule = (schedule) => {
+    setSelectedTrainSchedule(schedule);
+    setShowModal(true);
+  };
+
   return (
     <>
       <div className="container">

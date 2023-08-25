@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import StationServices from "../../Services/Station.service";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function Stations() {
   var [Stations, setTrains] = useState([]);
+ const history =  useHistory();
   useEffect(() => {
     StationServices.getAll()
       .then((response) => {
@@ -16,7 +18,7 @@ function Stations() {
       });
   }, []);
   const editStation = (id)=>{
-
+    history.push("/admin/edit-station/"+id);
   }
   const deleteStation = (id)=>{
     

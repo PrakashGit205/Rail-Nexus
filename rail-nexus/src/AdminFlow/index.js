@@ -11,6 +11,8 @@ import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import ProtectedRoute from '../Security/ProtectedRoute';
 import AdminProtectedRoute from '../Security/AdminProtectedRoutes';
 import TrainStatusPage from './Pages/Seats';
+import EditStationPage from './Pages/EditStation';
+import EditTrainPage from './Pages/EditTran';
 
 
 
@@ -29,6 +31,8 @@ console.log("in admin ")
           <AdminProtectedRoute exact path="/admin/seats" component={TrainStatusPage} />
           <AdminProtectedRoute exact path="/admin/running-trains" component={RunningTrains} />
           <AdminProtectedRoute exact path="/admin" component={Dashboard} />
+          <AdminProtectedRoute exact path="/admin/edit-station/:id" component={EditStationPage} />
+          <AdminProtectedRoute exact path="/admin/edit-train/:id" component={EditTrainPage} />
           {/* <Route exact path="" component={Dashboard} /> */}
           </Switch>
         </div>
