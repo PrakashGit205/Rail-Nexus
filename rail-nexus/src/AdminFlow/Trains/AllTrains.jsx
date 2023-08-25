@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import TrainScheduleModal from "./trainSchedule";
 
 function Trains() {
   var [trains, setTrains] = useState([]);
@@ -63,11 +64,18 @@ function Trains() {
                     <button className="btn btn-danger" onClick={() => deleteTrain(train.id)}>Remove</button>
                     {" "}
                     <button className="btn btn-warning" onClick={() => cancelTrain(train.id)}>Cancel</button>
-
+                    <button className="btn btn-primary" onClick={() => viewTrainSchedule(train.schedule)}>
+                View Train Schedule
+              </button>
                   </div>
                 </div>
               </div>
             ))}
+            <TrainScheduleModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        schedule={selectedTrainSchedule}
+      />
         </div>
       </div>
 
