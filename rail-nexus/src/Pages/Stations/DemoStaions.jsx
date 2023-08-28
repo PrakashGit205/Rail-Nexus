@@ -162,38 +162,7 @@ const DemoTrainReservationForm = () => {
                                     // defaultValue={formattedDate}
 
                                     />
-                                    {/* <DatePicker  type="date"
-                                        className="form-control"
-                                        id="originDate"
-                                        name="originDate"
-                                        value={formData.originDate}
-                                        onChange={onInputChange}  /> */}
-                                    {/* <DesktopDatePicker  type="date"
-                                        className="form-control"
-                                        id="originDate"
-                                        name="originDate"
-                                        value={formData.originDate}
-                                        onChange={onInputChange}  /> */}
-
-                                    {/* <button   className="form-control"
-                                            onClick={() => {
-                                                setIsOpen(true)
-                                            }}
-                                        >
-                                            Choose date 
-                                        </button>
-                                        {/* <input type="text" name="originDate" id="originDate" > */}
-
-                                    {/* </input> */}
-                                    {/* <DatePicker  name="originDate" id="originDate"  className="form-control"
-                                        value={formData.originDate}
-                                        onChange={onInputChange}
-                                            isOpen={isOpen}
-                                            onClose={() => setIsOpen(false)}
-                                            defaultValue={new Date()}
-                                            minDate={new Date(2022, 10, 10)}
-                                            maxDate={new Date(2024, 0, 10)}
-                                            headerFormat='DD, MM dd' */}
+                                   
 
                                 </div>
                                 <div className="form-group">
