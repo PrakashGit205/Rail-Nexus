@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -76,7 +77,7 @@ public class RunningTrainService implements IRunningTrainService {
 		
 		if (requestDto.getOriginId() != null && requestDto.getSourceId() != null
 				&& requestDto.getOriginDate() != null) {
-			newDto = dto.stream().filter(train -> train.getOriginDate().equals(requestDto.getOriginDate())).toList();
+			newDto = dto.stream().filter(train -> train.getOriginDate().equals(requestDto.getOriginDate())).collect(Collectors.toList());
 		}
 		else {
 			
@@ -90,7 +91,7 @@ public class RunningTrainService implements IRunningTrainService {
 //					requestDto.getSourceId());
 		List<RunningTrainResponseDTO> toSendDto = null;
 		if (newDto != null) {
-			toSendDto = newDto.stream().map(train -> mapper.map(train, RunningTrainResponseDTO.class)).toList();
+			toSendDto = newDto.stream().map(train -> mapper.map(train, RunningTrainResponseDTO.class)).collect(Collectors.toList());
 
 			for (int i = 0; i < newDto.size(); i++) {
 				toSendDto.get(i).setTrainNo(newDto.get(i).getTrain().getId());
@@ -132,7 +133,7 @@ public class RunningTrainService implements IRunningTrainService {
 	public List<RunningTrainResponseDTO> trainSchedules() {
 		List<RunningTrain> dto = dao.findAll();
 		List<RunningTrainResponseDTO> toSendDto = dto.stream()
-				.map(train -> mapper.map(train, RunningTrainResponseDTO.class)).toList();
+				.map(train -> mapper.map(train, RunningTrainResponseDTO.class)).collect(Collectors.toList());
 
 		for (int i = 0; i < dto.size(); i++) {
 			toSendDto.get(i).setTrainNo(dto.get(i).getTrain().getId());

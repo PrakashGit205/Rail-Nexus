@@ -2,6 +2,7 @@ package com.railnexus.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class RunningTrainController {
 	}
 	@GetMapping("/{date}")
 	public ResponseEntity<?> trainByDate(@PathVariable LocalDate date){
-		return ResponseEntity.status(HttpStatus.OK).body(dao.findByOriginDate(date).stream().map(train->model.map(train, RunningTrainResponseDTO.class)).toList());
+		return ResponseEntity.status(HttpStatus.OK).body(dao.findByOriginDate(date).stream().map(train->model.map(train, RunningTrainResponseDTO.class)).collect(Collectors.toList()));
 			
 	}
 //	@GetMapping("/{originId}/{sourceId}")

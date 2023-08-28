@@ -2,6 +2,7 @@ package com.railnexus.services;
 
 import java.util.List;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -38,7 +39,7 @@ public class StationService implements IStationService {
 	public List<StationResponseDTO> allStations() {
 		List<Station> stations=	dao.findAll();
 		
-		return stations.stream().map(station->mapper.map(station, StationResponseDTO.class)).toList();
+		return stations.stream().map(station->mapper.map(station, StationResponseDTO.class)).collect(Collectors.toList());
 	}
 	public Station getStation(Long id) {
 		return dao.findById(id).orElseThrow();

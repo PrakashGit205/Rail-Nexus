@@ -2,6 +2,7 @@ package com.railnexus.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class UserController {
 	}
 	@GetMapping
 	public ResponseEntity<?> getAllUsers(){
-		return ResponseEntity.status(HttpStatus.OK).body(service.allUsers().stream().map(user->model.map(user, UserResponseDTO.class)).toList());
+		return ResponseEntity.status(HttpStatus.OK).body(service.allUsers().stream().map(user->model.map(user, UserResponseDTO.class)).collect(Collectors.toList()));
 	}
 	@PutMapping
 	public ResponseEntity<?> updateUser(@RequestBody AddUserDTO dto) {

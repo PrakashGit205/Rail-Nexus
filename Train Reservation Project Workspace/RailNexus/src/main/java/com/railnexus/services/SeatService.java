@@ -52,7 +52,7 @@ public class SeatService implements ISeatService {
 	@Override
 	public List<SeatResponseDTO> showAvailableSeats(Long trainNo) {
 
-		return dao.findByTrainId(trainNo).stream().map(train -> mapper.map(train, SeatResponseDTO.class)).toList();
+		return dao.findByTrainId(trainNo).stream().map(train -> mapper.map(train, SeatResponseDTO.class)).collect(Collectors.toList());
 	}
 
 	public List<LiveSeatResponse> showAvailableSeats(Long trainNo, LocalDate originDate, Long sourceId, Long originId) {

@@ -2,7 +2,7 @@ package com.railnexus.controller;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +40,11 @@ public class TrainController {
 
 	@GetMapping
 	public ResponseEntity<?> allTrains() {
-		return ResponseEntity.status(HttpStatus.OK).body(dao.findAll().stream().map(train->model.map(train, TrainResponseDTO.class)).toList()
+		return ResponseEntity.status(HttpStatus.OK).body(dao.findAll().stream().map(train->model.map(train, TrainResponseDTO.class)).collect(Collectors.toList())
 	);}
 	@GetMapping("/{sourceId}/{destinationId}")
 	public ResponseEntity<?> trainBySourceAndDestinationId(@PathVariable Long sourceId,@PathVariable Long destinationId ) {
-		return ResponseEntity.status(HttpStatus.OK).body(dao.findByOriginStationIdAndDestinationStationId(sourceId,destinationId).stream().map(train->model.map(train, TrainResponseDTO.class)).toList());
+		return ResponseEntity.status(HttpStatus.OK).body(dao.findByOriginStationIdAndDestinationStationId(sourceId,destinationId).stream().map(train->model.map(train, TrainResponseDTO.class)).collect(Collectors.toList()));
 	}
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
