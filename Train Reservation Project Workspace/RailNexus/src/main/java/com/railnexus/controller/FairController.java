@@ -1,6 +1,7 @@
 package com.railnexus.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class FairController {
 	@GetMapping("/{trainNo}")
 	public ResponseEntity<?> showAvailaSeatsByTrain(@PathVariable Long trainNo) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.showFairByTrainId(trainNo).stream()
-				.map(fair -> model.map(fair, FairResponseDTO.class)).toList())
+				.map(fair -> model.map(fair, FairResponseDTO.class)).collect(Collectors.toList()))
 
 		;
 	}
@@ -43,14 +44,14 @@ public class FairController {
 	public ResponseEntity<?> showAvailaSeatsByClass(@PathVariable Long trainNo, @PathVariable String classType) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(service.showBoogieFair(trainNo, classType).stream()
-				.map(fair -> model.map(fair, FairResponseDTO.class)).toList());
+				.map(fair -> model.map(fair, FairResponseDTO.class)).collect(Collectors.toList()));
 	}
 
 	@GetMapping("/station/{sourceId}/{destinationId}")
 	public ResponseEntity<?> showBySourceAndDestination(@PathVariable Long sourceId, @PathVariable Long destinationId) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(service.showBySourceAndDestination(sourceId, destinationId)
-				.stream().map(fair -> model.map(fair, FairResponseDTO.class)).toList());
+				.stream().map(fair -> model.map(fair, FairResponseDTO.class)).collect(Collectors.toList()));
 	}
 
 }

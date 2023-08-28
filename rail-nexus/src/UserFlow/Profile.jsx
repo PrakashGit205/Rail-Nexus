@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card, Modal, Form } from 'react-bootstrap';
 import { Edit, ExitToApp } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import UpComingJourney from './UpComingJourney';
 
 const UserProfile = ({ }) => {
   const [showModal, setShowModal] = useState(false);
@@ -77,7 +78,7 @@ const UserProfile = ({ }) => {
           </div>
        
         </Col> */}
-        <Col sm={8} style={profileContentStyles}>
+        <Col sm={6} style={profileContentStyles}>
           <h1>
             Welcome, <span style={userNameStyles}>{userData.firstName}</span>!
           </h1>
@@ -163,6 +164,7 @@ const UserProfile = ({ }) => {
             </Modal.Footer>
           </Modal>
         </Col>
+        <UpComingJourney profileContentStyles = {profileContentStyles}></UpComingJourney>
       </Row>
     </Container>
   );
