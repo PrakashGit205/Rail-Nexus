@@ -57,7 +57,7 @@ const Sidebar = () => {
         })}>
           <Link to="/admin/stations">Stations</Link>
         </li>
-        <li className={active.seats} onClick={() => setActive({
+        {/* <li className={active.seats} onClick={() => setActive({
           dashboard: "",
           trains: "",
           stations: "",
@@ -67,7 +67,7 @@ const Sidebar = () => {
           allUsers: ""
         })}>
           <Link to="/admin/seats">Seats</Link>
-        </li>
+        </li> */}
         <li className={active.runningTrains} onClick={() => setActive({
           dashboard: "",
           trains: "",

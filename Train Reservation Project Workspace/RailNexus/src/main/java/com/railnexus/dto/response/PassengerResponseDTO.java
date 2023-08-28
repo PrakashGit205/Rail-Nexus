@@ -1,5 +1,7 @@
 package com.railnexus.dto.response;
 
+import java.time.LocalDate;
+
 import com.railnexus.pojos.Station;
 import com.railnexus.pojos.Train;
 import com.railnexus.pojos.User;
@@ -48,5 +50,8 @@ public class PassengerResponseDTO {
 	
 	private String destinationTime;
 	
+	private LocalDate trainDepartureDate;
+	
+	private LocalDate bookingDate;
 //	private String sourceTime;
 }

@@ -54,5 +54,5 @@ public class TrainController {
 	}
 	@PutMapping()
 	public ResponseEntity<?> editTrain(@RequestBody AddTrainDTO dto ) {
-		return ResponseEntity.status(HttpStatus.OK).body(dao.findAll());}
+		return ResponseEntity.status(HttpStatus.OK).body(service.editTrain(dto));}
 }

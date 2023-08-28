@@ -43,6 +43,9 @@ public class SecurityConfig {
 						"/user/**",
 						"/api/trains/**", 
 						"/api/station/**", 
+						"/api/station",
+						"/api/passengers",
+						"/api/passengers/**",
 						"/api/users/**",
 						"/api/user/**",
 						"/signin/**",
@@ -50,8 +53,8 @@ public class SecurityConfig {
 						"/swagger*/**", 
 						"/v*/api-docs/**"
 						).permitAll() // for incoming req ending															// authorization needed
-				.antMatchers("/api/passengers/**","/api/passengers").hasRole("USER")// only customer can purchase the products
-				.antMatchers("/api/admin").hasRole("ADMIN") // only admin can add the products
+				.antMatchers().hasRole("USER")// only customer can purchase the products
+				.antMatchers().hasRole("ADMIN") // only admin can add the products
 				.anyRequest().authenticated() // all remaining end points accessible only to authenticated users
 				.and().sessionManagement() // configure HttpSession management
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // DO NOT use HttpSession for storing any sec

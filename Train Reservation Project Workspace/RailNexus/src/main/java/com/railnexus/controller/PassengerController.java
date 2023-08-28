@@ -33,7 +33,7 @@ public class PassengerController {
 
 	@Autowired
 	private ModelMapper model;
-
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping
 	public List<PassengerResponseDTO> allPassengers() {
 		return dao.findAll().stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
@@ -46,7 +46,7 @@ public class PassengerController {
 		PassengerResponseDTO rDto =  service.addPassenger(dto);
 		return rDto;
 	}
-
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping("/{pnrNo}")
 	public List<PassengerResponseDTO> passangerByPnrNo(@PathVariable String pnrNo) {
 		return dao.findByPnr(pnrNo).stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
