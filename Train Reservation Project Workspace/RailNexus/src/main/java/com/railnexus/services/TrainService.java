@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -67,7 +68,7 @@ public class TrainService implements ITrainService {
 
 	public List<TrainResponseDTO> alltrains() {
 		List<Train> trains = dao.findAll();
-		return trains.stream().map(train -> mapper.map(train, TrainResponseDTO.class)).toList();
+		return trains.stream().map(train -> mapper.map(train, TrainResponseDTO.class)).collect(Collectors.toList());
 	}
 
 	public List<TrainStation> trainRoute(Long trainId) {

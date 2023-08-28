@@ -1,6 +1,7 @@
 package com.railnexus.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class PassengerController {
 	@GetMapping
 	public List<PassengerResponseDTO> allPassengers() {
 		return dao.findAll().stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
-				.toList();
+				.collect(Collectors.toList());
 	}
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping
@@ -50,14 +51,14 @@ public class PassengerController {
 	@GetMapping("/{pnrNo}")
 	public List<PassengerResponseDTO> passangerByPnrNo(@PathVariable String pnrNo) {
 		return dao.findByPnr(pnrNo).stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
-				.toList();
+				.collect(Collectors.toList());
 
 	}
 
 	@GetMapping("/user/{userId}")
 	public List<PassengerResponseDTO> passangerByUserId(@PathVariable Long userId) {
 		return dao.findByUserId(userId).stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
-				.toList();
+				.collect(Collectors.toList());
 
 	}
 
