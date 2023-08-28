@@ -52,7 +52,7 @@ function FilteredTrain(props) {
   useEffect(() => {
     console.log("in train type")
     console.log(formData)
-    // sessionStorage.setItem("chosen stations", JSON.stringify(formData))
+  
     RunningTrainsService.post(filters)
       .then ( (response) =>  {
         console.log('Printing trains data', response.data);
@@ -65,12 +65,12 @@ function FilteredTrain(props) {
         else 
         currentDate = filteredData.originDate;
 
-        // Filter the data array based on the date property
+       
          setFilterData(response.data.filter(item => {
-          // Assuming 'item.date' is a string representing the date (e.g., "2023-08-23")
+         
           const itemDate = moment(item.date);
       
-          // Compare the item's date to the current date
+        
           return itemDate.isSame(currentDate, 'day');
         }));
       })

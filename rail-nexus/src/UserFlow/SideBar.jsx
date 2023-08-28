@@ -25,11 +25,11 @@ function UserSidebar() {
       <div style={{ alignSelf: "center", marginBottom: 30 }}>
         <img src="https://github.com/mdo.png" alt="" width={60} height={60} className="rounded-circle me-2" />
         <br />
-        <strong>Samyak</strong>
+         {User.firstName}
       </div>
       <Nav className="flex-column">
         <Nav.Item>
-          <Nav.Link as={Link} to="#" className="nav-link active">
+          <Nav.Link as={Link} to="/profile" className="nav-link active">
             <Home className="me-2" />
             Details
           </Nav.Link>
@@ -41,17 +41,17 @@ function UserSidebar() {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={Link} to="#" className="nav-link">
+          <Nav.Link as={Link} to="/history" className="nav-link">
             <TableChart className="me-2" />
             History
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item>
+        {/* <Nav.Item>
           <Nav.Link as={Link} to="#" className="nav-link">
             <Apps className="me-2" />
-            Products
+            
           </Nav.Link>
-        </Nav.Item>
+        </Nav.Item> */}
         <Nav.Item>
           <Nav.Link as={Link} to="#" className="nav-link">
             <ExitToApp className="me-2" />

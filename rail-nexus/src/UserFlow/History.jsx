@@ -1,5 +1,9 @@
 function History() {
-    return ( <> this is history</> );
+
+
+    return ( <>
+    <h1> this is hisory page</h1>
+    </> );
 }
 
 export default History;

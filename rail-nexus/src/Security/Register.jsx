@@ -6,7 +6,10 @@ import { Button, Modal, NavLink } from "react-bootstrap";
 import Login from "./Login";
 import UserService from "../Services/User.service";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 function Register() {
+  const history = useHistory();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -96,7 +99,16 @@ function Register() {
       // Perform registration or validation logic here
       // For this example, we'll just log the form data
       console.log("Form submitted:", formData);
-      UserService.post(formData).then((response)=>{console.log(response.data); toast.dark("success")}).catch((error)=>{console.log(error); toast.error("something went wrong")})
+      UserService.post(formData).then((response)=>{
+        console.log(response.data); 
+       
+        history.push("/login")
+        
+        toast.dark("success")}
+        
+        
+        ).catch((error)=>{console.log(error); toast.error("something went wrong")})
+   
     }
   };
   const { show, setShow, handleClose, handleShow } = useMyContext();

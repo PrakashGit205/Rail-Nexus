@@ -1,8 +1,8 @@
 // src/components/Sidebar.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './sidebar.css';
-import "../App.css"
+// import './sidebar.css';
+// import "../App.css"
 import { useHistory } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -21,7 +21,7 @@ const Sidebar = () => {
   return (
     <nav id="sidebar" style={{ position: 'sticky', position: '-webkit-sticky' }}>
       <div className="sidebar-header" style={{ position: 'sticky', position: '-webkit-sticky' }}>
-        <h3>Welcome Prakash</h3>
+        <h3>Welcome Aarav</h3>
       </div>
       <ul className="list-unstyled components">
         <li className={active.dashboard} onClick={() => setActive({
@@ -33,7 +33,7 @@ const Sidebar = () => {
           passengers: "",
           allUsers: ""
         })}>
-          <Link to="/admin">Dashboard</Link>
+          <Link to="/profile">Profile</Link>
         </li>
         <li className={active.trains} onClick={() => setActive({
           dashboard: "",
@@ -44,7 +44,7 @@ const Sidebar = () => {
           passengers: "",
           allUsers: ""
         })}>
-          <Link to="/admin/trains">Trains</Link>
+          <Link to="/history">History</Link>
         </li>
         <li className={active.stations} onClick={() => setActive({
           dashboard: "",
@@ -55,7 +55,7 @@ const Sidebar = () => {
           passengers: "",
           allUsers: ""
         })}>
-          <Link to="/admin/stations">Stations</Link>
+          <Link to="/Bookings">Bookings</Link>
         </li>
         <li className={active.seats} onClick={() => setActive({
           dashboard: "",
@@ -66,9 +66,9 @@ const Sidebar = () => {
           passengers: "",
           allUsers: ""
         })}>
-          <Link to="/admin/seats">Seats</Link>
+          <Link to="/">Log Out</Link>
         </li>
-        <li className={active.runningTrains} onClick={() => setActive({
+        {/* <li className={active.runningTrains} onClick={() => setActive({
           dashboard: "",
           trains: "",
           stations: "",
@@ -100,7 +100,7 @@ const Sidebar = () => {
           allUsers: "active"
         })}>
           <Link to="/admin/users"> Users</Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

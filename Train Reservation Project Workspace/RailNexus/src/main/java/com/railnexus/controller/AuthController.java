@@ -55,6 +55,7 @@ public class AuthController {
 					//log.info("auth token again " + authentication.getPrincipal().getClass());
 					CustomUserDetails userDetails=(CustomUserDetails)authentication.getPrincipal();
 					User user = userDetails.getUser();
+					System.out.println(user);
 					LoginResponse resp = mapper.map(user,LoginResponse.class);
 					resp.setToken(utils.generateJwtToken(authentication));
 					// => auth succcess

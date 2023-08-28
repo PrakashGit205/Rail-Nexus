@@ -45,7 +45,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(model.map(service.addUser(dto), UserResponseDTO.class));
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getUserById(Long id) {
+	public ResponseEntity<?> getUserById(@PathVariable Long id) {
 		return ResponseEntity.status(HttpStatus.OK).body(model.map(service.getUserById(id), UserResponseDTO.class));
 	}
 	@GetMapping

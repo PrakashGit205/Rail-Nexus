@@ -56,7 +56,7 @@ const FilterSidebar = (props) => {
         {/* <Modal show={show} onHide={handleClose}>
             <Login></Login>
         </Modal> */}
-        <div className="container-fluid mt-3">
+        <div className="container-fluid mt-3" >
             <div className={`sidebar ${isOpen == true ? 'active' : ''}`}>
                 <div className="sd-header">
                     <h4 className="mb-0">Filter</h4>

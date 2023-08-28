@@ -2,7 +2,9 @@ package com.railnexus.services;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.railnexus.dao.FairDao;
+import com.railnexus.dao.RunningTrainDao;
 import com.railnexus.dao.StationDao;
 import com.railnexus.dao.TrainDao;
 import com.railnexus.dao.TrainStationDao;
@@ -21,6 +24,7 @@ import com.railnexus.dto.AddTrainDTO;
 import com.railnexus.dto.response.StationResponseDTO;
 import com.railnexus.dto.response.TrainResponseDTO;
 import com.railnexus.exception.ResourceNotFoundException;
+import com.railnexus.pojos.RunningTrain;
 import com.railnexus.pojos.Station;
 import com.railnexus.pojos.Train;
 import com.railnexus.pojos.TrainStation;
@@ -44,7 +48,8 @@ public class TrainService implements ITrainService {
 	private TrainStationDao trainStationDao;
 	@Autowired
 	private DistanceService distanceService;
-
+	@Autowired
+    private RunningTrainDao runningTrainDao;
 	public TrainResponseDTO addTrain(AddTrainDTO train) {
 
 		Station originStation = stationDao.findById(train.getOriginStationId())
@@ -95,5 +100,6 @@ public class TrainService implements ITrainService {
 		LocalTime result = time.plus(duration);
 		return result;
 	}
+	
 
 }

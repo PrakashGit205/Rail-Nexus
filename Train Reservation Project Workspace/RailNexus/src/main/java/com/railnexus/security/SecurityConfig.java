@@ -2,6 +2,7 @@ package com.railnexus.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -34,8 +35,9 @@ public class SecurityConfig {
 				.and()
 			.csrf().disable(). // disable CSRF to continue with REST APIs
 				authorizeRequests() // specify all authorization rules (i.e authorize all requests)
+				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.antMatchers(
-						"/**",
+						"/api/seats",
 						"/api/seats/**",
 						"/api/running/**",
 						"/user/**",
@@ -43,14 +45,14 @@ public class SecurityConfig {
 						"/api/station/**", 
 						"/api/users/**",
 						"/api/user/**",
-						"/login",
+						"/signin/**",
 						"/api/fair/**",
 						"/swagger*/**", 
 						"/v*/api-docs/**"
 						).permitAll() // for incoming req ending															// authorization needed
-//				.antMatchers("/profile/**").hasRole("USER")// only customer can purchase the products
-//				.antMatchers("/api/add","/api/admin").hasRole("ADMIN") // only admin can add the products
-//				.anyRequest().authenticated() // all remaining end points accessible only to authenticated users
+				.antMatchers("/api/passengers/**","/api/passengers").hasRole("USER")// only customer can purchase the products
+				.antMatchers("/api/admin").hasRole("ADMIN") // only admin can add the products
+				.anyRequest().authenticated() // all remaining end points accessible only to authenticated users
 				.and().sessionManagement() // configure HttpSession management
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // DO NOT use HttpSession for storing any sec
 																		// info

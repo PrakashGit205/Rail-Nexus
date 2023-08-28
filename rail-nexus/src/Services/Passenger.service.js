@@ -1,11 +1,10 @@
 // import httpClient from "../http-common"
 import axios from 'axios';
 import BaseURL from '../GlobalConfig';
+import AuthHeader from './auth.heder';
 var httpClient = axios.create({
   baseURL: `${BaseURL}/api/passengers`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: AuthHeader(),
 });
 
 const getAll = () => {
@@ -16,8 +15,11 @@ const post = (data) => {
   return httpClient.post('', data);
 };
 
+
+
+
 const get = (id) => {
-  return httpClient.get(`${id}`);
+  return httpClient.get(`/user/${id}`);
 };
 
 const update = (data) => {

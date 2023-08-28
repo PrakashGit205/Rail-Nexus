@@ -18,7 +18,11 @@ const DemoTrainReservationForm = () => {
     const { show, setShow, handleClose, handleShow } = useMyContext();
     const history = useHistory();
     const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().split('T')[0]; 
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    const [message, setMessage] = useState();
+    const [stations, setStaions] = useState([]);
+
+    const [fadeIn, setFadeIn] = useState(false);
     const [formData, setFormData] = useState({
         originId: '',
         sourceId: '',
@@ -26,10 +30,6 @@ const DemoTrainReservationForm = () => {
         classType: '',
     });
 
-    const [message, setMessage] = useState();
-    const [stations, setStaions] = useState([]);
-
-    const [fadeIn, setFadeIn] = useState(false);
     const onInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({
@@ -63,10 +63,10 @@ const DemoTrainReservationForm = () => {
     const defaultProps = {
         options: stations,
         getOptionLabel: (option) => option.cityName,
-      };
-      const flatProps = {
+    };
+    const flatProps = {
         options: stations.map((option) => option.name),
-      };
+    };
 
 
     useEffect(() => {
@@ -88,8 +88,8 @@ const DemoTrainReservationForm = () => {
         // console.log(Date.now())
         history.push("/running-trains", { formData: formData });
     }
-const [value, setValue] = useState(null);
-const [originValue, setOriginValue] = useState(null);
+    const [value, setValue] = useState(null);
+    const [originValue, setOriginValue] = useState(null);
     return (<>
         {/* <Modal show={show} onHide={handleClose}>
             <Login></Login>
@@ -111,44 +111,44 @@ const [originValue, setOriginValue] = useState(null);
                                 <div className="form-group">
                                     <label htmlFor="sourceStation">source Station</label>
                                     <Autocomplete
-                                {...defaultProps}
-                                id="sourceId"
-                                name="sourceId"
-                                disableClearable
-                                value={value}
-                                onChange={(event, newValue) => {
-                                    setValue(newValue);
-                                    // Set the selected value to your form data
-                                    setFormData((prevFormData) => ({
-                                        ...prevFormData,
-                                        sourceId: newValue.id, // Assuming the station object has an 'id' property
-                                    }));
-                                }}
-                                renderInput={(params) => (
-                                    <TextField {...params} label="source Station" variant="standard" />
-                                )}
-                            />
+                                        {...defaultProps}
+                                        id="sourceId"
+                                        name="sourceId"
+                                        disableClearable
+                                        value={value}
+                                        onChange={(event, newValue) => {
+                                            setValue(newValue);
+                                            // Set the selected value to your form data
+                                            setFormData((prevFormData) => ({
+                                                ...prevFormData,
+                                                sourceId: newValue.id, // Assuming the station object has an 'id' property
+                                            }));
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="source Station" variant="standard" />
+                                        )}
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="destinationStation">destination Station</label>
                                     <Autocomplete
-                                {...defaultProps}
-                                id="origin"
-                                name="origin"
-                                disableClearable
-                                value={originValue}
-                                onChange={(event, newValue) => {
-                                    setOriginValue(newValue);
-                                    // Set the selected value to your form data
-                                    setFormData((prevFormData) => ({
-                                        ...prevFormData,
-                                        originId: newValue.id, // Assuming the station object has an 'id' property
-                                    }));
-                                }}
-                                renderInput={(params) => (
-                                    <TextField {...params} label="destination Station" variant="standard" />
-                                )}
-                            />
+                                        {...defaultProps}
+                                        id="origin"
+                                        name="origin"
+                                        disableClearable
+                                        value={originValue}
+                                        onChange={(event, newValue) => {
+                                            setOriginValue(newValue);
+                                            // Set the selected value to your form data
+                                            setFormData((prevFormData) => ({
+                                                ...prevFormData,
+                                                originId: newValue.id, // Assuming the station object has an 'id' property
+                                            }));
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="destination Station" variant="standard" />
+                                        )}
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="date">Date</label>
@@ -159,7 +159,7 @@ const [originValue, setOriginValue] = useState(null);
                                         name="originDate"
                                         value={formData.originDate}
                                         onChange={onInputChange}
-                                        // defaultValue={formattedDate}
+                                    // defaultValue={formattedDate}
 
                                     />
                                     {/* <DatePicker  type="date"
@@ -168,14 +168,14 @@ const [originValue, setOriginValue] = useState(null);
                                         name="originDate"
                                         value={formData.originDate}
                                         onChange={onInputChange}  /> */}
-                                        {/* <DesktopDatePicker  type="date"
+                                    {/* <DesktopDatePicker  type="date"
                                         className="form-control"
                                         id="originDate"
                                         name="originDate"
                                         value={formData.originDate}
                                         onChange={onInputChange}  /> */}
-                                        
-                                     {/* <button   className="form-control"
+
+                                    {/* <button   className="form-control"
                                             onClick={() => {
                                                 setIsOpen(true)
                                             }}
@@ -183,9 +183,9 @@ const [originValue, setOriginValue] = useState(null);
                                             Choose date 
                                         </button>
                                         {/* <input type="text" name="originDate" id="originDate" > */}
-                                            
-                                        {/* </input> */}
-                                        {/* <DatePicker  name="originDate" id="originDate"  className="form-control"
+
+                                    {/* </input> */}
+                                    {/* <DatePicker  name="originDate" id="originDate"  className="form-control"
                                         value={formData.originDate}
                                         onChange={onInputChange}
                                             isOpen={isOpen}
@@ -194,7 +194,7 @@ const [originValue, setOriginValue] = useState(null);
                                             minDate={new Date(2022, 10, 10)}
                                             maxDate={new Date(2024, 0, 10)}
                                             headerFormat='DD, MM dd' */}
-                                        
+
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="seatType">Seat Type</label>
@@ -204,11 +204,11 @@ const [originValue, setOriginValue] = useState(null);
                                         name="classType"
                                         value={formData.classType}
                                         onChange={onInputChange}
-                                        
+
                                     >
 
-                                        <option value="GENERAl">
-                                            GENERAl
+                                        <option value="GENERAL">
+                                            GENERAL
                                         </option>
                                         <option value="FIRST_CLASS">
                                             FIRST-CLASS

@@ -28,6 +28,6 @@ public class LoginResponse {
 	private LocalDate regDate;
 	private String mobile;
 	private String role;
-//	private String gender;
+	private String gender;
 //	private Boolean isValid;
 }

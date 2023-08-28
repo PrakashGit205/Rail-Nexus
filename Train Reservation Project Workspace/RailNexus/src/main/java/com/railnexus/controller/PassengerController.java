@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,10 +35,11 @@ public class PassengerController {
 	private ModelMapper model;
 
 	@GetMapping
-	public List<Passenger> allPassengers() {
-		return dao.findAll();
+	public List<PassengerResponseDTO> allPassengers() {
+		return dao.findAll().stream().map(passenger -> model.map(passenger, PassengerResponseDTO.class))
+				.toList();
 	}
-
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping
 	public PassengerResponseDTO addPassenger(@RequestBody AddPassengerDTO dto) {
 

@@ -9,7 +9,7 @@ function HomePage() {
 
     // const navigate=useNavigate
     const history = useHistory();
-    debugger;
+
     return (<>
     
        <DemoTrainReservationForm></DemoTrainReservationForm>

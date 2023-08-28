@@ -20,8 +20,8 @@ public class TrainResponseDTO {
 	private Long trainNo;
 	private String trainName;
 	private LocalTime originTime;
-	private Double originDestDistanceId;
-	private Double trainSpeed;
+	private Double originDestDistance;
+	private Long trainSpeed;
 	private Long originStationId;
 	private  Long destinationStationId;
 	private String trainType;

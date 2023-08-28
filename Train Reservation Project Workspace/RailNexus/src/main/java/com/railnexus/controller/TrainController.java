@@ -46,7 +46,7 @@ public class TrainController {
 	public ResponseEntity<?> trainBySourceAndDestinationId(@PathVariable Long sourceId,@PathVariable Long destinationId ) {
 		return ResponseEntity.status(HttpStatus.OK).body(dao.findByOriginStationIdAndDestinationStationId(sourceId,destinationId).stream().map(train->model.map(train, TrainResponseDTO.class)).toList());
 	}
-//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<?> addTrain(@RequestBody AddTrainDTO train) {
 

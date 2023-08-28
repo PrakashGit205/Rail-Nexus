@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.railnexus.dao.UserDao;
@@ -24,6 +25,8 @@ public class UserService implements IUserService{
 	
 	@Autowired
 	private ModelMapper mapper;
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	@Override
 	public List<User> allUsers() {
@@ -48,6 +51,8 @@ public class UserService implements IUserService{
 	public User addUser(AddUserDTO dto) {
 		User user = mapper.map(dto, User.class);
 		user.setRegDate(LocalDate.now());
+		user.setRole("ROLE_USER");
+		user.setPassword(encoder.encode(user.getPassword()));
 		return userDao.save(user);
 	}
 

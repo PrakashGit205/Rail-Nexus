@@ -24,6 +24,10 @@ import SeatReservationFormStyled from "../Pages/Reservation/PassengerDetail";
 import PaymentForm from "../Pages/Reservation/Payment";
 import Ticket from "../Pages/Reservation/Ticket/TIcket";
 import PaymentConfirm from "../Pages/Reservation/PaymentConfirmation";
+import MyBookings from "../UserFlow/Bookings";
+import UserController from "../UserFlow/index"
+import ForgotPasswordPage from "./Auth/ForgetPassword";
+// import UserController from "../UserFlow";
 // import second from '../../'
 function Controller() {
   const [show, setShow] = useState(false);
@@ -40,30 +44,29 @@ function Controller() {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/forgot-password" component={ForgotPasswordPage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/running-trains" component={FilterSidebar} />
-          {/* <Route exact path="/stations" component={Stations} /> */}
-          <AdminProtectedRoute exact path="/admin" component={Admin} />
           <Route exact path="/about-us" component={About} />
           <Route exact path="/contact-us" component={COntactUs} />
           <ProtectedRoute exact path="/book-seat" component={SeatReservationFormStyled} />
-          {/* <Route exact path="/admin/trains" component={Trains} /> */}
-          {/* <Route exact path="/admin/stations" component={Stations} /> */}
-          {/* <Route exact path="/admin/seats" component={Seats} /> */}
-          {/* <Route exact path="/admin/running-trains" component={RunningTrains} /> */}
-          <ProtectedRoute exact path="/profile" component={Profile} />
+          <ProtectedRoute exact path="/profile" component={UserController} />
           <ProtectedRoute exact path="/payment" component={PaymentForm} />
           <ProtectedRoute exact path="/ticket" component={Ticket} />
           <ProtectedRoute exact path="/payment-confirmation" component={PaymentConfirm} />
-          {/* <Route path="/seats" component={Seats} /> */}
-          {/* <Route exact path="/running-trains" component={RunningTrains} /> */}
+          <ProtectedRoute exact path="/bookings" component={UserController} />
+          <ProtectedRoute exact path="/profile" component={UserController} />
+          <ProtectedRoute exact path="/history" component={UserController} />
+          <AdminProtectedRoute exact path="/admin" component={Admin} />
           <AdminProtectedRoute exact path="/admin/stations" component={Admin} />
           <AdminProtectedRoute exact path="/admin/trains" component={Admin} />
           <AdminProtectedRoute exact path="/admin/seats" component={Admin} />
           <AdminProtectedRoute exact path="/admin/running-trains" component={Admin} />
           <AdminProtectedRoute exact path="/admin/edit-station/:id" component={Admin} />
           <AdminProtectedRoute exact path="/admin/edit-train/:id" component={Admin} />
-          {/* <AdminProtectedRoute exact path="/admin" component={Admin} /> */}
+          <AdminProtectedRoute exact path="/admin/passengers" component={Admin} />
+          <AdminProtectedRoute exact path="/admin/users" component={Admin} />
+          <AdminProtectedRoute exact path="/admin/edit-user/:id" component={Admin} />
         </Switch>
         <Footer></Footer>
       </MyContext.Provider>

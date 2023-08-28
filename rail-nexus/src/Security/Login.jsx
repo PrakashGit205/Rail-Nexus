@@ -6,6 +6,7 @@ import { CloseButton, FloatingLabel, Form, Modal } from "react-bootstrap";
 import { useMyContext } from "../MyContext";
 import Alert from '@mui/material/Alert';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import authService from "../Services/auth.service";
 const Login = () => {
   // const { show, handleClose } = useMyContext();
   const { setIsLoggedIn } = useMyContext();
@@ -70,19 +71,19 @@ const Login = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      UserService.login(formData)
+      authService.post(formData)
         .then((response) => {
 
           console.log(response.data);
           setUser(response.data);
           console.log(user);
           sessionStorage.setItem("User", btoa(JSON.stringify(response.data)));
-          if ('user'.match(response.data.role)) {
+          if ("ROLE_USER".match(response.data.role)) {
             sessionStorage.setItem("isLoggedIn123", "true");
             // history.push("/profile");
             
           }
-          else if('admin'.match(response.data.role)){
+          else if("ROLE_ADMIN".match(response.data.role)){
             sessionStorage.setItem("isLoggedIn098", "true");
           }
           console.log('location.state:', location.state);
@@ -103,6 +104,7 @@ const Login = () => {
     <>
       {/* <Modal show={show} onHide={handleClose}> */}
       {/* {errors.password.length>0 ?  <Alert severity="error">This is an error alert — check it out!</Alert> : ""} */}
+
       <Form onSubmit={() => { history.push("/register"); handleClose(); }}>
         <div className="card" >
           <CloseButton
@@ -167,8 +169,10 @@ const Login = () => {
               Login
             </button>
             <br />
-            <div className='mb-3'>
-              <Link to='/fogot-password'>Forgot Pasword</Link>
+            <div className='mb-3'  onClick={() => {
+              handleClose();
+            }} >
+              <Link to='/forgot-password'>Forgot Pasword</Link>
             </div>
             <label htmlFor="New User?">New User?</label>
             <br />

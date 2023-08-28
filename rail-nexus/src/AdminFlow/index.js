@@ -13,6 +13,9 @@ import AdminProtectedRoute from '../Security/AdminProtectedRoutes';
 import TrainStatusPage from './Pages/Seats';
 import EditStationPage from './Pages/EditStation';
 import EditTrainPage from './Pages/EditTran';
+import AllPassengers from './Passengers/AllPassenger';
+import AllUsersPage from './Users/Users';
+import EditUserPage from './Users/EditUser';
 
 
 
@@ -33,7 +36,9 @@ console.log("in admin ")
           <AdminProtectedRoute exact path="/admin" component={Dashboard} />
           <AdminProtectedRoute exact path="/admin/edit-station/:id" component={EditStationPage} />
           <AdminProtectedRoute exact path="/admin/edit-train/:id" component={EditTrainPage} />
-          {/* <Route exact path="" component={Dashboard} /> */}
+          <AdminProtectedRoute exact path="/admin/passengers" component={AllPassengers} />
+          <AdminProtectedRoute exact path="/admin/users" component={AllUsersPage} />
+          <AdminProtectedRoute exact path="/admin/edit-user/:id" component={EditUserPage} />
           </Switch>
         </div>
       </div>

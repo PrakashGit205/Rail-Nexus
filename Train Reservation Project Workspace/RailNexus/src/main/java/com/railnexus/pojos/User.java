@@ -27,7 +27,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+//@ToString
 public class User extends SuperId {
 	@Column(name = "first_name", length = 50, nullable = false)
 	private String firstName;
@@ -80,6 +80,13 @@ public class User extends SuperId {
 		User other = (User) obj;
 		return Objects.equals(userName, other.userName);
 	}
+	@Override
+	public String toString() {
+		return "User [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", email=" + email
+				+ ", userName=" + userName + ", regDate=" + regDate + ", password=" + password + ", mobile=" + mobile
+				+ ", gender=" + gender + ", role=" + role + "]";
+	}
+	
 	
 
 }

@@ -82,7 +82,7 @@ function Header() {
                                 Contact Us
                             </Link>
                         </li>
-                        <li className="nav-item dropdown ">
+                        {/* <li className="nav-item dropdown ">
                             <Link
                                 className="nav-link dropdown-toggle"
                                 to="/"
@@ -119,7 +119,7 @@ function Header() {
                             <li>
 
                             </li>
-                        </li>
+                        </li> */}
 
                     </ul>
                     <div className="d-flex">
@@ -167,7 +167,7 @@ function Header() {
                                             }}
 
                                         >
-                                           { isClicked ? ( <>Book Train</>) : ( <> Go to My Profile</>)
+                                           { isClicked ? ( <>Book Train</>) : ( <>  My Profile</>)
                                            
                                         }
                                         </button>

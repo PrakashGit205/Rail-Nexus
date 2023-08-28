@@ -33,8 +33,9 @@ function Trains() {
   }
   const [showModal, setShowModal] = useState(false);
   const [selectedTrainSchedule, setSelectedTrainSchedule] = useState([]);
-  const viewTrainSchedule = (schedule) => {
-    setSelectedTrainSchedule(schedule);
+  const [selectedTrain, setSelectedTrain] = useState(null);
+  const viewTrainSchedule = (train) => {
+    setSelectedTrain(train);
     setShowModal(true);
   };
 
@@ -64,18 +65,20 @@ function Trains() {
                     <button className="btn btn-danger" onClick={() => deleteTrain(train.id)}>Remove</button>
                     {" "}
                     <button className="btn btn-warning" onClick={() => cancelTrain(train.id)}>Cancel</button>
-                    <button className="btn btn-primary" onClick={() => viewTrainSchedule(train.schedule)}>
-                View Train Schedule
-              </button>
+                    <button onClick={() => viewTrainSchedule(train)}>
+            View Train Schedule
+          </button>
                   </div>
                 </div>
               </div>
             ))}
-            <TrainScheduleModal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        schedule={selectedTrainSchedule}
-      />
+            {selectedTrain && (
+        <TrainScheduleModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          trainData={selectedTrain}
+        />
+      )}
         </div>
       </div>
 
