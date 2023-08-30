@@ -1,13 +1,16 @@
 package com.railnexus.services;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.railnexus.dao.PassengerDao;
 import com.railnexus.dao.SeatDao;
@@ -107,5 +110,20 @@ Random random = new Random();
 	public Passenger updatePassenger(AddPassengerDTO dto) {
 		Passenger psngrToAdd = mapper.map(dto, Passenger.class);
 		return dao.save(psngrToAdd);
+	}
+
+	public List<PassengerResponseDTO> passangerByUserId(Long userId) {
+
+		List<Passenger> passengers = dao.findByUserId(userId);
+		passengers.stream().map(passenger->passenger);
+
+
+	List<PassengerResponseDTO> responseDTOs =	dao.findByUserId(userId).stream().map(passenger -> mapper.map(passenger, PassengerResponseDTO.class))
+		.collect(Collectors.toList());
+		for (int i = 0; i < passengers.size(); i++) {
+
+		}
+		
+		return null;
 	}
 }
