@@ -51,6 +51,7 @@ export default function StickyFooter() {
               Rail Nexus 
             </Typography>
             <Copyright />
+          {/* <Container> <Link >About</Link></Container> */}
           </Container>
         </Box>
       </Box>

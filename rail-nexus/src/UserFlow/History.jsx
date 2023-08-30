@@ -2,7 +2,7 @@ function History() {
 
 
     return ( <>
-    <h1> this is hisory page</h1>
+    <h1> this is history page</h1>
     </> );
 }
 
