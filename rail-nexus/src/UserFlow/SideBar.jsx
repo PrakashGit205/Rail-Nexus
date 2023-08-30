@@ -11,6 +11,7 @@ function UserSidebar() {
   var tempuser;
   useEffect(()=>{
      tempuser = JSON.parse(atob( sessionStorage.getItem("User")));
+     console.log("temp user details")
     console.log(tempuser);
     setUser(tempuser);
   },[])

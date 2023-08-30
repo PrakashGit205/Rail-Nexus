@@ -42,6 +42,7 @@ console.log(editedData);
       ...prevData,
       [field]: value,
     }));
+    console.log(editedData)
   };
 
   const handleSaveChanges = () => {
@@ -49,6 +50,7 @@ console.log(editedData);
     // For now, we'll just update the userData state for demonstration
     setEditedData({ ...editedData });
     setShowModal(false);
+    // console.log(editedData);
   };
 
   return (
@@ -83,11 +85,11 @@ console.log(editedData);
             <Card.Header>User Details</Card.Header>
             <Card.Body>
               <Card.Text style={userDetailsStyles}>
-                <p>Username: {editedData.userName}</p>
-                <p>Email: {editedData.email}</p>
-                <p>Address: {editedData.address}</p>
-                <p>Registration Date: {editedData.regDate}</p>
-                <p>Mobile: {editedData.mobile}</p>
+                <p>Username: {userData.userName}</p>
+                <p>Email: {userData.email}</p>
+                <p>Address: {userData.address}</p>
+                <p>Registration Date: {userData.regDate}</p>
+                <p>Mobile: {userData.mobile}</p>
                 <p>Gender: {userData.gender}</p>
               </Card.Text>
             </Card.Body>

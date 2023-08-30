@@ -18,16 +18,7 @@ import { Edit, ExitToApp } from "@mui/icons-material";
 function UserController() {
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
-  const userData = {
-    firstName: "John",
-    lastName: "Doe",
-    address: "123 Main St",
-    email: "john@example.com",
-    userName: "johndoe123",
-    regDate: "2023-01-15",
-    mobile: "123-456-7890",
-    gender: "Male",
-  };
+
   const [editedData, setEditedData] = useState({ ...userData });
 
   const profileSidebarStyles = {
@@ -81,6 +72,7 @@ function UserController() {
     setShowModal(false);
   };
   console.log("in user controller");
+ var userData = JSON.parse(atob(sessionStorage.getItem("User")));
   return (
     <>
       {/* <UserSidebar></UserSidebar> */}

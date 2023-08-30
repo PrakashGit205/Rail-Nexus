@@ -5,11 +5,11 @@ function MyBookings() {
   const [bookings, setBookings] = useState([]);
 
   const user = JSON.parse(atob(sessionStorage.getItem('User')));
-  var userData = JSON.parse(atob(sessionStorage.getItem('User')));
+  // var userData = JSON.parse(atob(sessionStorage.getItem('User')));
 
   useEffect(() => {
     console.log("in booking page")
-    userData = JSON.parse(atob(sessionStorage.getItem("User")));
+    var userData = JSON.parse(atob(sessionStorage.getItem("User")));
     // Fetch user's bookings using PassengerServices (replace with actual code)
     PassengerService.get(userData.id)
       .then((response) => {
@@ -23,6 +23,7 @@ function MyBookings() {
           setBookings();
         }
         console.log("Printing user bookings data", response.data);
+        console.log("Printing user bookings data", bookings);
       })
       .catch((error) => {
         console.log("Error fetching user bookings", error);
@@ -35,7 +36,10 @@ function MyBookings() {
       <div className="row">
 
         
-        {bookings.map((booking) => (
+        {
+        
+        bookings.length != 0 ?
+        bookings.map((booking) => (
           <div key={booking.id} className="col-md-5 mb-4">
             <Card>
               <Card.Body>
@@ -51,7 +55,10 @@ function MyBookings() {
               </Card.Body>
             </Card>
           </div>
-        ))}
+        ))
+      : <h3>You have no older bookings</h3>
+      
+      }
       </div>
     </div>
   );

@@ -47,10 +47,10 @@ function UpComingJourney(props) {
     <>
       <Col sm={6} style={profileContentStyles}>
         <h1>
-          Welcome,
+        Up coming Journey
         </h1>
         <Card>
-          <Card.Header>User Details</Card.Header>
+          <Card.Header>Journey Details</Card.Header>
           <Card.Body>
             <Card.Text>
               {
