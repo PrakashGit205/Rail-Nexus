@@ -54,7 +54,6 @@ public class Station extends SuperId {
 
 	@OneToMany(mappedBy = "currentStation", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<RunningTrain> runningTrains = new ArrayList<>();
-
 	
 	@OneToMany(mappedBy = "destinationStation", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<PassengerHistory> arrivedPassengersHistory = new ArrayList<>();

@@ -174,8 +174,9 @@ public class SeatService implements ISeatService {
 			}
 			
 			leftSeats = leftSeats + sumSeats;
+			
 		}
-		
+		System.out.println("left seat sis " + leftSeats);
 		
 
 		return bookedSeat;

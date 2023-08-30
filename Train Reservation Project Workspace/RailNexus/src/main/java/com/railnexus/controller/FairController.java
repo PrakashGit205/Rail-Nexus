@@ -10,15 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.railnexus.dao.FairDao;
 import com.railnexus.dto.response.FairResponseDTO;
+import com.railnexus.dto.response.ListReqResDTOo;
 import com.railnexus.dto.response.TrainResponseDTO;
 import com.railnexus.pojos.Fair;
 import com.railnexus.pojos.Seat;
 import com.railnexus.services.interfaces.IFairService;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/fair")
@@ -53,5 +57,7 @@ public class FairController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.showBySourceAndDestination(sourceId, destinationId)
 				.stream().map(fair -> model.map(fair, FairResponseDTO.class)).collect(Collectors.toList()));
 	}
+	
+	
 
 }

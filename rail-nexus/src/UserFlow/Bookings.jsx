@@ -3,11 +3,12 @@ import Card from 'react-bootstrap/Card';
 import PassengerService from '../Services/Passenger.service';
 function MyBookings() {
   const [bookings, setBookings] = useState([]);
-
+  var userData =
   useEffect(() => {
     console.log("in booking page")
+    userData = JSON.parse(atob(sessionStorage.getItem("User")));
     // Fetch user's bookings using PassengerServices (replace with actual code)
-    PassengerService.get(1) 
+    PassengerService.get(userData.id) 
       .then((response) => {
         console.log("Printing user bookings data", response.data);
         setBookings(response.data);
@@ -24,7 +25,7 @@ function MyBookings() {
 
         
         {bookings.map((booking) => (
-          <div key={booking.id} className="col-md-4 mb-4">
+          <div key={booking.id} className="col-md-5 mb-4">
             <Card>
               <Card.Body>
                 <Card.Title>{booking.name}</Card.Title>
@@ -33,7 +34,8 @@ function MyBookings() {
                 <Card.Text>Train Number: {booking.trainNo}</Card.Text>
                 <Card.Text>Source Time: {booking.sourceTime}</Card.Text>
                 <Card.Text>Destination Time: {booking.destinationTime}</Card.Text>
-                <Card.Text>Train departure date: {booking.orignDate}</Card.Text>
+                <Card.Text>Train departure date: {booking.trainDepartureDate
+}</Card.Text>
                 
                 {/* Display other relevant booking details */}
               </Card.Body>
