@@ -50,6 +50,8 @@ public class PassengerResponseDTO {
 
 	private String destinationTime;
 
+	private String trainName;
+
 	private LocalDate trainDepartureDate;
 	// private LocalDate trainArrivalDate;
 	private LocalDate bookingDate;

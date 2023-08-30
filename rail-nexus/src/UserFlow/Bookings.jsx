@@ -3,14 +3,23 @@ import Card from 'react-bootstrap/Card';
 import PassengerService from '../Services/Passenger.service';
 function MyBookings() {
   const [bookings, setBookings] = useState([]);
+  const user = JSON.parse(atob(sessionStorage.getItem('User')));
 
   useEffect(() => {
     console.log("in booking page")
     // Fetch user's bookings using PassengerServices (replace with actual code)
-    PassengerService.get(1) 
+    PassengerService.get(user.id) 
       .then((response) => {
+        if(response.data != null){
+          setBookings(response.data.filter(item => {
+            const itemDate = new Date(item.trainDepartureDate).toLocaleDateString();
+            return itemDate < new Date().toLocaleDateString();
+          }));
+
+        } else {
+          setBookings();
+        }
         console.log("Printing user bookings data", response.data);
-        setBookings(response.data);
       })
       .catch((error) => {
         console.log("Error fetching user bookings", error);
@@ -33,7 +42,7 @@ function MyBookings() {
                 <Card.Text>Train Number: {booking.trainNo}</Card.Text>
                 <Card.Text>Source Time: {booking.sourceTime}</Card.Text>
                 <Card.Text>Destination Time: {booking.destinationTime}</Card.Text>
-                <Card.Text>Train departure date: {booking.orignDate}</Card.Text>
+                <Card.Text>Train departure date: {booking.trainDepartureDate}</Card.Text>
                 
                 {/* Display other relevant booking details */}
               </Card.Body>
