@@ -31,7 +31,7 @@ console.log("in admin ")
           <Switch>
           <AdminProtectedRoute exact path="/admin/stations" component={Stations} />
           <AdminProtectedRoute exact path="/admin/trains" component={Trains} />
-          <AdminProtectedRoute exact path="/admin/seats" component={TrainStatusPage} />
+          {/* <AdminProtectedRoute exact path="/admin/seats" component={TrainStatusPage} /> */}
           <AdminProtectedRoute exact path="/admin/running-trains" component={RunningTrains} />
           <AdminProtectedRoute exact path="/admin" component={Dashboard} />
           <AdminProtectedRoute exact path="/admin/edit-station/:id" component={EditStationPage} />

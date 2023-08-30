@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Card, Modal, Form } from 'react-bootstrap';
 import { Edit, ExitToApp } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -6,18 +6,15 @@ import UpComingJourney from './UpComingJourney';
 
 const UserProfile = ({ }) => {
   const [showModal, setShowModal] = useState(false);
-  const history = useHistory();
-  const userData = {
-    firstName: 'John',
-    lastName: 'Doe',
-    address: '123 Main St',
-    email: 'john@example.com',
-    userName: 'johndoe123',
-    regDate: '2023-01-15',
-    mobile: '123-456-7890',
-    gender: 'Male',
-  };
   const [editedData, setEditedData] = useState({ ...userData });
+  const history = useHistory();
+  var userData =
+  userData = JSON.parse(atob(sessionStorage.getItem("User")));
+  useEffect(()=>{
+    console.log("printing user dat in user profile")
+console.log(userData);
+console.log(editedData);
+  },[])
 
 
   const profileContentStyles = {

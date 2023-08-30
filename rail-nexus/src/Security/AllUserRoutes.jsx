@@ -60,7 +60,7 @@ function Controller() {
           <AdminProtectedRoute exact path="/admin" component={Admin} />
           <AdminProtectedRoute exact path="/admin/stations" component={Admin} />
           <AdminProtectedRoute exact path="/admin/trains" component={Admin} />
-          <AdminProtectedRoute exact path="/admin/seats" component={Admin} />
+          {/* <AdminProtectedRoute exact path="/admin/seats" component={Admin} /> */}
           <AdminProtectedRoute exact path="/admin/running-trains" component={Admin} />
           <AdminProtectedRoute exact path="/admin/edit-station/:id" component={Admin} />
           <AdminProtectedRoute exact path="/admin/edit-train/:id" component={Admin} />

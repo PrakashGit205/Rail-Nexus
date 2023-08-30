@@ -107,7 +107,7 @@ function Register() {
         toast.dark("success")}
         
         
-        ).catch((error)=>{console.log(error); toast.error("something went wrong")})
+        ).catch((error)=>{console.log(error); setMessage("something went wrong")})
    
     }
   };
@@ -223,7 +223,7 @@ function Register() {
           />
           {errors.firstName && <div className="invalid-feedback">{errors.confirmPassword}</div>}
         </div>
-        
+        <p style={{color:'red'}}>{message}</p>
 
         <div className='mb-3'>
         Already have an account?  {/*  <Link to='/login'>Login here</Link> */}

@@ -101,6 +101,21 @@ public class TrainService implements ITrainService {
 		LocalTime result = time.plus(duration);
 		return result;
 	}
+
+	public TrainResponseDTO editTrain(AddTrainDTO train) {
+		Station originStation = stationDao.findById(train.getOriginStationId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid station Id!!!"));
+		Station destinationStation = stationDao.findById(train.getDestinationStationId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid station Id!!!"));
+		Train trainTOAdd = mapper.map(train, Train.class);
+		System.out.println(trainTOAdd);
+		trainTOAdd.addDestinationStation(destinationStation);
+		trainTOAdd.addOriginStation(originStation);
+//		System.out.println(trainTOAdd);
+		Train train2 = dao.save(trainTOAdd);
+		return mapper.map(train2, TrainResponseDTO.class);
+		
+	}
 	
 
 }

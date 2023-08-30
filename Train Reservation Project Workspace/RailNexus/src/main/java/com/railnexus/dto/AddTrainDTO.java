@@ -25,7 +25,7 @@ public class AddTrainDTO {
 //	@JsonFormat(pattern = "HH:mm:ss")
 	private LocalTime originTime;
 	private Double originDestDistance;
-	private TrainType trainType;
+	private String trainType;
 	private boolean monday;
 	private boolean tuesday;
 	private boolean wednesday;

@@ -16,7 +16,6 @@ function FilteredTrain(props) {
   const [trains, setTrains] = useState([]);
   const [expandedTrainId, setExpandedTrainId] = useState(null);
   const [Seats, setSeats] = useState([]);
-  // const [filtered, setfiltered] = useState([])
   var traifilter;
   const seenTrainNumbers = new Set();
   const [filteredData,setFilterData] = useState([]);

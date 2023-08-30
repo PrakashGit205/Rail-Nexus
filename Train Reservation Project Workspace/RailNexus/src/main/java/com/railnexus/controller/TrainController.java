@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.railnexus.dao.TrainDao;
 import com.railnexus.dto.AddTrainDTO;
+import com.railnexus.dto.response.ListReqResDTOo;
 import com.railnexus.dto.response.TrainResponseDTO;
 import com.railnexus.pojos.Distance;
 import com.railnexus.pojos.Train;
@@ -54,5 +55,11 @@ public class TrainController {
 	}
 	@PutMapping()
 	public ResponseEntity<?> editTrain(@RequestBody AddTrainDTO dto ) {
-		return ResponseEntity.status(HttpStatus.OK).body(dao.findAll());}
+		return ResponseEntity.status(HttpStatus.OK).body(service.editTrain(dto));}
+
+	@PostMapping("/demo")
+	public ResponseEntity<?> demo( @RequestBody ListReqResDTOo dto){
+		System.out.println(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
+	}
 }

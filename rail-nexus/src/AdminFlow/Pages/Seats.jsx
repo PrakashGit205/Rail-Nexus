@@ -14,7 +14,6 @@ const TrainStatusPage = () => {
     // Replace this with your actual API call to fetch seat information
     // For now, using a dummy setTimeout to simulate fetching data
     setTimeout(() => {
-      // Simulating different seat data for different trains and dates
       const seatData = {
         'Train A': {
           '2023-08-25': {

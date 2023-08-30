@@ -3,12 +3,15 @@ import Card from 'react-bootstrap/Card';
 import PassengerService from '../Services/Passenger.service';
 function MyBookings() {
   const [bookings, setBookings] = useState([]);
+
   const user = JSON.parse(atob(sessionStorage.getItem('User')));
+  var userData = JSON.parse(atob(sessionStorage.getItem('User')));
 
   useEffect(() => {
     console.log("in booking page")
+    userData = JSON.parse(atob(sessionStorage.getItem("User")));
     // Fetch user's bookings using PassengerServices (replace with actual code)
-    PassengerService.get(user.id) 
+    PassengerService.get(userData.id)
       .then((response) => {
         if(response.data != null){
           setBookings(response.data.filter(item => {
@@ -33,7 +36,7 @@ function MyBookings() {
 
         
         {bookings.map((booking) => (
-          <div key={booking.id} className="col-md-4 mb-4">
+          <div key={booking.id} className="col-md-5 mb-4">
             <Card>
               <Card.Body>
                 <Card.Title>{booking.name}</Card.Title>

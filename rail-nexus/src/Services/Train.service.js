@@ -29,4 +29,7 @@ const update = (data) => {
 const remove = (id) => {
   return httpClient.delete(`/${id}`);
 };
-export default { getAll, create, get, update, remove };
+const post = (data) => {
+  return httpClient.post('/demo', data);
+};
+export default { getAll, create, get, update, remove ,post};
