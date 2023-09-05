@@ -56,7 +56,7 @@ public class SeatService implements ISeatService {
 	}
 
 	public List<LiveSeatResponse> showAvailableSeats(Long trainNo, LocalDate originDate, Long sourceId, Long originId) {
-		System.out.println(liveDao.getTotalSeatsByClassAndDate(originDate, trainNo));
+//		System.out.println(liveDao.getTotalSeatsByClassAndDate(originDate, trainNo));
 
 		List<Object[]> queryResult = liveDao.getTotalSeatsByClassAndDate(originDate, trainNo);
 		List<Fair> fairs = fairDao.findByTrainId(trainNo);

@@ -65,8 +65,9 @@ function Trains() {
                     <button className="btn btn-danger" onClick={() => deleteTrain(train.id)}>Remove</button>
                     {" "}
                     <button className="btn btn-warning" onClick={() => cancelTrain(train.id)}>Cancel</button>
-                    <button onClick={() => viewTrainSchedule(train)}>
-            View Train Schedule
+                    {" "}
+                    <button className="btn btn-primary" onClick={() => viewTrainSchedule(train)}>
+             Train Schedule
           </button>
                   </div>
                 </div>

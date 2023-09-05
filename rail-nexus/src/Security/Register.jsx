@@ -61,6 +61,7 @@ function Register() {
     }, 5000);
   }, [errors]);
   const handleRegistration = (event) => {
+    // toast.success("success")
     event.preventDefault();
     let newErrors = {};
 
@@ -102,9 +103,9 @@ function Register() {
       UserService.post(formData).then((response)=>{
         console.log(response.data); 
        
-        history.push("/login")
+        history.push("/")
         
-        toast.dark("success")}
+        toast.success("You have Registered")}
         
         
         ).catch((error)=>{console.log(error); setMessage("something went wrong")})
@@ -176,7 +177,7 @@ function Register() {
         </div>
         <div className="form-group">
           <input
-            type="tel"
+            type="number"
             name="mobile"
             value={formData.mobile}
             onChange={textChange}

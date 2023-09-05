@@ -17,7 +17,9 @@ function AllUsersPage({ history }) {
         console.log("Error fetching users", error);
       });
   }, []);
+const chnageRole =(id)=>{
 
+}
   const editUser = (id) => {
     setSelectedUserId(id);
     setShowEditModal(true);
@@ -56,6 +58,7 @@ function AllUsersPage({ history }) {
             <h5 className="card-title">{user.firstName} {user.lastName}</h5>
             <p className="card-text">Email: {user.email}</p>
             {/* Add more user-specific information here */}
+            <button className="btn btn-primary" onClick={() => chnageRole(user.id)}>Make Admin</button>
             <button className="btn btn-secondary" onClick={() => editUser(user.id)}>Edit</button>
             <button className="btn btn-danger" onClick={() => deleteUser(user.id)}>Delete</button>
             {/* Add more action buttons as needed */}

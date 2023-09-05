@@ -31,7 +31,7 @@ public class UserService implements IUserService{
 	@Override
 	public List<User> allUsers() {
 		// TODO Auto-generated method stub
-		return userDao.findAll();
+		return userDao.findByRole("ROLE_USER");
 	}
 
 	@Override

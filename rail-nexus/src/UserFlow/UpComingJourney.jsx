@@ -73,8 +73,6 @@ function UpComingJourney(props) {
                     </>
                     )
                   })) : (<h1>You donot have any UpComing Journeys!!!</h1>)
-
-
               }
 
             </Card.Text>
