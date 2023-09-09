@@ -116,78 +116,74 @@ sessionStorage.setItem("station", stationEncoded);
   return (
     <>
     
-   <div className={`container mt-5 fade-in`}>
- 
+    <div className={`container mt-5 fade-in`}>
   <div className="container">
-     
-  
-        <div className="scrollable-container">
-        <div className="scrollable-content" >
-        {
-          trains !== null && trains.length > 0 ? (
-            <div>
-            <p class="h2">Trains From {trains.at(0).originStatioin} To  {trains.at(0).departStation}</p>
-            
-<p class="font-weight-normal">Distance : {trains.at(0).distance} KM</p>
-              <br />
-            <div className="row bg-dark text-white rounded ">
-              <div className="col-md-2 rounded-left py-2">Train Name</div>
-              <div className="col-md-2 py-2">Train Number</div>
-              <div className="col-md-2 py-2">Train Arrival Time</div>
-              <div className="col-md-2 py-2">Train Departure Time</div>
-              <div className="col-md-2 py-2">Train Departure Date</div>
-              <div className="col-md-2 rounded-right py-2">Actions</div>
-            </div>
-            {
-            trains.map((train, index) => (
-              <div key={index} className="row bg-light mb-2 rounded">
-                <div className="col-md-2 py-2">{train.trainName}</div>
-                <div className="col-md-2 py-2">{train.trainNo}</div>
-                <div className="col-md-2 py-2">{train.originTime} </div>
-                
-                <div className="col-md-2 py-2">{train.departTime}</div>
-                <div className="col-md-2 py-2">{train.originDate}</div>
-                <div className="col-md-2 py-2">
-                  <button className="btn btn-success" onClick={() => toggleSeatView(train.id,train.originDate)}>
-                    {
-                    expandedTrainId === train.id ? "Hide Seats" : "View Seats"
-                    }
-                  </button>
-                </div>
-                {/* <Divider /> */}
-                {
-                  expandedTrainId === train.id && (
-                    <>
-          <div className="row bg-secondary text-white rounded">
-              <div className="col-md-2 rounded-left py-2">classType</div>
-              <div className="col-md-2 py-2">Available Seats</div>
-              <div className="col-md-2 py-2">Price</div>
-            </div>
-              {Seats.map((seat, index) => (
-                <>
-          <div className="row bg-outline-info mb-2 rounded ">
-                <div className="col-md-2 py-2" key={index +  5}>  {seat.classType}</div>
-                <div className="col-md-2 py-2" key={index+.5}>  {seat.availableSeats}</div>
-                <div className="col-md-2 py-2" key={index+.5}>{"₹"}   {seat.fair}</div>
-                <button className=" btn btn-outline-primary col-md-2 py-2" onClick={() => bookTrain(train,seat)}>Book Ticket</button>{" "}
-          </div>
-          <Divider />
-                </>
-              ))}
-          </>
-        )}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="row bg-light mb-2 rounded">
-            <div className="col-md-12 py-2">No trains available for in this route at {filters.originDate} .</div>
-          </div>
-        )}
-        </div>
-        </div>
+    {trains !== null && trains.length > 0 ? (
+      <div>
+        <h2>Trains From {trains[0].originStatioin} To {trains[0].departStation}</h2>
+        <p className="font-weight-normal">Distance: {trains[0].distance} KM</p>
+        <br />
+        <table className="table table-hovered table-responsive-md  table-borderless  table-hover">
+          <thead  className="thead-dark bg-dark text-white">
+            <tr>
+              <th>Train Name</th>
+              <th>Train Number</th>
+              <th>Train Arrival Time</th>
+              <th>Train Departure Time</th>
+              <th>Train Departure Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+  {trains.map((train, index) => (
+    <React.Fragment key={index}>
+      <tr className="bg-light mb-2 rounded">
+        <td>{train.trainName}</td>
+        <td>{train.trainNo}</td>
+        <td>{train.originTime}</td>
+        <td>{train.departTime}</td>
+        <td>{train.originDate}</td>
+        <td>
+          <button className="btn btn-success" onClick={() => toggleSeatView(train.id, train.originDate)}>
+            {expandedTrainId === train.id ? "Hide Seats" : "View Seats"}
+          </button>
+        </td>
+      </tr>
+      {expandedTrainId === train.id && (
+        <>
+          <tr className="bg-secondary text-white thead-success">
+            <th>classType</th>
+            <th>Available Seats</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+          {Seats.map((seat, index) => (
+            <tr key={index} className="bg-outline-info mb-2 rounded">
+              <td>{seat.classType}</td>
+              <td>{seat.availableSeats}</td>
+              <td>{"₹" + seat.fair}</td>
+              <td>
+                <button className="btn btn-outline-primary" onClick={() => bookTrain(train, seat)}>
+                  Book Ticket
+                </button>
+              </td>
+            </tr>
+          ))}
+        </>
+      )}
+    </React.Fragment>
+  ))}
+</tbody>
+        </table>
       </div>
+    ) : (
+      <div className="row bg-light mb-2 rounded">
+        <div className="col-md-12 py-2">No trains available for this route at {filters.originDate}.</div>
+      </div>
+    )}
+  </div>
 </div>
+
 
 
     </>

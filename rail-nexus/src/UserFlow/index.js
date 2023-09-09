@@ -3,7 +3,7 @@ import ProtectedRoute from "../Security/ProtectedRoute";
 import MyBookings from "./Bookings";
 import History from "./History";
 import Profile from "./Profile";
-import Sidebar from "./TempSidebar";
+// import Sidebar from "./TempSidebar";
 import { useState } from "react";
 import {
   Container,
@@ -15,6 +15,7 @@ import {
   Form,
 } from "react-bootstrap";
 import { Edit, ExitToApp } from "@mui/icons-material";
+import { useMyContext } from "../MyContext";
 function UserController() {
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
@@ -64,6 +65,14 @@ function UserController() {
       [field]: value,
     }));
   };
+  const LogOut = () => {
+    sessionStorage.removeItem("User");
+    sessionStorage.removeItem("isLoggedIn123");
+    sessionStorage.removeItem("isLoggedIn098");
+    setIsLoggedIn(false);
+    history.push("/")
+}
+const {setIsLoggedIn} = useMyContext();
 
   const handleSaveChanges = () => {
     // Handle saving changes to the backend or wherever needed
@@ -82,8 +91,11 @@ function UserController() {
       <Container fluid>
         <Row>
           {/* <Col sm={2} style={profileSidebarStyles}> */}
-          <Col sm={2} style={profileSidebarStyles}>
-            <div style={userIconStyles}  onClick={() => history.push("/profile")}>
+          <Col sm={12} md={3} lg={2} style={profileSidebarStyles}>
+            <div
+              style={userIconStyles}
+              onClick={() => history.push("/profile")}
+            >
               {userData.firstName.charAt(0).toUpperCase()}
             </div>
             <div style={profileActionsStyles}>
@@ -94,9 +106,6 @@ function UserController() {
               >
                 My Profile
               </Button>
-              {/* <Button variant="outline-light" startIcon={<Edit />} onClick={handleEditClick}>
-              Edit Profile
-            </Button> */}
               <Button
                 variant="outline-light"
                 startIcon={<Edit />}
@@ -111,13 +120,12 @@ function UserController() {
               >
                 Bookings
               </Button>
-              <Button variant="outline-light" startIcon={<ExitToApp />}>
+              <Button variant="outline-light" onClick={LogOut} startIcon={<ExitToApp />}>
                 Logout
               </Button>
             </div>
-            {/* </Col> */}
           </Col>
-          <Col sm={10} style={profileContentStyles}>
+          <Col sm={12} md={9} lg={10} style={profileContentStyles}>
             
             <ProtectedRoute exact path="/profile" component={Profile} />
             <ProtectedRoute exact path="/bookings" component={MyBookings} />

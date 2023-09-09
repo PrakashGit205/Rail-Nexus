@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Header from "./Pages/Header"
 class GlobalErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
 
@@ -10,7 +10,13 @@ class GlobalErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      return <div>Something went wrong.</div>;
+      return <div>
+        <Header></Header>
+      <h1>
+         Something went wrong.
+        </h1> 
+        
+        </div>;
     }
     return this.props.children;
   }

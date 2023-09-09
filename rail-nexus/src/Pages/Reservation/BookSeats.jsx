@@ -40,7 +40,7 @@ function SeatReservationForm() {
         }
 
         if (!formData.birthPreference) {
-            newErrors.birthPreference = 'Birth preference is required';
+            newErrors.birthPreference = 'Berth preference is required';
         }
 
         // if (!formData.trainNo.trim()) {
@@ -211,17 +211,16 @@ function SeatReservationForm() {
                                         onChange={onTextChange}
                                         isInvalid={!!errors.seatType}
                                     >
-                                        <option value="">Select Birth Preference</option>
-                                        <option value="UPPER_BERTH">Upper Birth</option>
-                                        <option value="MIDDLE_BIRTH">Middle Birth</option>
-                                        <option value="LOWER_BERTH">Lower  Birth</option>
-
-                                        <option value="WINDOW_BERTH">Window  Birth</option>
+                                        <option value="">Select Berth Preference</option>
+                                        <option value="UPPER_BERTH">Upper Berth</option>
+                                        <option value="MIDDLE_BIRTH">Middle Berth</option>
+                                        <option value="LOWER_BERTH">Lower  Berth</option>
+                                        <option value="WINDOW_BERTH">Window  Berth</option>
                                         <option value="LOWER_BERTH">Senior Citizen</option>
-                                        <option value="DISABLE">Disable Birth</option>
+                                        <option value="DISABLE">Disable Berth</option>
                                         
                                     </Form.Control>
-                                    <label htmlFor="seatType">Birth Preference</label>
+                                    <label htmlFor="seatType">Berth Preference</label>
                                     <Form.Control.Feedback type="invalid">
                                         {errors.seatType}
                                     </Form.Control.Feedback>

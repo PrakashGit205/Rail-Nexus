@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 // import { faSpeedometer2, faGrid } from "@fortawesome/free-solid-svg-icons";
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { Home, Person, TableChart, Speed, Apps, ExitToApp } from '@mui/icons-material';
+import { useMyContext } from "../MyContext";
 
 function UserSidebar() {
+  const {setIsLoggedIn} = useMyContext();
   const [User, setUser] = useState({})
   var tempuser;
   useEffect(()=>{
